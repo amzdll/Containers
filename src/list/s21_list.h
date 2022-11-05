@@ -1,9 +1,19 @@
 #ifndef CPP2_S21_CONTAINERS_S21_LIST_H_
 #define CPP2_S21_CONTAINERS_S21_LIST_H_
 
+template <class T>
+//template <class ListIteratorT> class ListIterator;
 class list {
  private:
+
  public:
+  // member types
+  using value_type = T;
+  using reference = T &;
+  using const_reference = const T &;
+  using iterator = ListIterator<T>;
+  using const_iterator = const T *;
+  using size_type = size_t;
   // constructor
   list();
   list(size_type n);
@@ -11,14 +21,6 @@ class list {
   list(const list &l);
   list(list &&l);
   ~list();
-
-  // custom types
-  typedef value_type value_type;
-  typedef size_type size_type;
-  typedef value_type &reference;
-  typedef const value_type &const_reference;
-  typedef value_type *iterator;
-  typedef const value_type *const_iterator;
 
   // overloading
   list operator=(list &&l);
