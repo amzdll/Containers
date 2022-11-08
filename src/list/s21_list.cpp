@@ -6,8 +6,9 @@ int main() {
   list<int> a;
   a.push_back(3);
   a.push_back(4);
-  a.pop_front();
-  a.pop_front();
+//  a.pop_back();
+//  a.pop_back();
+  a.clear();
   a.print_list();
 
   printf("%s", a.empty() ? "empty" : "not empty");
@@ -38,7 +39,7 @@ list<T>::~list() {}
 // information
 template <class T>
 bool list<T>::empty() {
-  return head == NULL;
+  return !head;
 }
 
 // size_type size() {}
@@ -83,8 +84,8 @@ void list<T>::pop_back() {
   node *temp_node = tail;
   if (head != tail) {
     tail = tail->prev;
+    tail->next = NULL;
   }
-  tail->next = NULL;
   delete temp_node;
   count--;
 }
@@ -131,7 +132,15 @@ template <class T>
 void list<T>::reverse() {}
 
 template <class T>
-void list<T>::unique() {}
+void list<T>::unique() {
+//  node *temp_node = head;
+//  while (temp_node) {
+//    if (temp_node->data == temp_node->next->data) {
+//
+//    }
+//    temp_node = temp_node->next;
+//  }
+}
 
 template <class T>
 void list<T>::sort() {}
