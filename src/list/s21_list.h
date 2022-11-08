@@ -3,30 +3,32 @@
 
 #include "cstdio"
 
-class ListIterator;
-
 template <class T>
 class list {
  private:
+
   // member types
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
-  //  using iterator = ListIterator<T>;
-  using const_iterator = const T *;
   using size_type = size_t;
 
  protected:
   struct node {
-    node *next;
-    node *prev;
-    value_type data;
+    node *next_;
+    node *prev_;
+    value_type data_;
   };
-  node *head;
-  node *tail;
-  int count;
+  node *head_;
+  node *tail_;
+  size_type count_;
 
  public:
+  class ListIterator;
+  using iterator = ListIterator;
+  using const_iterator = const T *;
+
+
   // constructors
   list();
   list(size_type n);

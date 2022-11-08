@@ -2,12 +2,30 @@
 
 #include "cstring"
 
+// complete: empty
+// complete: size
+// todo: max size
+
+
+// complete: clear
+// complete: push_back
+// complete: pop_back
+// complete: push_front
+// complete: pop_front
+// todo: swap
+// todo: merge
+// todo: splice
+// todo: reverse
+// todo: unique
+// todo: sort
+
 int main() {
   list<int> a;
   a.push_back(3);
   a.push_back(4);
-//  a.pop_back();
-//  a.pop_back();
+  //  a.pop_back();
+  //  a.pop_back();
+  printf("%ld - size\n", a.size());
   a.clear();
   a.print_list();
 
@@ -18,9 +36,9 @@ int main() {
 // constructor
 template <class T>
 list<T>::list() {
-  head = NULL;
-  tail = NULL;
-  count = 0;
+  head_ = NULL;
+  tail_ = NULL;
+  count_ = 0;
 }
 
 template <class T>
@@ -39,21 +57,25 @@ list<T>::~list() {}
 // information
 template <class T>
 bool list<T>::empty() {
-  return !head;
+  return !head_;
 }
 
-// size_type size() {}
+template <class T>
+size_t list<T>::size() {
+  return count_;
+}
+
 // size_type max_size() {}
 
 // methods to modify
 template <class T>
 void list<T>::clear() {
   node *temp_node;
-  while (head) {
-    temp_node = head;
-    head = head->next;
+  while (head_) {
+    temp_node = head_;
+    head_ = head_->next_;
     delete temp_node;
-    count--;
+    count_--;
   }
 }
 
@@ -66,57 +88,59 @@ void list<T>::clear() {
 template <class T>
 void list<T>::push_back(const_reference value) {
   node *new_node = new node;
-  if (!head) {
-    head = new_node;
-    tail = head;
+  if (!head_) {
+    head_ = new_node;
+    tail_ = head_;
   } else {
-    tail->next = new_node;
-    new_node->prev = tail;
-    tail = new_node;
+    tail_->next_ = new_node;
+    new_node->prev_ = tail_;
+    tail_ = new_node;
   }
-  new_node->next = NULL;
-  new_node->data = value;
-  count++;
+  new_node->next_ = NULL;
+  new_node->data_ = value;
+  count_++;
 }
 
 template <class T>
 void list<T>::pop_back() {
-  node *temp_node = tail;
-  if (head != tail) {
-    tail = tail->prev;
-    tail->next = NULL;
+  node *temp_node = tail_;
+  if (head_ != tail_) {
+    tail_ = tail_->prev_;
+    tail_->next_ = NULL;
   }
   delete temp_node;
-  count--;
+  count_--;
 }
 
 template <class T>
 void list<T>::push_front(const_reference value) {
   node *new_node = new node;
-  if (!head) {
-    head = new_node;
-    tail = head;
+  if (!head_) {
+    head_ = new_node;
+    tail_ = head_;
+  } else {
+    new_node->next_ = head_;
+    head_->prev_ = new_node;
+    head_ = new_node;
   }
-  new_node->next = head;
-  head->prev = new_node;
-  head = new_node;
-  new_node->prev = NULL;
-  new_node->data = value;
-  count++;
+
+  new_node->prev_ = NULL;
+  new_node->data_ = value;
+  count_++;
 }
 
 template <class T>
 void list<T>::pop_front() {
-  node *temp_node = head;
-  if (head != tail) {
-    head = head->next;
-    head->prev = NULL;
+  node *temp_node = head_;
+  if (head_ != tail_) {
+    head_ = head_->next_;
+    head_->prev_ = NULL;
   } else {
-    head = NULL;
-    tail = NULL;
+    head_ = NULL;
+    tail_ = NULL;
   }
   delete temp_node;
-  count--;
+  count_--;
 }
 
 template <class T>
@@ -133,13 +157,12 @@ void list<T>::reverse() {}
 
 template <class T>
 void list<T>::unique() {
-//  node *temp_node = head;
-//  while (temp_node) {
-//    if (temp_node->data == temp_node->next->data) {
-//
-//    }
-//    temp_node = temp_node->next;
-//  }
+  node *temp_node = head_;
+  while (temp_node) {
+    if (temp_node->next_ && temp_node->data_ == temp_node->next_->data_) {
+    }
+    temp_node = temp_node->next_;
+  }
 }
 
 template <class T>
@@ -148,10 +171,12 @@ void list<T>::sort() {}
 // additional temp methods
 template <class T>
 void list<T>::print_list() {
-  printf("%d\n", count);
-  node *temp_node = head;
+    printf("%ld\n", count_);
+  node *temp_node = head_;
   while (temp_node) {
-    printf("data: %d\n", head->data);
-    temp_node = temp_node->next;
+    printf("data_: %dd\n", head_->data_);
+    temp_node = temp_node->next_;
   }
 }
+
+// Iterator
