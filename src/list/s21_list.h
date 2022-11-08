@@ -1,23 +1,36 @@
 #ifndef CPP2_S21_CONTAINERS_S21_LIST_H_
 #define CPP2_S21_CONTAINERS_S21_LIST_H_
 
+#include "cstdio"
+
+class ListIterator;
+
 template <class T>
-//template <class ListIteratorT> class ListIterator;
 class list {
  private:
-
- public:
   // member types
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
-  using iterator = ListIterator<T>;
+  //  using iterator = ListIterator<T>;
   using const_iterator = const T *;
   using size_type = size_t;
-  // constructor
+
+ protected:
+  struct node {
+    node *next;
+    node *prev;
+    value_type data;
+  };
+  node *head;
+  node *tail;
+  int count;
+
+ public:
+  // constructors
   list();
   list(size_type n);
-  list(std::initializer_list<value_type> const &items);
+  //  list(std::initializer_list<value_type> const &items);
   list(const list &l);
   list(list &&l);
   ~list();
@@ -40,18 +53,21 @@ class list {
 
   // methods to modify
   void clear();
-  void iterator_insert(iterator pos, const_reference value);
-  void erase(iterator pos);
+  //    void iterator_insert(iterator pos, const_reference value);
+  //    void erase(iterator pos);
   void push_back(const_reference value);
   void pop_back();
   void push_front(const_reference value);
   void pop_front();
   void swap(list &other);
   void merge(list &other);
-  void splice(const_iterator pos, list &other);
+  //    void splice(const_iterator pos, list &other);
   void reverse();
   void unique();
   void sort();
+
+  // additional temp methods
+  void print_list();
 };
 
 #endif  // CPP2_S21_CONTAINERS_S21_LIST_H_
