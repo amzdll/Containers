@@ -1,12 +1,11 @@
-#ifndef CPP2_S21_CONTAINERS_S21_LIST_H_
-#define CPP2_S21_CONTAINERS_S21_LIST_H_
+#ifndef CPP2_S21_CONTAINERS_LIST_S21_LIST_H_
+#define CPP2_S21_CONTAINERS_LIST_S21_LIST_H_
 
 #include "cstdio"
-
+//namespace s21 {
 template <class T>
 class list {
  private:
-
   // member types
   using value_type = T;
   using reference = T &;
@@ -24,15 +23,18 @@ class list {
   size_type count_ = 0;
 
  public:
-  class ListIterator;
+  class ListIterator {
+    friend class list<T>;
+
+  };
+
   using iterator = ListIterator;
   using const_iterator = const T *;
 
-
   // constructors
   list();
-  list(size_type n);
-  //  list(std::initializer_list<value_type> const &items);
+  explicit list(size_type n);
+//  list(std::initializer_list<value_type> const &items);
   list(const list &l);
   list(list &&l);
   ~list();
@@ -71,5 +73,7 @@ class list {
   // additional temp methods
   void print_list();
 };
+//}  // namespace s21
 
-#endif  // CPP2_S21_CONTAINERS_S21_LIST_H_
+
+#endif  // CPP2_S21_CONTAINERS_LIST_S21_LIST_H_

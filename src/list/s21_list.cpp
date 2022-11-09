@@ -1,47 +1,25 @@
+//#include <initializer_list>
 #include "s21_list.h"
 
 #include "cstring"
 
-// complete: empty
-// complete: size
-// todo: max size
-
-// complete: clear
-// complete: push_back
-// complete: pop_back
-// complete: push_front
-// complete: pop_front
-// todo: swap
-// todo: merge
-// todo: splice
-// todo: reverse
-// todo: unique
-// todo: sort
-
+// namespace s21 {
 int main() {
-  list<int> a;
-  //  list<int> b(a);
-  a.push_back(3);
-  a.push_back(4);
-  //  //  a.pop_back();
-  //  a.pop_back();
-  //  printf("%ld - size\n", b.size());
-  //  a.clear();
+  list<int> a(5);
+  a.push_back(10);
+  a.push_back(2);
+  a.push_back(100);
+  printf("a: %d\n", a.front());
+  printf("a: %d\n", a.back());
   a.print_list();
-  a.reverse();
-  a.print_list();
-  return 0;
-
-  printf("%s", a.empty() ? "empty" : "not empty");
   return 0;
 }
-
-// constructor
+// CONSTRUCTORS =================================================================
 template <class T>
 list<T>::list() {
-  //  head_ = NULL;
-  //  tail_ = NULL;
-  //  count_ = 0;
+  head_ = NULL;
+  tail_ = NULL;
+  count_ = 0;
 }
 
 template <class T>
@@ -49,10 +27,13 @@ list<T>::list(size_type n) {
   head_ = NULL;
   tail_ = NULL;
   count_ = 0;
-  for (int i = 0; i < n; i++) {
-    push_back(0);
+  for (size_type i = 0; i < n; i++) {
+    push_back(T());
   }
 }
+
+//template <class T>
+//list<T>::list(std::initializer_list<value_type> const &items){}
 
 template <class T>
 list<T>::list(const list &l) {
@@ -66,6 +47,17 @@ list<T>::list(const list &l) {
 }
 
 template <class T>
+list<T>::list(list &&l) {
+//  head_ = NULL;
+//  tail_ = NULL;
+//  node *temp_node = l.head_;
+//  while (temp_node) {
+//    this->push_back(temp_node->data_);
+//    temp_node = temp_node->next_;
+//  }
+}
+
+template <class T>
 list<T>::~list() {
   clear();
 }
@@ -73,11 +65,19 @@ list<T>::~list() {
 // template <class T>
 // int list<T>::operator=(list &&l) { return 0; }
 
-// iterators
-// list iterator_begin() {}
-// list iterator_end() {}
+// ELEMENT ACCESS =================================================================
 
-// information
+template <class T>
+const T & list<T>::front() {
+  return head_->data_;
+}
+
+template <class T>
+const T & list<T>::back() {
+  return tail_->data_;
+}
+
+// INFORMATION =================================================================
 template <class T>
 bool list<T>::empty() {
   return !head_;
@@ -88,9 +88,12 @@ size_t list<T>::size() {
   return count_;
 }
 
-// size_type max_size() {}
+template <class T>
+size_t list<T>::max_size() {
+  return 0;
+}
 
-// methods to modify
+// METHODS TO MODIFY =================================================================
 template <class T>
 void list<T>::clear() {
   node *temp_node;
@@ -118,6 +121,7 @@ void list<T>::push_back(const_reference value) {
     tail_->next_ = new_node;
     new_node->prev_ = tail_;
     tail_ = new_node;
+    tail_->next_ = NULL;
   }
   new_node->next_ = NULL;
   new_node->data_ = value;
@@ -167,43 +171,54 @@ void list<T>::pop_front() {
 }
 
 template <class T>
-void list<T>::swap(list &other) {}
+void list<T>::swap(list &other) {
+  node *temp_node = head_;
+  size_type count = count_;
+  head_ = other.head_;
+  count_ = other.count_;
+  other.head_ = temp_node;
+  other.count_ = count;
+}
 
 template <class T>
 void list<T>::merge(list &other) {}
 
-// template <class T>
-// void list<T>::splice(const_iterator pos, list &other) {}
+ template <class T>
+ void list<T>::splice(const_iterator pos, list &other) {}
 
 template <class T>
 void list<T>::reverse() {
-  while (head_) {
-//    head_->prev_ = head_->next_;
-//    head_ = head_->next_;
-  }
+  //  head_ = tail_ while (tail_) {
+  //    tail_->
+  //  }
+  //  while (temp_node) {
+  //    head_->next_ = head_->next_->next_;
+  //    head_->prev_ = head_;
+  //    head_->next_->next_ = head_;
+  //    head_
+  //    temp_node= temp_node->next_;
+  //  }
 }
+
 template <class T>
 void list<T>::unique() {
   node *temp_node = head_;
   while (temp_node) {
-    if (temp_node->next_ && temp_node->data_ == temp_node->next_->data_) {
-    }
-    temp_node = temp_node->next_;
+    //    if(temp_node->data_ == tem)
   }
 }
 
 template <class T>
 void list<T>::sort() {}
 
-// additional temp methods
+// additional temp methods =================================================================
 template <class T>
 void list<T>::print_list() {
   printf("%ld\n", count_);
   node *temp_node = head_;
   while (temp_node) {
-    printf("data: %d\n", head_->data_);
+    printf("data: %d\n", temp_node->data_);
     temp_node = temp_node->next_;
   }
 }
-
-// Iterator
+//};  // namespace s21
