@@ -19,9 +19,9 @@ class list {
     node *prev_;
     value_type data_;
   };
-  node *head_;
-  node *tail_;
-  size_type count_;
+  node *head_ = NULL;
+  node *tail_ = NULL;
+  size_type count_ = 0;
 
  public:
   class ListIterator;

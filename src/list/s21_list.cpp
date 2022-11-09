@@ -6,7 +6,6 @@
 // complete: size
 // todo: max size
 
-
 // complete: clear
 // complete: push_back
 // complete: pop_back
@@ -21,13 +20,17 @@
 
 int main() {
   list<int> a;
+  //  list<int> b(a);
   a.push_back(3);
   a.push_back(4);
+  //  //  a.pop_back();
   //  a.pop_back();
-  //  a.pop_back();
-  printf("%ld - size\n", a.size());
-  a.clear();
+  //  printf("%ld - size\n", b.size());
+  //  a.clear();
   a.print_list();
+  a.reverse();
+  a.print_list();
+  return 0;
 
   printf("%s", a.empty() ? "empty" : "not empty");
   return 0;
@@ -36,16 +39,36 @@ int main() {
 // constructor
 template <class T>
 list<T>::list() {
-  head_ = NULL;
-  tail_ = NULL;
-  count_ = 0;
+  //  head_ = NULL;
+  //  tail_ = NULL;
+  //  count_ = 0;
 }
 
 template <class T>
-list<T>::list(size_type n) {}
+list<T>::list(size_type n) {
+  head_ = NULL;
+  tail_ = NULL;
+  count_ = 0;
+  for (int i = 0; i < n; i++) {
+    push_back(0);
+  }
+}
 
 template <class T>
-list<T>::~list() {}
+list<T>::list(const list &l) {
+  head_ = NULL;
+  tail_ = NULL;
+  node *temp_node = l.head_;
+  while (temp_node) {
+    this->push_back(temp_node->data_);
+    temp_node = temp_node->next_;
+  }
+}
+
+template <class T>
+list<T>::~list() {
+  clear();
+}
 
 // template <class T>
 // int list<T>::operator=(list &&l) { return 0; }
@@ -153,8 +176,12 @@ void list<T>::merge(list &other) {}
 // void list<T>::splice(const_iterator pos, list &other) {}
 
 template <class T>
-void list<T>::reverse() {}
-
+void list<T>::reverse() {
+  while (head_) {
+//    head_->prev_ = head_->next_;
+//    head_ = head_->next_;
+  }
+}
 template <class T>
 void list<T>::unique() {
   node *temp_node = head_;
@@ -171,10 +198,10 @@ void list<T>::sort() {}
 // additional temp methods
 template <class T>
 void list<T>::print_list() {
-    printf("%ld\n", count_);
+  printf("%ld\n", count_);
   node *temp_node = head_;
   while (temp_node) {
-    printf("data_: %dd\n", head_->data_);
+    printf("data: %d\n", head_->data_);
     temp_node = temp_node->next_;
   }
 }
