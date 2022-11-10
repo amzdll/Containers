@@ -1,51 +1,51 @@
-=== MEMBER TYPE ============================================
- test: value_type
- test: reference
- test: const_reference
- todo: iterator
- todo: const_iterator
- test: size_type
-============================================================
-////////////////////////////////////////////////////////////
-=== CONSTRUCTORS ===========================================
- test: list();
- test: list(size_type n);
- todo: list(std::initializer_list<value_type> const &items);
- todo: list(const list&l);
- todo: list(list &&l);
- todo: operator=(list &&l);
- test: ~list()
-============================================================
-////////////////////////////////////////////////////////////
-=== ELEMENT ACCESS =========================================
- test: const_reference front();
- test: const_reference back();
-============================================================
-////////////////////////////////////////////////////////////
-=== ITERATORS ==============================================
- todo: ListIterator
- todo: iterator
- todo: const iterator
- todo: iterator_begin
- todo: iterator_end
-============================================================
-////////////////////////////////////////////////////////////
- == INFORMATION ============================================
- test: empty
- test: size
- todo: max size
-============================================================
-////////////////////////////////////////////////////////////
-=== METHODS TO MODIFY ======================================
- test: clear
- test: push_back
- test: pop_back
- test: push_front
- test: pop_front
- test: swap
- todo: merge
- todo: splice
- todo: reverse
- todo: unique
- todo: sort
-============================================================
+|=== MEMBER TYPE ============================================|
+| test: value_type                                           |
+| test: reference                                            |
+| test: const_reference                                      |
+| todo: iterator                                             |
+| todo: const_iterator                                       |
+| test: size_type                                            |
+|============================================================|
+|////////////////////////////////////////////////////////////|
+|=== CONSTRUCTORS ===========================================|
+| test: list();                                              |
+| test: list(size_type n);                                   |
+| todo: list(std::initializer_list<value_type> const &items);|
+| todo: list(const list&l);                                  |
+| todo: list(list &&l);                                      |
+| todo: operator=(list &&l);                                 |
+| test: ~list()                                              |
+|============================================================|
+|////////////////////////////////////////////////////////////|
+|=== ELEMENT ACCESS =========================================|
+| test: const_reference front();                             |
+| test: const_reference back();                              |
+|============================================================|
+|////////////////////////////////////////////////////////////|
+|=== ITERATORS ==============================================|
+| todo: ListIterator                                         |
+| todo: iterator                                             |
+| todo: const iterator                                       |
+| todo: iterator_begin                                       |
+| todo: iterator_end                                         |
+|============================================================|
+|////////////////////////////////////////////////////////////|
+| == INFORMATION ============================================|
+| test: empty                                                |
+| test: size                                                 |
+| todo: max size                                             |
+|============================================================|
+|////////////////////////////////////////////////////////////|
+|=== METHODS TO MODIFY ======================================|
+| test: clear                                                |
+| test: push_back                                            |
+| test: pop_back                                             |
+| test: push_front                                           |
+| test: pop_front                                            |
+| test: swap                                                 |
+| todo: merge                                                |
+| todo: splice                                               |
+| todo: reverse                                              |
+| todo: unique                                               |
+| todo: sort                                                 |
+|============================================================|                                          |

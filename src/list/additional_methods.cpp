@@ -7,7 +7,7 @@ void temp_print(std::list<int> &list);
 
 
 void temp_print(std::list<int> &list) {
-  auto iterator = list.begin();
+  std::list<int>::iterator iterator = list.begin();
 //  auto iterator = list.end();
   for(int i  = 0; i < list.size(); i++) {
 //    std::advance(iterator, i);

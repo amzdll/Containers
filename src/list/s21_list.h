@@ -2,7 +2,7 @@
 #define CPP2_S21_CONTAINERS_LIST_S21_LIST_H_
 
 #include "cstdio"
-//namespace s21 {
+// namespace s21 {
 template <class T>
 class list {
  private:
@@ -26,6 +26,20 @@ class list {
   class ListIterator {
     friend class list<T>;
 
+   private:
+    node *node_ = NULL;
+    value_type value_ = value_type();
+
+   public:
+    ListIterator();
+
+    ListIterator &operator=(node &node_) {
+      printf("hui");
+      return *this;
+    }
+    void operator()();
+    void operator++() { node_ = node_->next_; }
+    void operator--();
   };
 
   using iterator = ListIterator;
@@ -34,7 +48,7 @@ class list {
   // constructors
   list();
   explicit list(size_type n);
-//  list(std::initializer_list<value_type> const &items);
+  //  list(std::initializer_list<value_type> const &items);
   list(const list &l);
   list(list &&l);
   ~list();
@@ -65,15 +79,15 @@ class list {
   void pop_front();
   void swap(list &other);
   void merge(list &other);
-  //    void splice(const_iterator pos, list &other);
+  void splice(const_iterator pos, list &other);
   void reverse();
   void unique();
   void sort();
 
   // additional temp methods
   void print_list();
+  void itr();
 };
 //}  // namespace s21
-
 
 #endif  // CPP2_S21_CONTAINERS_LIST_S21_LIST_H_

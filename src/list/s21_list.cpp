@@ -1,4 +1,4 @@
-//#include <initializer_list>
+// #include <initializer_list>
 #include "s21_list.h"
 
 #include "cstring"
@@ -7,14 +7,17 @@
 int main() {
   list<int> a(5);
   a.push_back(10);
-  a.push_back(2);
-  a.push_back(100);
-  printf("a: %d\n", a.front());
-  printf("a: %d\n", a.back());
-  a.print_list();
+  //  a.push_back(2);
+  //  a.push_back(100);
+  //  iterator iter = ;
+  //  printf("a: %d\n", a.front());
+  //  printf("a: %d\n", a.back());
+  //  a.print_list();
+  a.itr();
   return 0;
 }
-// CONSTRUCTORS =================================================================
+// CONSTRUCTORS
+// =================================================================
 template <class T>
 list<T>::list() {
   head_ = NULL;
@@ -32,8 +35,8 @@ list<T>::list(size_type n) {
   }
 }
 
-//template <class T>
-//list<T>::list(std::initializer_list<value_type> const &items){}
+// template <class T>
+// list<T>::list(std::initializer_list<value_type> const &items){}
 
 template <class T>
 list<T>::list(const list &l) {
@@ -48,13 +51,13 @@ list<T>::list(const list &l) {
 
 template <class T>
 list<T>::list(list &&l) {
-//  head_ = NULL;
-//  tail_ = NULL;
-//  node *temp_node = l.head_;
-//  while (temp_node) {
-//    this->push_back(temp_node->data_);
-//    temp_node = temp_node->next_;
-//  }
+  //  head_ = NULL;
+  //  tail_ = NULL;
+  //  node *temp_node = l.head_;
+  //  while (temp_node) {
+  //    this->push_back(temp_node->data_);
+  //    temp_node = temp_node->next_;
+  //  }
 }
 
 template <class T>
@@ -65,15 +68,16 @@ list<T>::~list() {
 // template <class T>
 // int list<T>::operator=(list &&l) { return 0; }
 
-// ELEMENT ACCESS =================================================================
+// ELEMENT ACCESS
+// =================================================================
 
 template <class T>
-const T & list<T>::front() {
+const T &list<T>::front() {
   return head_->data_;
 }
 
 template <class T>
-const T & list<T>::back() {
+const T &list<T>::back() {
   return tail_->data_;
 }
 
@@ -93,7 +97,8 @@ size_t list<T>::max_size() {
   return 0;
 }
 
-// METHODS TO MODIFY =================================================================
+// METHODS TO MODIFY
+// =================================================================
 template <class T>
 void list<T>::clear() {
   node *temp_node;
@@ -183,8 +188,8 @@ void list<T>::swap(list &other) {
 template <class T>
 void list<T>::merge(list &other) {}
 
- template <class T>
- void list<T>::splice(const_iterator pos, list &other) {}
+template <class T>
+void list<T>::splice(const_iterator pos, list &other) {}
 
 template <class T>
 void list<T>::reverse() {
@@ -211,7 +216,8 @@ void list<T>::unique() {
 template <class T>
 void list<T>::sort() {}
 
-// additional temp methods =================================================================
+// additional temp methods
+// =================================================================
 template <class T>
 void list<T>::print_list() {
   printf("%ld\n", count_);
@@ -221,4 +227,42 @@ void list<T>::print_list() {
     temp_node = temp_node->next_;
   }
 }
+
+template <class T>
+void list<T>::itr() {
+  list<T>::iterator iterator;
+//  iterator++;
+  //  T iterator = this->head_;
+  printf("%d", iterator);
+}
+
+template <class T>
+list<T>::ListIterator::ListIterator() {
+  node_ = NULL;
+}
+
+/////////////////
+
+// template <class T>
+// typename list<T>::ListIterator &list<T>::ListIterator::operator=(node &node)
+// {
+//   node_ = node;
+//   value_ = node.data_;
+//   return *this;
+// }
+
+template <class T>
+void list<T>::ListIterator::operator()() {
+  return value_;
+}
+
+// template <class T>
+// void list<T>::ListIterator::operator++() {
+//   node_ = node_->next;
+//   //  if(node)
+// }
+
+template <class T>
+void list<T>::ListIterator::operator--() {}
+
 //};  // namespace s21
