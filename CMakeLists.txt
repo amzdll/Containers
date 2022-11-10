@@ -14,7 +14,7 @@ include_directories(src/vector)
 add_executable(containers
         src/list/s21_list.cpp
         src/list/s21_list.h
-        src/list/additional_methods.cpp
+#        src/list/additional_methods.cpp
 #        src/list/s21_test_list.cpp
 
         src/map/s21_map.cpp

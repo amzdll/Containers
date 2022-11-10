@@ -5,7 +5,7 @@
 // namespace s21 {
 template <class T>
 class list {
- private:
+ public:
   // member types
   using value_type = T;
   using reference = T &;
@@ -33,13 +33,13 @@ class list {
    public:
     ListIterator();
 
-    ListIterator &operator=(node &node_) {
-      printf("hui");
-      return *this;
-    }
-    void operator()();
-    void operator++() { node_ = node_->next_; }
+    void operator=(node &node_);
+    value_type& operator*();
+    void operator++(value_type);
+    void operator++();
+    void operator--(value_type);
     void operator--();
+    bool operator!=(list<T>::ListIterator iterator);
   };
 
   using iterator = ListIterator;
@@ -61,8 +61,8 @@ class list {
   const_reference back();
 
   // iterators
-  list iterator_begin();
-  list iterator_end();
+  iterator begin();
+  iterator end();
 
   //  information
   bool empty();

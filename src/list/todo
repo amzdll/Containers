@@ -26,11 +26,11 @@
 | todo: ListIterator                                         |
 | todo: iterator                                             |
 | todo: const iterator                                       |
-| todo: iterator_begin                                       |
-| todo: iterator_end                                         |
+| test: iterator begin                                       |
+| test: iterator end                                         |
 |============================================================|
 |////////////////////////////////////////////////////////////|
-| == INFORMATION ============================================|
+|=== INFORMATION ============================================|
 | test: empty                                                |
 | test: size                                                 |
 | todo: max size                                             |
@@ -43,9 +43,9 @@
 | test: push_front                                           |
 | test: pop_front                                            |
 | test: swap                                                 |
-| todo: merge                                                |
+| test: merge                                                |
 | todo: splice                                               |
-| todo: reverse                                              |
+| test: reverse                                              |
 | todo: unique                                               |
-| todo: sort                                                 |
+| test: sort                                                 |
 |============================================================|                                          |
