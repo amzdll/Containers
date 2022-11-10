@@ -1,7 +1,8 @@
 #include <list>
 
 #include "gtest/gtest.h"
-#include "s21_list.h"
+// refactor: cpp to h
+#include "s21_list.cpp"
 
 TEST(methods_to_modify, clear) {
   std::list<int> std_list;

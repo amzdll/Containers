@@ -3,52 +3,38 @@
 
 #include "cstring"
 
-// namespace s21 {
-int main() {
-  list<int> a;
-  list<int> b;
-
-  //  b.push_back(1000);
-  //  b.push_back(2000);
-
-  a.push_back(1);
-  a.push_back(1);
-  a.push_back(1);
-  a.push_back(1);
-  a.push_back(1);
-  a.push_back(2);
-  a.push_back(2);
-  a.push_back(2);
-  a.push_back(2);
-  a.push_back(2);
-  a.push_back(2);
-  a.push_back(4);
-  a.push_back(4);
-  a.push_back(4);
-  a.push_back(4);
-  a.push_back(4);
-  a.push_back(5);
-  //  a.push_back(6);
-  printf("%d\n", *a.begin());
-  printf("%d\n", *a.end());
-  //  a.sort();
-  //  b.sort();
-  //  a.merge(b);
-  a.print_list();
-  a.unique();
-  list<int>::iterator itr = a.begin();
-  itr++;
-  itr++;
-  printf("%d\n", *itr);
-  //  a.reverse();
-  //  a.erase(itr);
-  a.iterator_insert(itr, 0);
-  a.print_list();
-
-  return 0;
-}
-// CONSTRUCTORS
-// =================================================================
+namespace s21 {
+// int main() {
+//   list<int> a;
+//   list<int> b;
+//
+//   //  b.push_back(1000);
+//   //  b.push_back(2000);
+//
+//   a.push_back(1);
+//   a.push_back(4);
+//   a.push_back(5);
+//   b.push_back(421124);
+//   b.push_back(213);
+//   b.push_back(2241);
+//   b.push_back(532131);
+//   //  a.push_back(6);
+//   //  a.sort();
+//   //  b.sort();
+//   //  a.merge(b);
+//   //  a.print_list();
+//   list<int>::iterator itr = a.end();
+//   itr--;
+//   //  a.reverse();
+//   //  a.erase(itr);
+//   //  a.iterator_insert(itr, 0);
+//   a.splice(itr, b);
+//   a.print_list();
+//
+//   return 0;
+// }
+//  CONSTRUCTORS
+//  =================================================================
 template <class T>
 list<T>::list() {
   head_ = NULL;
@@ -125,6 +111,11 @@ typename list<T>::iterator list<T>::begin() {
 template <class T>
 typename list<T>::iterator list<T>::end() {
   list<T>::iterator iterator;
+  //  iterator.node_->prev_ = tail_;
+  node *end_node = new node;
+  end_node->prev_ = tail_;
+
+  iterator = *end_node;
   iterator.value_ = count_;
   return iterator;
 }
@@ -160,31 +151,32 @@ void list<T>::clear() {
 }
 
 template <class T>
-typename list<T>::iterator list<T>::iterator_insert(iterator pos, const_reference value) {
+typename list<T>::iterator list<T>::iterator_insert(iterator pos,
+                                                    const_reference value) {
   node *new_node = new node;
-  new_node->data_ = value;
-  new_node->next_ = pos.node_;
-  if(pos.node_->prev_) {
+
+  if (pos.node_->prev_) {
     new_node->prev_ = pos.node_->prev_;
     pos.node_->prev_->next_ = new_node;
   } else {
     head_ = new_node;
     new_node->prev_ = NULL;
   }
-//  if(!pos.node_->next_) {
-//    new_node->next_ = NULL;
-//  }
+  new_node->data_ = value;
+  new_node->next_ = pos.node_;
   pos.node_->prev_ = new_node;
   return pos;
 }
 
 template <class T>
 void list<T>::erase(iterator pos) {
+  // refactor: if to post.node == head_
   if (pos.node_->prev_) {
     pos.node_->prev_->next_ = pos.node_->next_;
   } else {
     head_ = pos.node_->next_;
   }
+  // refactor: if to post.node == tail_
   if (pos.node_->next_) {
     pos.node_->next_->prev_ = pos.node_->prev_;
   } else {
@@ -277,7 +269,16 @@ void list<T>::merge(list &other) {
 }
 
 template <class T>
-void list<T>::splice(const_iterator pos, list &other) {}
+void list<T>::splice(iterator pos, list &other) {
+  if (pos.node_ == head_) {
+    head_ = other.head_;
+  } else {
+    pos.node_->prev_->next_ = other.head_;
+  }
+  other.tail_->next_ = pos.node_;
+  pos.node_->prev_ = other.tail_;
+  other.head_ = NULL;
+}
 
 template <class T>
 void list<T>::reverse() {
@@ -341,11 +342,6 @@ template <class T>
 void list<T>::itr() {
   list<T>::iterator iterator;
   iterator = this->end();
-  //  ++iterator;
-  //  iterator++;
-  //  iterator--;
-  //  --iterator;
-  //  T iterator = this->head_;
   printf("%d", *iterator);
 }
 
@@ -353,8 +349,6 @@ template <class T>
 list<T>::ListIterator::ListIterator() {
   node_ = NULL;
 }
-
-/////////////////
 
 template <class T>
 void list<T>::ListIterator::operator=(node &node) {
@@ -392,10 +386,15 @@ void list<T>::ListIterator::operator--() {
   node_ = node_->prev_;
   value_ = node_->data_;
 }
-template <class T>
 
+template <class T>
+bool list<T>::ListIterator::operator==(list<T>::ListIterator iterator) {
+  return node_ == iterator.node_;
+}
+
+template <class T>
 bool list<T>::ListIterator::operator!=(list<T>::ListIterator iterator) {
   return node_ != iterator.node_;
 }
 
-//};  // namespace s21
+};  // namespace s21

@@ -2,7 +2,7 @@
 #define CPP2_S21_CONTAINERS_LIST_S21_LIST_H_
 
 #include "cstdio"
-// namespace s21 {
+namespace s21 {
 template <class T>
 class list {
  public:
@@ -34,11 +34,12 @@ class list {
     ListIterator();
 
     void operator=(node &node_);
-    value_type& operator*();
+    value_type &operator*();
     void operator++(value_type);
     void operator++();
     void operator--(value_type);
     void operator--();
+    bool operator==(list<T>::ListIterator iterator);
     bool operator!=(list<T>::ListIterator iterator);
   };
 
@@ -79,7 +80,7 @@ class list {
   void pop_front();
   void swap(list &other);
   void merge(list &other);
-  void splice(const_iterator pos, list &other);
+  void splice(iterator pos, list &other);
   void reverse();
   void unique();
   void sort();
@@ -88,6 +89,6 @@ class list {
   void print_list();
   void itr();
 };
-//}  // namespace s21
+}  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_LIST_S21_LIST_H_

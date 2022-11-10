@@ -2,7 +2,7 @@
 | test: value_type                                           |
 | test: reference                                            |
 | test: const_reference                                      |
-| todo: iterator                                             |
+| test: iterator                                             |
 | todo: const_iterator                                       |
 | test: size_type                                            |
 |============================================================|
@@ -23,11 +23,18 @@
 |============================================================|
 |////////////////////////////////////////////////////////////|
 |=== ITERATORS ==============================================|
-| todo: ListIterator                                         |
-| todo: iterator                                             |
+| test: ListIterator                                         |
+| test: iterator                                             |
 | todo: const iterator                                       |
 | test: iterator begin                                       |
-| test: iterator end                                         |
+| test: iterator end  ??                                     |
+| test: *iterator                                            |
+| test: iterator++                                           |
+| test: iterator--                                           |
+| test: ++iterator                                           |
+| test: --iterator                                           |
+| test: iterator==                                           |
+| test: iterator!=                                           |
 |============================================================|
 |////////////////////////////////////////////////////////////|
 |=== INFORMATION ============================================|
@@ -38,7 +45,7 @@
 |////////////////////////////////////////////////////////////|
 |=== METHODS TO MODIFY ======================================|
 | test: clear                                                |
-| todo: iterator insert(iterator pos, const_reference value) |
+| test: iterator insert(iterator pos, const_reference value) |
 | test: void erase(iterator pos)                             |
 | test: push_back                                            |
 | test: pop_back                                             |
@@ -46,8 +53,8 @@
 | test: pop_front                                            |
 | test: swap                                                 |
 | test: merge                                                |
-| todo: splice                                               |
+| test: splice need to reconstruct to const_                 |
 | test: reverse                                              |
 | test: unique                                               |
 | test: sort                                                 |
-|============================================================|                                          |
+|============================================================|

@@ -2,8 +2,13 @@ CPP = g++
 CPPFLAGS = -std=c++17 -Wall -Werror -Wextra
 NAME = s21_list
 SOURCE = $(wildcard s21_*.cpp)
+ifeq ($(OS), Darwin)
+	UBUNTU =
+else
+	UBUNTU = -lpthread
+endif
 
-all: clean $(NAME)
+all: clean $(NAME).a
 
 $(NAME): $(SOURCE)
 	@clear
@@ -11,17 +16,17 @@ $(NAME): $(SOURCE)
 	@./a.out && rm -rf a.out
 
 $(NAME).a: $(SOURCE)
-	@$(CPP) $(CPPFLAGS) $(SOURCE) -c
+	@$(CPP) $(CPPFLAGS) $(NAME).cpp -c
 	@ar rcs $(NAME).a *.o
 	@ranlib $(NAME).a
 
-$(NAME)_test:
+test:
 	@clear
-	@$(CPP) $(CPPFLAGS) $(NAME)_test.cpp $(NAME).a -o $(NAME)_test -lgtest
-	@./test
+	@$(CPP) $(CPPFLAGS) $(NAME)_test.cpp $(NAME).a -o $(NAME)_test -lgtest $(UBUNTU)
+	@./$(NAME)
 
 clean:
 	@rm -rf $(NAME).a
 	@rm -rf $(NAME).o
-	@rm -rf $(NAME)_test
+	@rm -rf $(NAME)_test.o
 	@rm -rf a.out
