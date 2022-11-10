@@ -12,8 +12,20 @@ int main() {
   //  b.push_back(2000);
 
   a.push_back(1);
+  a.push_back(1);
+  a.push_back(1);
+  a.push_back(1);
+  a.push_back(1);
   a.push_back(2);
-  a.push_back(3);
+  a.push_back(2);
+  a.push_back(2);
+  a.push_back(2);
+  a.push_back(2);
+  a.push_back(2);
+  a.push_back(4);
+  a.push_back(4);
+  a.push_back(4);
+  a.push_back(4);
   a.push_back(4);
   a.push_back(5);
   //  a.push_back(6);
@@ -23,7 +35,14 @@ int main() {
   //  b.sort();
   //  a.merge(b);
   a.print_list();
-  a.reverse();
+  a.unique();
+  list<int>::iterator itr = a.begin();
+  itr++;
+  itr++;
+  printf("%d\n", *itr);
+  //  a.reverse();
+  //  a.erase(itr);
+  a.iterator_insert(itr, 0);
   a.print_list();
 
   return 0;
@@ -140,11 +159,39 @@ void list<T>::clear() {
   //  head_ = NULL;
 }
 
-// template <class T>
-// void list<T>::iterator_insert(iterator pos, const_reference value) {}
+template <class T>
+typename list<T>::iterator list<T>::iterator_insert(iterator pos, const_reference value) {
+  node *new_node = new node;
+  new_node->data_ = value;
+  new_node->next_ = pos.node_;
+  if(pos.node_->prev_) {
+    new_node->prev_ = pos.node_->prev_;
+    pos.node_->prev_->next_ = new_node;
+  } else {
+    head_ = new_node;
+    new_node->prev_ = NULL;
+  }
+//  if(!pos.node_->next_) {
+//    new_node->next_ = NULL;
+//  }
+  pos.node_->prev_ = new_node;
+  return pos;
+}
 
-// template <class T>
-// void list<T>::erase(iterator pos) {}
+template <class T>
+void list<T>::erase(iterator pos) {
+  if (pos.node_->prev_) {
+    pos.node_->prev_->next_ = pos.node_->next_;
+  } else {
+    head_ = pos.node_->next_;
+  }
+  if (pos.node_->next_) {
+    pos.node_->next_->prev_ = pos.node_->prev_;
+  } else {
+    tail_ = pos.node_->prev_;
+  }
+  delete pos.node_;
+}
 
 template <class T>
 void list<T>::push_back(const_reference value) {
@@ -248,9 +295,17 @@ void list<T>::reverse() {
 
 template <class T>
 void list<T>::unique() {
-  node *temp_node = head_;
-  while (temp_node) {
-    //    if(temp_node->data_ == tem)
+  node *temp_head = head_;
+  node *node_for_delete;
+  while (temp_head) {
+    if (temp_head->next_ && temp_head->data_ == temp_head->next_->data_) {
+      node_for_delete = temp_head->next_;
+      temp_head->next_ = temp_head->next_->next_;
+      temp_head->next_->prev_ = temp_head;
+      delete node_for_delete;
+    } else {
+      temp_head = temp_head->next_;
+    }
   }
 }
 template <class T>
