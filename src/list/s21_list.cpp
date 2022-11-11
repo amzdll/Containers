@@ -6,35 +6,11 @@
 namespace s21 {
 // int main() {
 //   list<int> a;
-//   list<int> b;
-//
-//   //  b.push_back(1000);
-//   //  b.push_back(2000);
-//
-//   a.push_back(1);
-//   a.push_back(4);
-//   a.push_back(5);
-//   b.push_back(421124);
-//   b.push_back(213);
-//   b.push_back(2241);
-//   b.push_back(532131);
-//   //  a.push_back(6);
-//   //  a.sort();
-//   //  b.sort();
-//   //  a.merge(b);
-//   //  a.print_list();
-//   list<int>::iterator itr = a.end();
-//   itr--;
-//   //  a.reverse();
-//   //  a.erase(itr);
-//   //  a.iterator_insert(itr, 0);
-//   a.splice(itr, b);
-//   a.print_list();
-//
+//   list<int>::iterator i = a.begin();
+//   printf("%d", *i);
 //   return 0;
 // }
-//  CONSTRUCTORS
-//  =================================================================
+// block:  CONSTRUCTORS
 template <class T>
 list<T>::list() {
   head_ = NULL;
@@ -85,8 +61,7 @@ list<T>::~list() {
 // template <class T>
 // int list<T>::operator=(list &&l) { return 0; }
 // memset
-// ELEMENT ACCESS
-// =================================================================
+// block:ELEMENT ACCESS
 
 template <class T>
 const T &list<T>::front() {
@@ -98,19 +73,25 @@ const T &list<T>::back() {
   return tail_->data_;
 }
 
-// ITERATORS
+// block: ITERATORS
 
 template <class T>
 typename list<T>::iterator list<T>::begin() {
   list<T>::iterator iterator;
-  iterator = *head_;
-  iterator.value_ = head_->data_;
+  // refactor
+  if (head_) {
+    iterator = *head_;
+    iterator.value_ = head_->data_;
+  } else {
+    iterator.value_ = 0;
+  }
   return iterator;
 }
 
 template <class T>
 typename list<T>::iterator list<T>::end() {
   list<T>::iterator iterator;
+  // refactor
   //  iterator.node_->prev_ = tail_;
   node *end_node = new node;
   end_node->prev_ = tail_;
@@ -120,7 +101,7 @@ typename list<T>::iterator list<T>::end() {
   return iterator;
 }
 
-// INFORMATION =================================================================
+// block: INFORMATION
 template <class T>
 bool list<T>::empty() {
   return !head_;
@@ -136,8 +117,8 @@ size_t list<T>::max_size() {
   return 0;
 }
 
-// METHODS TO MODIFY
-// =================================================================
+// block: METHODS TO MODIFY
+
 template <class T>
 void list<T>::clear() {
   node *temp_node;
@@ -182,6 +163,7 @@ void list<T>::erase(iterator pos) {
   } else {
     tail_ = pos.node_->prev_;
   }
+  count_--;
   delete pos.node_;
 }
 

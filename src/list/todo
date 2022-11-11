@@ -27,8 +27,8 @@
 | test: iterator                                             |
 | todo: const iterator                                       |
 | test: iterator begin                                       |
-| test: iterator end  ??                                     |
-| test: *iterator                                            |
+| test: iterator end  ?? mem leak                            |
+| complete: *iterator                                        |
 | test: iterator++                                           |
 | test: iterator--                                           |
 | test: ++iterator                                           |
@@ -38,8 +38,8 @@
 |============================================================|
 |////////////////////////////////////////////////////////////|
 |=== INFORMATION ============================================|
-| test: empty                                                |
-| test: size                                                 |
+| complete: empty                                            |
+| complete: size                                             |
 | todo: max size                                             |
 |============================================================|
 |////////////////////////////////////////////////////////////|

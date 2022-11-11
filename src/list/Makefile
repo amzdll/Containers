@@ -8,9 +8,9 @@ else
 	UBUNTU = -lpthread
 endif
 
-all: clean $(NAME).a
+all: clean $(NAME).a test
 
-$(NAME): $(SOURCE)
+$(NAME): $(SOURCE)/home/freiqq/Projects/21/c++/containers/src/list/Makefile
 	@clear
 	@$(CPP) $(CPPFLAGS) $(NAME).cpp
 	@./a.out && rm -rf a.out
@@ -23,7 +23,7 @@ $(NAME).a: $(SOURCE)
 test:
 	@clear
 	@$(CPP) $(CPPFLAGS) $(NAME)_test.cpp $(NAME).a -o $(NAME)_test -lgtest $(UBUNTU)
-	@./$(NAME)
+	@./$(NAME)_test
 
 clean:
 	@rm -rf $(NAME).a
