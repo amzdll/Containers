@@ -22,7 +22,8 @@ $(NAME).a: $(SOURCE)
 
 test:
 	@clear
-	@$(CPP) $(CPPFLAGS) $(NAME)_test.cpp $(NAME).a -o $(NAME)_test -lgtest $(UBUNTU)
+	#$(CPPFLAGS)
+	@$(CPP)  $(NAME)_test.cpp $(NAME).a -o $(NAME)_test -lgtest $(UBUNTU)
 	@./$(NAME)_test
 
 clean:

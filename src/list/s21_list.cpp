@@ -128,7 +128,6 @@ void list<T>::clear() {
     delete temp_node;
     count_--;
   }
-  //  head_ = NULL;
 }
 
 template <class T>
@@ -204,7 +203,7 @@ void list<T>::push_front(const_reference value) {
   } else {
     new_node->next_ = head_;
     head_->prev_ = new_node;
-    head_ = new_node;
+    head_ = new_node; /**/
   }
 
   new_node->prev_ = NULL;
@@ -379,4 +378,4 @@ bool list<T>::ListIterator::operator!=(list<T>::ListIterator iterator) {
   return node_ != iterator.node_;
 }
 
-};  // namespace s21
+} // namespace s21
