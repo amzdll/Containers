@@ -9,7 +9,7 @@ void temp_print(std::list<int> &list) {
   //  auto iterator = list.end();
   for (std::list<int>::iterator i = list.begin(); i != list.end(); i++) {
     //    std::advance(iterator, i);
-    std::cout << "data: " << *i << "\n";
+    std::cout << "data:  " << *i << "\n";
   }
 }
 

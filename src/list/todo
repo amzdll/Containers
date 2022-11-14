@@ -1,60 +1,54 @@
-=== MEMBER TYPE ============================================
- complete: value_type                                           
- test: reference                                            
- test: const_reference                                      
- complete: iterator
- todo: const_iterator                                       
- complete: size_type
-============================================================
-////////////////////////////////////////////////////////////
-=== CONSTRUCTORS ===========================================
- test: list();                                              
- test: list(size_type n);                                   
- todo: list(std::initializer_list<value_type> const &items);
- todo: list(const list&l);                                  
- todo: list(list &&l);                                      
- todo: operator=(list &&l);                                 
- complete: ~list()
-============================================================
-////////////////////////////////////////////////////////////
-=== ELEMENT ACCESS =========================================
- test: const_reference front();                             
- test: const_reference back();                              
-============================================================
-////////////////////////////////////////////////////////////
-=== ITERATORS ==============================================
- test: ListIterator                                         
- test: iterator                                             
- todo: const iterator                                       
- test: iterator begin                                       
- test: iterator end  ?? mem leak                            
- complete: *iterator                                        
- test: iterator++                                           
- test: iterator--                                           
- test: ++iterator                                           
- test: --iterator                                           
- test: iterator==                                           
- test: iterator!=                                           
-============================================================
-////////////////////////////////////////////////////////////
-=== INFORMATION ============================================
- complete: empty                                            
- complete: size                                             
- todo: max size                                             
-============================================================
-////////////////////////////////////////////////////////////
-=== METHODS TO MODIFY ======================================
- complete: clear
- test: iterator insert(iterator pos, const_reference value) 
- test: void erase(iterator pos)                             
- test: push_back                                            
- test: pop_back                                             
- test: push_front                                           
- test: pop_front                                            
- test: swap                                                 
- test: merge                                                
- test: splice need to reconstruct to const_                 
- test: reverse                                              
- test: unique                                               
- test: sort                                                 
-============================================================
+Member type
+complete: value_type
+test: reference
+test: const_reference
+complete: iterator
+todo: const_iterator
+complete: size_type
+
+Functions
+test: list();
+test: list(size_type n);
+todo: list(std::initializer_list<value_type> const &items);
+todo: list(const list&l);
+todo: list(list &&l);
+todo: operator=(list &&l);
+complete: ~list()
+
+Element access
+test: const_reference front();
+test: const_reference back();
+
+Iterators
+test: ListIterator
+test: iterator
+todo: const iterator
+test: iterator begin
+test: iterator end  ?? mem leak
+complete: *iterator
+test: iterator++
+test: iterator--
+test: ++iterator
+test: --iterator
+test: iterator==
+test: iterator!=
+
+Capacity
+complete: empty
+complete: size
+todo: max size
+
+Modifiers
+complete: clear
+test: iterator insert(iterator pos, const_reference value)
+test: void erase(iterator pos)
+test: push_back
+test: pop_back
+test: push_front
+test: pop_front
+test: swap
+test: merge
+test: splice need to reconstruct to const_
+test: reverse
+test: unique
+test: sort

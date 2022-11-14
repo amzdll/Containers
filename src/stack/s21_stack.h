@@ -9,11 +9,12 @@ class stack {
  private:
   struct node_ {
     node_ *next_;
-    T value_;
+    T value_ = T();
   };
 
   node_ *head_;
   node_ *tail_;
+  size_t count_ = 0;
 
  public:
   using value_type = T;
@@ -26,7 +27,7 @@ class stack {
   stack(const stack &s);
   stack(stack &&s);
   ~stack();
-//  operator=(stack &&s);
+  stack operator=(stack &&s);
 
   const_reference top();
 
