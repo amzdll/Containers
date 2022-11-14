@@ -44,7 +44,7 @@
 ============================================================
 ////////////////////////////////////////////////////////////
 === METHODS TO MODIFY ======================================
- test: clear                                                
+ complete: clear
  test: iterator insert(iterator pos, const_reference value) 
  test: void erase(iterator pos)                             
  test: push_back                                            

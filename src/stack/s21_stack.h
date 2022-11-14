@@ -1,0 +1,44 @@
+#ifndef CPP2_S21_CONTAINERS_STACK_S21_STACK_H_
+#define CPP2_S21_CONTAINERS_STACK_S21_STACK_H_
+
+#include "cstdio"
+
+namespace s21 {
+template <class T>
+class stack {
+ private:
+  struct node_ {
+    node_ *next_;
+    T value_;
+  };
+
+  node_ *head_;
+  node_ *tail_;
+
+ public:
+  using value_type = T;
+  using reference = T &;
+  using const_reference = const T &;
+  using size_type = size_t;
+
+  stack();
+//  stack(std::initializer_list<value_type> const &items);
+  stack(const stack &s);
+  stack(stack &&s);
+  ~stack();
+//  operator=(stack &&s);
+
+  const_reference top();
+
+  bool empty();
+  size_type size();
+
+  void push(const_reference value);
+  void pop();
+  void swap(stack &other);
+
+  void print();
+};
+}  // namespace s21
+
+#endif  // CPP2_S21_CONTAINERS_STACK_S21_STACK_H_

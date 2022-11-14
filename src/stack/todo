@@ -1,0 +1,25 @@
+Stack Member type
+todo: value_type
+todo: reference
+todo: const_reference
+todo: size_type
+
+Functions
+todo: stack()
+todo: stack(std::initializer_list<value_type> const &items)
+todo: stack(const stack &s)
+todo: stack(stack &&s)
+todo: ~stack()
+todo: operator=(stack &&s)
+
+Element access
+todo: const_reference top()
+
+Capacity
+todo: bool empty()
+todo: size_type size()
+
+Modifiers
+todo: void push(const_reference value)
+todo: void pop()
+todo: void swap(stack& other)

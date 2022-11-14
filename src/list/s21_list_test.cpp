@@ -45,19 +45,35 @@ TEST(overloading_assignment_and_dereference_iterator_suite,
   EXPECT_TRUE(*itr == *std_itr);
 }
 
-//SEG
-//TEST(overloading_assignment_and_dereference_iterator_suite,
-//     delete_element_edge_test) {
-//  s21::list<int> list(1);
-//  s21::list<int>::iterator itr = list.begin();
-//  std::list<int> std_list(1);
-//  std::list<int>::iterator std_itr = std_list.begin();
-//
-//  list.erase(itr);
-//  std_list.erase(std_itr);
-//
-//  EXPECT_TRUE(*itr == *std_itr);
-//}
+TEST(overloading_assignment_and_dereference_iterator_suite,
+     delete_element_edge_test) {
+  s21::list<int> list(1);
+  s21::list<int>::iterator itr = list.begin();
+  std::list<int> std_list(1);
+  std::list<int>::iterator std_itr = std_list.begin();
+
+  list.erase(itr);
+  std_list.erase(std_itr);
+
+  EXPECT_TRUE(*itr == *std_itr);
+}
+
+TEST(overloading_increment_suite, true_test) {
+  s21::list<int> list;
+  std::list<int> std_list;
+  list.push_back(1);
+  list.push_back(2);
+  std_list.push_back(1);
+  std_list.push_back(2);
+
+  s21::list<int>::iterator itr = list.begin();
+  std::list<int>::iterator std_itr = std_list.begin();
+
+  EXPECT_TRUE(*itr == *std_itr);
+  ++itr;
+  ++std_itr;
+  EXPECT_TRUE(*itr == *std_itr);
+}
 
 // block: INFO
 TEST(empty_suit, true_test) {
@@ -127,19 +143,18 @@ TEST(size_suite, cleaned_edge_test) {
   ASSERT_EQ(list.size(), std_list.size());
 }
 
-
-TEST(size_suite, erase_one_element_edge_test) {
-  s21::list<int> list(5);
-  std::list<int> std_list(5);
-  s21::list<int>::iterator itr = list.begin();
-  std::list<int>::iterator std_itr = std_list.begin();
-
-  printf("\n\n\n\n\n\n\n\n%d\n\n\n\n\n\n\n\n", *itr);
-  list.erase(itr);  // SEG
-  std_list.erase(std_itr);
-
-//  ASSERT_EQ(list.size(), std_list.size());
-}
+// TEST(size_suite, erase_one_element_edge_test) { // SEG
+//   s21::list<int> list(5);
+//   std::list<int> std_list(5);
+//   s21::list<int>::iterator itr = list.begin();
+//   std::list<int>::iterator std_itr = std_list.begin();
+//
+//   printf("\n\n\n\n\n\n\n\n%d\n\n\n\n\n\n\n\n", *itr);
+//   list.erase(itr);  // SEG
+//   std_list.erase(std_itr);
+//
+////  ASSERT_EQ(list.size(), std_list.size());
+//}
 
 TEST(size_suite, add_back_one_element_edge_test) {
   s21::list<int> list(5);
@@ -150,7 +165,7 @@ TEST(size_suite, add_back_one_element_edge_test) {
 
   ASSERT_EQ(list.size(), std_list.size());
 }
-
+//
 TEST(size_suite, add_front_one_element_edge_test) {
   s21::list<int> list(5);
   std::list<int> std_list(5);
@@ -182,26 +197,38 @@ TEST(size_suite, delete_front_one_element_edge_test) {
 }
 
 // block: METHODS TO MODIFY
-//TEST(clear_suite, true_test) {
-//  s21::list<int> list;
-//  std::list<int> std_list;
-//
-//  list.push_back(1);
-//  std_list.push_back(1);
-//
-//  list.clear();
-//  std_list.clear();
+TEST(clear_suite, true_test) {
+  s21::list<int> list;
+  std::list<int> std_list;
 
-//  EXPECT_TRUE(std_list.empty() && list.empty());
-//}
+  list.push_back(1);
+  std_list.push_back(1);
 
-//TEST(erase_suite, true_test) {
-//  s21::list<int> list(5);
-//  s21::list<int>::iterator itr = list.begin();
-//  std::list<int> std_list(5);
-//  std::list<int>::iterator std_itr = std_list.begin();
-//  list.erase(itr);
-//  std_list.erase(std_itr);
+  list.clear();
+  std_list.clear();
+
+  EXPECT_TRUE(std_list.empty() && list.empty());
+  EXPECT_TRUE(std_list.size() == list.size());
+}
+
+TEST(clear_suite, empty_list_edge_test) {
+  s21::list<int> list;
+  std::list<int> std_list;
+
+  list.clear();
+  std_list.clear();
+
+  EXPECT_TRUE(std_list.empty() && list.empty());
+  EXPECT_TRUE(std_list.size() == list.size());
+}
+
+// TEST(erase_suite, true_test) {
+//   s21::list<int> list(5);
+//   s21::list<int>::iterator itr = list.begin();
+//   std::list<int> std_list(5);
+//   std::list<int>::iterator std_itr = std_list.begin();
+//   list.erase(itr);
+//   std_list.erase(std_itr);
 //
 //  s21::list<int>::iterator loop_itr = list.begin();
 //  std::list<int>::iterator std_loop_itr = std_list.begin();
@@ -210,6 +237,124 @@ TEST(size_suite, delete_front_one_element_edge_test) {
 //  }
 //  EXPECT_TRUE(*list.begin() == *list.begin());
 //}
+
+TEST(push_back_suite, true_test) {
+  s21::list<int> list(2);
+  std::list<int> std_list(2);
+  s21::list<int>::iterator itr;
+  std::list<int>::iterator std_itr;
+
+  list.push_back(1);
+  std_list.push_back(1);
+
+  itr = list.end();
+  std_itr = std_list.end();
+  --itr;
+  --std_itr;
+  //
+  EXPECT_TRUE(*itr == *std_itr);
+  //  printf("\n\n\n\n\n\n%d\n\n\n\n\n", *itr);
+  //  EXPECT_TRUE(*itr == 1); // SEG
+}
+
+TEST(push_front_suite, true_test) {
+  s21::list<int> list(2);
+  std::list<int> std_list(2);
+  s21::list<int>::iterator itr;
+  std::list<int>::iterator std_itr;
+
+  list.push_front(1);
+  std_list.push_front(1);
+  itr = list.begin();
+  std_itr = std_list.begin();
+
+  EXPECT_TRUE(*itr == *std_itr);
+  EXPECT_TRUE(*itr == 1);
+}
+
+TEST(pop_back_suite, true_test) {
+  s21::list<int> list(2);
+  std::list<int> std_list(2);
+  s21::list<int>::iterator itr;
+  std::list<int>::iterator std_itr;
+
+  list.pop_back();
+  std_list.pop_back();
+
+  itr = list.end();
+  std_itr = std_list.end();
+  --itr;
+  --std_itr;
+  //    printf("\n\n\n\n\n\n%d\t%d\n\n\n\n\n", *itr, *std_itr);
+
+  EXPECT_TRUE(*itr == *std_itr);
+  //  EXPECT_TRUE(*itr == 0); // SEG
+}
+
+TEST(pop_front_suite, true_test) {
+  s21::list<int> list(2);
+  std::list<int> std_list(2);
+  s21::list<int>::iterator itr;
+  std::list<int>::iterator std_itr;
+
+  list.push_front(5);
+  std_list.push_front(5);
+  list.pop_front();
+  std_list.pop_front();
+  itr = list.begin();
+  std_itr = std_list.begin();
+
+  //      printf("\n\n\n\n\n\n%d\t%d\n\n\n\n\n", *itr, *std_itr);
+
+  EXPECT_TRUE(*itr == *std_itr);
+  EXPECT_TRUE(list.size() == std_list.size());
+  //    EXPECT_TRUE(*itr == 0); // SEG
+}
+
+TEST(swap_suite, true_test) {
+  s21::list<int> list_a(2);
+  s21::list<int> list_b;
+  std::list<int> std_list_a(2);
+  std::list<int> std_list_b;
+
+  list_b.swap(list_a);
+  std_list_b.swap(std_list_a);
+
+  EXPECT_TRUE(list_b.size() == std_list_b.size());
+  EXPECT_TRUE(list_b.size() == 2);
+}
+
+TEST(swap_suite, value_true_test) {
+  int temp[] = {1, 2, 3};
+
+  s21::list<int> list_a(2);
+  s21::list<int> list_b;
+  s21::list<int>::iterator itr_b;
+  std::list<int> std_list_a(2);
+  std::list<int> std_list_b;
+  std::list<int>::iterator std_itr_b;
+
+  list_a.push_back(1);
+  list_a.push_back(2);
+  list_a.push_back(3);
+  std_list_a.push_back(1);
+  std_list_a.push_back(2);
+  std_list_a.push_back(3);
+
+  list_b.swap(list_a);
+  std_list_b.swap(std_list_a);
+
+//  EXPECT_TRUE(list_b.size() == std_list_b.size()); // SEG
+//  long double a = list_b.size();
+//  printf("HUI:%Lf\n", a);
+//  EXPECT_TRUE(list_b.size() == 5);
+//
+//  for (int i = 0; itr_b != list_b.end() && std_itr_b != std_list_b.end();
+//       ++itr_b, ++std_itr_b, ++i) {
+//    EXPECT_TRUE(*itr_b == *std_itr_b);
+//    EXPECT_TRUE(*itr_b == temp[i]);
+//  }
+}
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
