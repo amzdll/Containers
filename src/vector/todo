@@ -1,19 +1,19 @@
 Member type
-todo: value_type
-todo: reference
-todo: const_reference
+test: value_type
+test: reference
+test: const_reference
 todo: iterator
 todo: const_iterator
-todo: size_type
+test: size_type
 
 Functions
-todo:vector();
-todo:vector(size_type n);
-todo:vector(std::initializer_list<value_type> const &items);
-todo:vector(const vector &v);
-todo:vector(vector &&v);
-todo:~vector();
-todo:operator=(vector &&v);
+test: vector();
+test: vector(size_type n);
+todo: vector(std::initializer_list<value_type> const &items);
+test: vector(const vector &v);
+test: vector(vector &&v);
+test: ~vector();
+todo: operator=(vector &&v);
 
 Element access
 todo: reference at(size_type pos);
@@ -27,15 +27,15 @@ todo: iterator begin()
 todo: iterator end()
 
 Capacity
-todo: bool empty();
-todo: size_type size();
+test: bool empty();
+test: size_type size();
 todo: size_type max_size();
 todo: void reserve(size_type size);
 todo: size_type capacity();
 todo: void shrink_to_fit();
 
 Modifiers
-todo: void clear();
+test: void clear();
 todo: iterator insert(iterator pos, const_reference value);
 todo: void erase(iterator pos);
 todo: void push_back(const_reference value);

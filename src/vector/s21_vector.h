@@ -8,7 +8,7 @@ class vector {
  private:
   T *array_;
   size_t size_;
-  size_t capacity_;
+  //  size_t capacity_;
 
  public:
   class VectorIterator {
@@ -16,6 +16,11 @@ class vector {
 
    private:
    public:
+    //    void operator=(*T);
+    void operator++();
+    void operator++(T());
+    void operator--();
+    void operator--(T());
   };
 
   class ConstVectorIterator {
