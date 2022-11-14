@@ -349,7 +349,7 @@ void list<T>::ListIterator::operator++(value_type) {
     value_ = node_->data_;
   } else {
     // refactor
-    //    node_ = head_;
+    node_ = head_;
   }
 }
 

@@ -1,0 +1,26 @@
+Member type
+test: value_type
+todo: reference
+todo: const_reference
+todo: size_type
+
+Functions
+test: queue()
+todo: queue(std::initializer_list<value_type> const &items)
+todo: queue(const queue &q)
+todo: queue(queue &&q)
+test: ~queue() // inheritance
+todo: operator=(queue &&q)
+
+Element access
+test: const_reference front()  // inheritance
+test: const_reference back()  // inheritance
+
+Capacity
+test: bool empty() // inheritance
+test: size_type size() // inheritance
+
+Modifiers
+test: void push(const_reference value) // inheritance
+test: void pop() // inheritance
+test: void swap(queue& other) // inheritance

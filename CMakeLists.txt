@@ -22,13 +22,14 @@ add_executable(containers
 
         src/queue/s21_queue.cpp
         src/queue/s21_queue.h
+        src/queue/temp.cpp
 
         src/set/s21_set.cpp
         src/set/s21_set.h
 
         src/stack/s21_stack.cpp
         src/stack/s21_stack.h
-        src/stack/temp.cpp
+#        src/stack/temp.cpp
 
         src/vector/s21_vector.cpp
         src/vector/s21_vector.h
