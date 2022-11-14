@@ -27,7 +27,7 @@ class queue {
   queue(const queue &q);
   queue(queue &&q);
   ~queue();
-//  operator=(queue &&q);
+  queue operator=(queue &&q);
 
   const_reference front();
   const_reference back();

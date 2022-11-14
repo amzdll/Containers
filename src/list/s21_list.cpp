@@ -347,10 +347,11 @@ void list<T>::ListIterator::operator++(value_type) {
   node_ = node_->next_;
   if (node_) {
     value_ = node_->data_;
-  } else {
-    // refactor
-    node_ = head_;
   }
+//  else {
+    // refactor
+//    node_ = head_;
+//  }
 }
 
 template <class T>

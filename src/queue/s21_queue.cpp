@@ -11,32 +11,60 @@ s21::queue<T>::queue() {
 
 // template <class T>
 //  s21::queue<T>::queue(const std::initializer_list<value_type>& items) {}
+
 template <class T>
-s21::queue<T>::queue(queue&& q) {}
-template <class T>
-s21::queue<T>::~queue() {
-  node_* temp_node;
-  while (head_) {
-    temp_node = head_;
-    head_ = head_->next_;
-    delete temp_node;
-    count_--;
+queue<T>::queue(const queue& q) {
+  head_ = NULL;
+  tail_ = NULL;
+  node_* temp_node = q.head_;
+  while (temp_node) {
+    this->push(temp_node->value_);
+    temp_node = temp_node->next_;
   }
 }
 
-// template <class T>
-// int s21::queue<T>::operator=(queue&& q) {
-//   return 0;
-// }
+// ???
+template <class T>
+s21::queue<T>::queue(queue&& q) {
+  head_ = q.head_;
+  tail_ = q.tail_;
+  q.head_ = NULL;
+  q.tail_ = NULL;
+}
+
+template <class T>
+s21::queue<T>::~queue() {
+    node_* temp_node;
+    while (head_) {
+      temp_node = head_;
+      head_ = head_->next_;
+      --count_;
+      delete temp_node;
+    }
+}
+
+ template <class T>
+ typename s21::queue<T> s21::queue<T>::operator=(queue&& q) {
+   head_ = NULL;
+   tail_ = NULL;
+   node_* temp_node = q.head_;
+   while (temp_node) {
+     this->push(temp_node->value_);
+     temp_node = temp_node->next_;
+   }
+   return 0;
+ }
 
 template <class T>
 const T& s21::queue<T>::front() {
+  // refactor: if null
   return head_->value_;
 }
 
 template <class T>
 const T& s21::queue<T>::back() {
-  return tail_->value_;
+  // refactor: if null
+  return tail_ ? tail_->value_ : 0;
 }
 
 template <class T>
