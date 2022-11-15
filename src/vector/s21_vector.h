@@ -6,36 +6,47 @@ namespace s21 {
 template <class T>
 class vector {
  private:
-  T *array_;
+  T *begin_;
+  T *end_;
   size_t size_;
-  //  size_t capacity_;
+  size_t capacity_;
 
  public:
+  using value_type = T;
+  using reference = T &;
+  using const_reference = const T &;
+
+  using size_type = size_t;
+
   class VectorIterator {
     friend class vector<T>;
 
    private:
+    value_type* position_;
+    value_type value_;
    public:
-    //    void operator=(*T);
+    VectorIterator();
+
+    void operator=(value_type* position);
+    value_type operator*();
     void operator++();
-    void operator++(T());
+    void operator++(value_type);
     void operator--();
-    void operator--(T());
+    void operator--(value_type);
+    bool operator==(vector<T>::VectorIterator iterator);
+    bool operator!=(vector<T>::VectorIterator iterator);
   };
+
 
   class ConstVectorIterator {
     friend class vector<T>;
-
    private:
+
    public:
   };
 
-  using value_type = T;
-  using reference = T &;
-  using const_reference = const T &;
   using iterator = VectorIterator;
   using const_iterator = ConstVectorIterator;
-  using size_type = size_t;
 
   vector();
   vector(size_type n);
@@ -43,7 +54,7 @@ class vector {
   vector(const vector &v);
   vector(vector &&v);
   ~vector();
-  vector operator=(vector &&v);
+  vector &operator=(vector &&v);
 
   reference at(size_type pos);
   reference operator[](size_type pos);
@@ -71,5 +82,6 @@ class vector {
   void filling();
   void print();
 };
+
 
 }  // namespace s21

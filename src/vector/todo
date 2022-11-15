@@ -40,4 +40,4 @@ todo: iterator insert(iterator pos, const_reference value);
 todo: void erase(iterator pos);
 todo: void push_back(const_reference value);
 todo: void pop_back();
-todo: void swap(vector& other);
+test: void swap(vector& other);
