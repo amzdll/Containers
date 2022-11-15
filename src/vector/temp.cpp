@@ -14,13 +14,22 @@ void std_print(std::vector<int> arr) {
 
 int main() {
   s21::vector<int> a(6);
-  a.filling();
   s21::vector<int> b(3);
-  s21::vector<int>::iterator itr_a;
-  itr_a = a.begin();
-  printf("itr: %d\n", *itr_a);
-  ++itr_a;
-  printf("itr: %d\n", *itr_a);
+  s21::vector<int>::iterator itr_a = a.begin();
+  a.filling();
+  itr_a++;
+  a.print();
+  itr_a = a.insert(itr_a, 56);
+//  itr_a++;
+//  itr_a++;
+  itr_a = a.insert(itr_a, 56);
+  printf("after insert ");
+  a.print();
+  printf("%d\n", *itr_a);
+//  itr_a = a.begin();
+//  printf("itr: %d\n", *itr_a);
+//  ++itr_a;
+//  printf("itr: %d\n", *itr_a);
 //  s21::vector<int> c;
 //  std::vector<int> std_a(5);
 //  std::vector<int>::iterator itr_std=std_a.begin();

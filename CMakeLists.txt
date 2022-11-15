@@ -22,7 +22,6 @@ add_executable(containers
 
         src/queue/s21_queue.cpp
         src/queue/s21_queue.h
-        src/queue/temp.cpp
 
         src/set/s21_set.cpp
         src/set/s21_set.h
@@ -33,5 +32,6 @@ add_executable(containers
 
         src/vector/s21_vector.cpp
         src/vector/s21_vector.h
+        src/vector/temp.cpp
 
         src/s21_containers.h)
