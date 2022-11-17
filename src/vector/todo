@@ -2,7 +2,7 @@ Member type
 test: value_type
 test: reference
 test: const_reference
-todo: iterator
+test: iterator
 todo: const_iterator
 test: size_type
 
@@ -23,21 +23,21 @@ todo: const_reference back();
 todo: iterator data();
 
 Iterators
-todo: iterator begin()
-todo: iterator end()
+test: iterator begin()
+test: iterator end()
 
 Capacity
 test: bool empty();
 test: size_type size();
 todo: size_type max_size();
 todo: void reserve(size_type size);
-todo: size_type capacity();
+test: size_type capacity();
 todo: void shrink_to_fit();
 
 Modifiers
 test: void clear();
-todo: iterator insert(iterator pos, const_reference value);
-todo: void erase(iterator pos);
-todo: void push_back(const_reference value);
-todo: void pop_back();
+test: iterator insert(iterator pos, const_reference value);
+refactor: void erase(iterator pos);
+test: void push_back(const_reference value);
+test: void pop_back();
 test: void swap(vector& other);

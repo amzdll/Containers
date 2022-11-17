@@ -11,6 +11,7 @@ class vector {
   size_t size_;
   size_t capacity_;
 
+  void reallocator();
  public:
   using value_type = T;
   using reference = T &;
@@ -24,6 +25,8 @@ class vector {
    private:
     value_type* position_;
     value_type value_;
+
+
    public:
     VectorIterator();
 
