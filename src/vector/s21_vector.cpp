@@ -35,22 +35,25 @@ vector<T>::vector(const vector& v) {
 
 template <class T>
 vector<T>::vector(vector&& v) {
+  end_ = begin_;
+//  delete[] begin_;
+
   size_ = v.size_;
   capacity_ = v.capacity_;
-  delete[] begin_;
   begin_ = new T[capacity_];
-  // refactor memcpy
-  for (int i = 0; i < size_; ++i) {
-    begin_[i] = v.begin_[i];
-  }
+  end_ = begin_ + size_ - 1;
+
+  std::memcpy(begin_, v.begin_, size_);
+
   delete v.begin_;
   v.begin_ = NULL;
+  v.end_ = NULL;
 }
 
 template <class T>
 vector<T>::~vector() {
-  //    clear();
-  delete[] begin_;
+  clear();
+  //  delete[] begin_;
 }
 
 template <class T>
@@ -135,7 +138,7 @@ typename s21::vector<T>::iterator vector<T>::end() {
 // BLOCK CAPACITY
 template <class T>
 bool vector<T>::empty() {
-  return !begin_;
+  return !size_;
 }
 template <class T>
 size_t vector<T>::size() {
@@ -212,15 +215,18 @@ template <class T>
 void vector<T>::erase(vector::iterator pos) {
   size_ -= 1;
   T* temp_array = new T[capacity_];
-  long int insertion_position = pos.position_ - begin_;
-  size_t size_start_to_deleting = sizeof(T) * insertion_position;
+  long int deleting_position = pos.position_ - begin_;
+  size_t size_start_to_deleting = sizeof(T) * deleting_position;
   size_t size_deleting_to_end = sizeof(T) * (end_ - pos.position_);
 
   std::memcpy(temp_array, begin_, size_start_to_deleting);
-  std::memcpy(temp_array + insertion_position, begin_ + insertion_position + 1,
+  std::memcpy(temp_array + deleting_position, begin_ + deleting_position + 1,
               size_deleting_to_end);
   std::memcpy(begin_, temp_array, size_ * sizeof(T));
+  end_ = begin_ + size_ - 1;
   delete[] temp_array;
+  printf("%d %d %d\n", deleting_position, size_start_to_deleting,
+         size_deleting_to_end);
 }
 
 template <class T>

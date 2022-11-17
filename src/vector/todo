@@ -7,10 +7,10 @@ todo: const_iterator
 test: size_type
 
 Functions
-test: vector();
-test: vector(size_type n);
+complete: vector();
+complete: vector(size_type n);
 todo: vector(std::initializer_list<value_type> const &items);
-test: vector(const vector &v);
+complete: vector(const vector &v);
 test: vector(vector &&v);
 test: ~vector();
 todo: operator=(vector &&v);
@@ -27,7 +27,7 @@ test: iterator begin()
 test: iterator end()
 
 Capacity
-test: bool empty();
+complete: bool empty();
 test: size_type size();
 todo: size_type max_size();
 todo: void reserve(size_type size);

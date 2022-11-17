@@ -14,18 +14,18 @@ int main() {
 
   std_a.push(5);
   std_a.push(4);
-
-
-  printf("size is - %ld\n", a.size());
-  printf("is empty - %s\n", a.empty() ? "true" : "false");
-//  a.swap(b);
-//  b.swap(a);
-  s21::queue<int> b = a;
-  std::queue<int> std_b = std_a;
-  printf("\na:");
-  a.print();
-  printf("\nb:");
-  b.print();
+//
+//
+//  printf("size is - %ld\n", a.size());
+//  printf("is empty - %s\n", a.empty() ? "true" : "false");
+////  a.swap(b);
+////  b.swap(a);
+//  s21::queue<int> b = a;
+//  std::queue<int> std_b = std_a;
+//  printf("\na:");
+//  a.print();
+//  printf("\nb:");
+//  b.print();
 //  printf("\n std_b:");
 //  std_b.print();
 //  b.print();

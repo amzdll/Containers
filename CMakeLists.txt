@@ -16,9 +16,9 @@ add_executable(containers
 #        src/list/s21_list.h
 #        src/list/additional_methods.cpp
 #        src/list/s21_list_test.cpp
-
-        src/map/s21_map.cpp
-        src/map/s21_map.h
+#
+#        src/map/s21_map.cpp
+#        src/map/s21_map.h
 
         src/queue/s21_queue.cpp
         src/queue/s21_queue.h
@@ -33,5 +33,6 @@ add_executable(containers
         src/vector/s21_vector.cpp
         src/vector/s21_vector.h
         src/vector/temp.cpp
+#        src/s21_containers.h src/vector/s21_vector_test.cpp
+        )
 
-        src/s21_containers.h)
