@@ -29,5 +29,7 @@ test:
 clean:
 	@rm -rf $(NAME).a
 	@rm -rf $(NAME).o
+	@rm -rf $(NAME)_test
 	@rm -rf $(NAME)_test.o
 	@rm -rf a.out
+

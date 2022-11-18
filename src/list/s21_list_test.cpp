@@ -4,76 +4,221 @@
 // refactor: cpp to h
 #include "s21_list.cpp"
 
+// block: CONSTRUCTORS
+// BLOCK: CONSTRUCTORS
+TEST(default_constructor_suite, int_true_test) {
+  s21::list<int> s21_a;
+  std::list<int> std_a;
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+}
+
+TEST(default_constructor_suite, double_true_test) {
+  s21::list<double> s21_a;
+  std::list<double> std_a;
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+}
+
+TEST(default_constructor_suite, float_true_test) {
+  s21::list<float> s21_a;
+  std::list<float> std_a;
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+}
+
+TEST(default_constructor_suite, struct_true_test) {
+  struct test_struct {
+    int a;
+    double b;
+    float c;
+  };
+
+  s21::list<test_struct> s21_a;
+  std::list<test_struct> std_a;
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+}
+
+TEST(parameterized_constructor_suite, int_true_test) {
+  s21::list<int> s21_a(5);
+  std::list<int> std_a(5);
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+}
+
+TEST(parameterized_constructor_suite, double_true_test) {
+  s21::list<double> s21_a(5);
+  std::list<double> std_a(5);
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+}
+
+TEST(parameterized_constructor_suite, float_true_test) {
+  s21::list<float> s21_a(5);
+  std::list<float> std_a(5);
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+}
+
+TEST(parameterized_constructor_suite, struct_true_test) {
+  struct test_struct {
+    int a;
+    double b;
+    float c;
+  };
+
+  s21::list<test_struct> s21_a(5);
+  std::list<test_struct> std_a(5);
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+}
+
+TEST(copy_constructor_suite, int_true_test) {
+  s21::list<int> s21_b(5);
+  s21::list<int> s21_a(s21_b);
+  std::list<int> std_b(5);
+  std::list<int> std_a(std_b);
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+
+  EXPECT_TRUE(s21_b.empty() == std_b.empty());
+  EXPECT_TRUE(s21_b.size() == std_b.size());
+}
+//
+TEST(copy_constructor_suite, double_true_test) {
+  s21::list<double> s21_b(5);
+  s21::list<double> s21_a(s21_b);
+  std::list<double> std_b(5);
+  std::list<double> std_a(std_b);
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+
+  EXPECT_TRUE(s21_b.empty() == std_b.empty());
+  EXPECT_TRUE(s21_b.size() == std_b.size());
+}
+
+TEST(copy_constructor_suite, float_true_test) {
+  s21::list<float> s21_b(5);
+  s21::list<float> s21_a(s21_b);
+  std::list<float> std_b(5);
+  std::list<float> std_a(std_b);
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+
+  EXPECT_TRUE(s21_b.empty() == std_b.empty());
+  EXPECT_TRUE(s21_b.size() == std_b.size());
+}
+//
+ TEST(copy_constructor_suite, struct_true_test) {
+  struct test_struct {
+    int a;
+    double b;
+    float c;
+  };
+
+  s21::list<test_struct> s21_b(5);
+  s21::list<test_struct> s21_a(s21_b);
+  std::list<test_struct> std_b(5);
+  std::list<test_struct> std_a(std_b);
+
+  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+  EXPECT_TRUE(s21_a.size() == std_a.size());
+  EXPECT_TRUE(s21_b.empty() == std_b.empty());
+  EXPECT_TRUE(s21_b.size() == std_b.size());
+}
+
+// TEST(move_constructor_suite, int_true_test) {
+//  s21::list<int> s21_b(5);
+//  s21::list<int> s21_a(std::move(s21_b));
+//  std::list<int> std_b(5);
+//  std::list<int> std_a(std::move(std_b));
+//
+//  EXPECT_TRUE(s21_a.empty() == std_a.empty());
+//  EXPECT_TRUE(s21_a.size() == std_a.size());
+//}
+
 // block: ITERATORS
-TEST(overloading_assignment_and_dereference_iterator_suite,
-     overloading_true_test) {
-  s21::list<int> list(1);
-  s21::list<int>::iterator itr = list.begin();
-  std::list<int> std_list(1);
-  std::list<int>::iterator std_itr = std_list.begin();
-
-  EXPECT_TRUE(*itr == *std_itr);
-}
-
- TEST(overloading_assignment_and_dereference_iterator_suite,overloading_true_test_2)
- {
-   s21::list<int> list(1);
-   s21::list<int>::iterator itr = list.end();
-   std::list<int> std_list(1);
-   std::list<int>::iterator std_itr = std_list.end();
-
-   EXPECT_TRUE(*itr == *std_itr);
- }
-
-TEST(overloading_assignment_and_dereference_iterator_suite,
-     empty_list_begin_edge_test) {
-  s21::list<int> list;
-  s21::list<int>::iterator itr = list.begin();
-  std::list<int> std_list;
-  std::list<int>::iterator std_itr = std_list.begin();
-
-  EXPECT_TRUE(*itr == *std_itr);
-}
-
-TEST(overloading_assignment_and_dereference_iterator_suite,
-     empty_list_end_edge_test) {
-  s21::list<int> list;
-  s21::list<int>::iterator itr = list.end();
-  std::list<int> std_list;
-  std::list<int>::iterator std_itr = std_list.end();
-
-  EXPECT_TRUE(*itr == *std_itr);
-}
-
-TEST(overloading_assignment_and_dereference_iterator_suite,
-     delete_element_edge_test) {
-  s21::list<int> list(1);
-  s21::list<int>::iterator itr = list.begin();
-  std::list<int> std_list(1);
-  std::list<int>::iterator std_itr = std_list.begin();
-
-  list.erase(itr);
-  std_list.erase(std_itr);
-
-  EXPECT_TRUE(*itr == *std_itr);
-}
-
-TEST(overloading_increment_suite, true_test) {
-  s21::list<int> list;
-  std::list<int> std_list;
-  list.push_back(1);
-  list.push_back(2);
-  std_list.push_back(1);
-  std_list.push_back(2);
-
-  s21::list<int>::iterator itr = list.begin();
-  std::list<int>::iterator std_itr = std_list.begin();
-
-  EXPECT_TRUE(*itr == *std_itr);
-  ++itr;
-  ++std_itr;
-  EXPECT_TRUE(*itr == *std_itr);
-}
+// TEST(overloading_assignment_and_dereference_iterator_suite,
+//     overloading_true_test) {
+//  s21::list<int> list(1);
+//  s21::list<int>::iterator itr = list.begin();
+//  std::list<int> std_list(1);
+//  std::list<int>::iterator std_itr = std_list.begin();
+//
+//  EXPECT_TRUE(*itr == *std_itr);
+//}
+//
+// TEST(overloading_assignment_and_dereference_iterator_suite,overloading_true_test_2)
+// {
+//   s21::list<int> list(1);
+//   s21::list<int>::iterator itr = list.end();
+//   std::list<int> std_list(1);
+//   std::list<int>::iterator std_itr = std_list.end();
+//
+//   EXPECT_TRUE(*itr == *std_itr);
+// }
+//
+// TEST(overloading_assignment_and_dereference_iterator_suite,
+//     empty_list_begin_edge_test) {
+//  s21::list<int> list;
+//  s21::list<int>::iterator itr = list.begin();
+//  std::list<int> std_list;
+//  std::list<int>::iterator std_itr = std_list.begin();
+//
+//  EXPECT_TRUE(*itr == *std_itr);
+//}
+//
+// TEST(overloading_assignment_and_dereference_iterator_suite,
+//     empty_list_end_edge_test) {
+//  s21::list<int> list;
+//  s21::list<int>::iterator itr = list.end();
+//  std::list<int> std_list;
+//  std::list<int>::iterator std_itr = std_list.end();
+//
+//  EXPECT_TRUE(*itr == *std_itr);
+//}
+//
+// TEST(overloading_assignment_and_dereference_iterator_suite,
+//     delete_element_edge_test) {
+//  s21::list<int> list(1);
+//  s21::list<int>::iterator itr = list.begin();
+//  std::list<int> std_list(1);
+//  std::list<int>::iterator std_itr = std_list.begin();
+//
+//  list.erase(itr);
+//  std_list.erase(std_itr);
+//
+//  EXPECT_TRUE(*itr == *std_itr);
+//}
+//
+// TEST(overloading_increment_suite, true_test) {
+//  s21::list<int> list;
+//  std::list<int> std_list;
+//  list.push_back(1);
+//  list.push_back(2);
+//  std_list.push_back(1);
+//  std_list.push_back(2);
+//
+//  s21::list<int>::iterator itr = list.begin();
+//  std::list<int>::iterator std_itr = std_list.begin();
+//
+//  EXPECT_TRUE(*itr == *std_itr);
+//  ++itr;
+//  ++std_itr;
+//  EXPECT_TRUE(*itr == *std_itr);
+//}
 
 // block: INFO
 TEST(empty_suit, true_test) {

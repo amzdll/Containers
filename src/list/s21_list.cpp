@@ -23,8 +23,8 @@ list<T>::list(size_type n) {
   head_ = NULL;
   tail_ = NULL;
   count_ = 0;
-  for (size_type i = 0; i < n; i++) {
-    push_back(T());
+  for (size_type i = 0; i < n; ++i) {
+    push_back(0);
   }
 }
 
@@ -95,8 +95,8 @@ typename list<T>::iterator list<T>::end() {
   //  iterator.node_->prev_ = tail_;
   node *end_node = new node;
   end_node->prev_ = tail_;
-
   iterator = *end_node;
+  tail_->next_ = end_node;
   iterator.value_ = count_;
   return iterator;
 }
@@ -325,7 +325,7 @@ void list<T>::itr() {
   iterator = this->end();
   printf("%d", *iterator);
 }
-
+// =================================================================
 template <class T>
 list<T>::ListIterator::ListIterator() {
   node_ = NULL;
@@ -348,10 +348,13 @@ void list<T>::ListIterator::operator++(value_type) {
   if (node_) {
     value_ = node_->data_;
   }
-//  else {
-    // refactor
-//    node_ = head_;
-//  }
+    //  else {
+//    value_ = 1;
+//    while(node_ != ) {
+//      value_+=1;
+//      node_->prev_;
+//    }
+
 }
 
 template <class T>

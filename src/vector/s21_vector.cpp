@@ -58,7 +58,9 @@ vector<T>::~vector() {
 
 template <class T>
 void vector<T>::reallocator() {
-  if (size_ == capacity_) {
+  if (size_ == 0 && capacity_ == 0) {
+    capacity_ = 1;
+  } else if (size_ == capacity_) {
     capacity_ = (size_t)(capacity_ * 2);
   }
   T* temp_array = new T[capacity_];
@@ -195,7 +197,7 @@ typename s21::vector<T>::iterator vector<T>::insert(vector::iterator pos,
 
     reallocator();
     size_ += 1;
-
+    // refactor std::copy
     std::memcpy(temp_array, begin_, size_start_to_insertion);
     std::memcpy(temp_array + insertion_position + 1,
                 begin_ + insertion_position, size_insertion_to_end);
@@ -225,8 +227,6 @@ void vector<T>::erase(vector::iterator pos) {
   std::memcpy(begin_, temp_array, size_ * sizeof(T));
   end_ = begin_ + size_ - 1;
   delete[] temp_array;
-  printf("%d %d %d\n", deleting_position, size_start_to_deleting,
-         size_deleting_to_end);
 }
 
 template <class T>

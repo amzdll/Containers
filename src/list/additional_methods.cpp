@@ -2,6 +2,7 @@
 #include <iostream>
 #include <list>
 
+#include "s21_list.cpp"
 void temp_print(std::list<int> &list);
 
 void temp_print(std::list<int> &list) {
@@ -14,23 +15,25 @@ void temp_print(std::list<int> &list) {
 }
 
 int main() {
-  std::list<int> a;
-  std::list<int> b;
+  s21::list<int> a(1);
+  std::list<int> b(55);
 
-//  a.push_back(50);
-//  a.push_back(30);
-//  a.push_back(50);
-//  a.push_back(30);
-//  a.push_back(50);
+//  a.push_back(13);
+//  a.push_back(21);
+//  b.push_back(13);
+//  b.push_back(21);
 
-  std::list<int>::iterator iter_b = b.begin();
-  iter_b++;
-  b.push_back(1000);
-  b.push_back(2000);
-  b.push_back(3000);
-  b.push_back(4000);
+  s21::list<int>::iterator itr_a = a.begin();
+  std::list<int>::iterator itr_b = b.end();
 
-
-  printf("%d", *iter_b);
+  itr_a++;
+//  itr_b++;
+//  itr_a++;
+//  itr_a++;
+//  itr_b++;
+//  itr_b++;
+  printf("%d\t%d\n", *itr_a, *itr_b);
+//  temp_print(b);
+//  a.print_list();
   return 0;
 }

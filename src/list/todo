@@ -7,10 +7,10 @@ todo: const_iterator
 complete: size_type
 
 Functions
-test: list();
-test: list(size_type n);
+complete: list();
+complete: list(size_type n);
 todo: list(std::initializer_list<value_type> const &items);
-todo: list(const list&l);
+test: list(const list&l);
 todo: list(list &&l);
 todo: operator=(list &&l);
 complete: ~list()

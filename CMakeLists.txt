@@ -12,9 +12,9 @@ include_directories(src/stack)
 include_directories(src/vector)
 
 add_executable(containers
-#        src/list/s21_list.cpp
-#        src/list/s21_list.h
-#        src/list/additional_methods.cpp
+        src/list/s21_list.cpp
+        src/list/s21_list.h
+        src/list/additional_methods.cpp
 #        src/list/s21_list_test.cpp
 #
 #        src/map/s21_map.cpp
@@ -32,7 +32,7 @@ add_executable(containers
 
         src/vector/s21_vector.cpp
         src/vector/s21_vector.h
-        src/vector/temp.cpp
+#        src/vector/temp.cpp
 #        src/s21_containers.h src/vector/s21_vector_test.cpp
         )
 

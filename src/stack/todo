@@ -1,4 +1,4 @@
-Stack Member type
+Member type
 test: value_type
 test: reference
 test: const_reference
