@@ -1,7 +1,10 @@
 #ifndef CPP2_S21_CONTAINERS_LIST_S21_LIST_H_
 #define CPP2_S21_CONTAINERS_LIST_S21_LIST_H_
 
+#include <initializer_list>
+
 #include "cstdio"
+
 namespace s21 {
 template <class T>
 class list {
@@ -21,6 +24,9 @@ class list {
   node *head_ = NULL;
   node *tail_ = NULL;
   size_type count_ = 0;
+
+  node *get_head();
+  node *get_tail();
 
  public:
   class ListIterator {
@@ -49,7 +55,7 @@ class list {
   // constructors
   list();
   explicit list(size_type n);
-  //  list(std::initializer_list<value_type> const &items);
+  list(std::initializer_list<value_type> const &items);
   list(const list &l);
   list(list &&l);
   ~list();

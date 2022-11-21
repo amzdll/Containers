@@ -9,7 +9,7 @@ complete: size_type
 Functions
 complete: list();
 complete: list(size_type n);
-todo: list(std::initializer_list<value_type> const &items);
+test: list(std::initializer_list<value_type> const &items);
 test: list(const list&l);
 todo: list(list &&l);
 todo: operator=(list &&l);
@@ -42,10 +42,10 @@ Modifiers
 complete: clear
 test: iterator insert(iterator pos, const_reference value)
 test: void erase(iterator pos)
-test: push_back
-test: pop_back
-test: push_front
-test: pop_front
+complete: push_back
+complete: pop_back
+complete: push_front
+complete: pop_front
 test: swap
 test: merge
 test: splice need to reconstruct to const_

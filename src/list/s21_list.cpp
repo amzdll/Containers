@@ -1,15 +1,11 @@
 // #include <initializer_list>
 #include "s21_list.h"
 
+#include <initializer_list>
+
 #include "cstring"
 
 namespace s21 {
-// int main() {
-//   list<int> a;
-//   list<int>::iterator i = a.begin();
-//   printf("%d", *i);
-//   return 0;
-// }
 // block:  CONSTRUCTORS
 template <class T>
 list<T>::list() {
@@ -24,12 +20,24 @@ list<T>::list(size_type n) {
   tail_ = NULL;
   count_ = 0;
   for (size_type i = 0; i < n; ++i) {
-    push_back(0);
+    push_back(T());
   }
 }
 
-// template <class T>
-// list<T>::list(std::initializer_list<value_type> const &items){}
+template <class T>
+// refactor init
+list<T>::list(std::initializer_list<value_type> const &items) {
+  head_ = NULL;
+  tail_ = NULL;
+  count_ = 0;
+  if (items.size()) {
+    auto itr = items.begin();
+    while (itr != items.end()) {
+      push_back(*itr);
+      ++itr;
+    }
+  }
+}
 
 template <class T>
 list<T>::list(const list &l) {
@@ -64,6 +72,11 @@ list<T>::~list() {
 // block:ELEMENT ACCESS
 
 template <class T>
+typename list<T>::node *list<T>::get_head() {
+  return head_;
+}
+
+template <class T>
 const T &list<T>::front() {
   return head_->data_;
 }
@@ -92,12 +105,12 @@ template <class T>
 typename list<T>::iterator list<T>::end() {
   list<T>::iterator iterator;
   // refactor
-  //  iterator.node_->prev_ = tail_;
   node *end_node = new node;
   end_node->prev_ = tail_;
   iterator = *end_node;
-  tail_->next_ = end_node;
   iterator.value_ = count_;
+
+  //  tail_->next_ = end_node;
   return iterator;
 }
 
@@ -325,6 +338,7 @@ void list<T>::itr() {
   iterator = this->end();
   printf("%d", *iterator);
 }
+
 // =================================================================
 template <class T>
 list<T>::ListIterator::ListIterator() {
@@ -344,29 +358,41 @@ typename list<T>::value_type &list<T>::ListIterator::operator*() {
 
 template <class T>
 void list<T>::ListIterator::operator++(value_type) {
-  node_ = node_->next_;
-  if (node_) {
+  if (node_->next_) {
+    node_ = node_->next_;
     value_ = node_->data_;
+  } else {
+    while (node_->prev_) {
+      node_ = node_->prev_;
+      value_ = node_->data_;
+    }
   }
-    //  else {
-//    value_ = 1;
-//    while(node_ != ) {
-//      value_+=1;
-//      node_->prev_;
-//    }
-
 }
 
 template <class T>
 void list<T>::ListIterator::operator++() {
-  node_ = node_->next_;
+  if (node_->next_) {
+    node_ = node_->next_;
+  } else {
+    while (node_->prev_) {
+      node_ = node_->prev_;
+    }
+  }
+//  printf("%d\n", )
   value_ = node_->data_;
 }
 
 template <class T>
 void list<T>::ListIterator::operator--(value_type) {
-  node_ = node_->prev_;
-  value_ = node_->data_;
+  if (node_->prev_) {
+    node_ = node_->prev_;
+    value_ = node_->data_;
+  } else {
+    while (node_->next_) {
+      node_ = node_->next_;
+      value_ = node_->data_;
+    }
+  }
 }
 
 template <class T>
@@ -374,6 +400,11 @@ void list<T>::ListIterator::operator--() {
   if (node_->prev_) {
     node_ = node_->prev_;
     value_ = node_->data_;
+  } else {
+    while (node_->next_) {
+      node_ = node_->next_;
+      value_ = node_->data_;
+    }
   }
 }
 
@@ -387,4 +418,4 @@ bool list<T>::ListIterator::operator!=(list<T>::ListIterator iterator) {
   return node_ != iterator.node_;
 }
 
-} // namespace s21
+}  // namespace s21

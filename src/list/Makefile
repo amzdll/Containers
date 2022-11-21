@@ -1,5 +1,5 @@
-CPP = g++
-CPPFLAGS = -std=c++17 -Wall -Werror -Wextra
+CPP = g++ -std=c++17
+CPPFLAGS = -Wall -Werror -Wextra
 NAME = s21_list
 SOURCE = $(wildcard s21_*.cpp)
 ifeq ($(OS), Darwin)
