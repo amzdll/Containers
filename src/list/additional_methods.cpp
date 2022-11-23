@@ -15,25 +15,15 @@ void temp_print(std::list<int> &list) {
 }
 
 int main() {
-  s21::list<int> a(1);
-  std::list<int> b(55);
+  s21::list<int> list = {1, 2, 3};
+  std::list<int> std_list = {1, 2, 3};
 
-//  a.push_back(13);
-//  a.push_back(21);
-//  b.push_back(13);
-//  b.push_back(21);
+  s21::list<int>::iterator itr = list.end();
+  std::list<int>::iterator std_itr = std_list.end();
 
-  s21::list<int>::iterator itr_a = a.begin();
-  std::list<int>::iterator itr_b = b.end();
-
-  itr_a++;
-//  itr_b++;
-//  itr_a++;
-//  itr_a++;
-//  itr_b++;
-//  itr_b++;
-  printf("%d\t%d\n", *itr_a, *itr_b);
-//  temp_print(b);
-//  a.print_list();
+  ++itr;
+  printf("\n\n\n%d\n\n\n", *itr);
+  //  temp_print(b);
+  //  a.print_list();
   return 0;
 }

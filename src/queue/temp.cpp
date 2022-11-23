@@ -4,16 +4,17 @@
 
 int main() {
   s21::queue<int> a;
-
-
   std::queue<int> std_a;
 
 
   a.push(5);
-  a.push(4);
-
+//  a.push(4);
   std_a.push(5);
   std_a.push(4);
+  a.pop();
+  std_a.pop();
+  printf("%d\n", a.empty());
+  a.print();
 //
 //
 //  printf("size is - %ld\n", a.size());

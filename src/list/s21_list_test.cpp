@@ -94,7 +94,7 @@ TEST(copy_constructor_suite, int_true_test) {
   EXPECT_TRUE(s21_b.empty() == std_b.empty());
   EXPECT_TRUE(s21_b.size() == std_b.size());
 }
-//
+
 TEST(copy_constructor_suite, double_true_test) {
   s21::list<double> s21_b(5);
   s21::list<double> s21_a(s21_b);
@@ -120,7 +120,7 @@ TEST(copy_constructor_suite, float_true_test) {
   EXPECT_TRUE(s21_b.empty() == std_b.empty());
   EXPECT_TRUE(s21_b.size() == std_b.size());
 }
-//
+
 TEST(copy_constructor_suite, struct_true_test) {
   struct test_struct {
     int a;

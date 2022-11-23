@@ -2,6 +2,7 @@
 #define CPP2_S21_CONTAINERS_QUEUE_S21_QUEUE_H_
 
 #include <cstdio>
+#include <initializer_list>
 namespace s21 {
 template <class T>
 class queue {
@@ -23,7 +24,7 @@ class queue {
   using size_type = size_t;
 
   queue();
-//  queue(std::initializer_list<value_type> const &items);
+  queue(std::initializer_list<value_type> const &items);
   queue(const queue &q);
   queue(queue &&q);
   ~queue();

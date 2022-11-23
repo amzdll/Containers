@@ -5,8 +5,8 @@ test: const_reference
 test: size_type
 
 Functions
-test: queue()
-todo: queue(std::initializer_list<value_type> const &items)
+complete: queue()
+complete: queue(std::initializer_list<value_type> const &items)
 test: queue(const queue &q)
 test: queue(queue &&q)
 test: ~queue() // inheritance
