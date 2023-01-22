@@ -13,8 +13,8 @@ class queue {
     T value_ = T();
   };
 
-  node_ *head_;
-  node_ *tail_;
+  node_ *head_ = NULL;
+  node_ *tail_ = NULL;
   size_t count_ = 0;
 
  public:
@@ -39,8 +39,6 @@ class queue {
   void push(const_reference value);
   void pop();
   void swap(queue &other);
-
-  void print();
 };
 
 }  // namespace s21

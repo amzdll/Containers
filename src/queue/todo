@@ -10,7 +10,7 @@ complete: queue(std::initializer_list<value_type> const &items)
 complete: queue(const queue &q)
 complete: queue(queue &&q)
 complete: ~queue()
-test: operator=(queue &&q)
+complete: operator=(queue &&q)
 
 Element access
 complete: const_reference front()
@@ -23,4 +23,4 @@ complete: size_type size()
 Modifiers
 complete: void push(const_reference value)
 complete: void pop()
-test: void swap(queue& other)
+complete: void swap(queue& other)

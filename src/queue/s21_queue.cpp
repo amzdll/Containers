@@ -9,7 +9,6 @@ s21::queue<T>::queue() {
   count_ = 0;
 }
 
-// refactor fix push
 template <class T>
 s21::queue<T>::queue(std::initializer_list<value_type> const& items) {
   head_ = NULL;
@@ -57,15 +56,13 @@ s21::queue<T>::~queue() {
 }
 
 template <class T>
-typename s21::queue<T> s21::queue<T>::operator=(queue&& q) {
-  head_ = NULL;
-  tail_ = NULL;
-  node_* temp_node = q.head_;
-  while (temp_node) {
-    this->push(temp_node->value_);
-    temp_node = temp_node->next_;
-  }
-  return 0;
+s21::queue<T> s21::queue<T>::operator=(queue&& q) {
+  head_ = q.head_;
+  tail_ = q.tail_;
+  count_ = q.count_;
+  q.head_ = NULL;
+  q.tail_ = NULL;
+  q.count_ = 0;
 }
 
 template <class T>
@@ -81,7 +78,7 @@ const T& s21::queue<T>::back() {
 
 template <class T>
 bool s21::queue<T>::empty() {
-  return head_ == tail_;
+  return !size();
 }
 
 template <class T>
@@ -112,7 +109,7 @@ void s21::queue<T>::pop() {
     tail_ = NULL;
   } else if (head_) {
     head_ = head_->next_;
-    //    head_->prev_ = NULL;
+    head_->prev_ = NULL;
   }
   delete deletable_node;
   --count_;
@@ -123,21 +120,13 @@ void s21::queue<T>::swap(queue& other) {
   node_* temp_head = head_;
   node_* temp_tail = tail_;
   size_t temp_count = count_;
+
   head_ = other.head_;
   tail_ = other.tail_;
   count_ = other.count_;
+
   other.head_ = temp_head;
   other.tail_ = temp_tail;
   other.count_ = temp_count;
-}
-
-template <class T>
-void s21::queue<T>::print() {
-  node_* temp_node = head_;
-  printf("queue: ");
-  while (temp_node) {
-    printf("%d, ", temp_node->value_);
-    temp_node = temp_node->next_;
-  }
 }
 }  // namespace s21
