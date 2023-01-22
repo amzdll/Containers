@@ -1,26 +1,26 @@
 Member type
-test: value_type
+complete: value_type
 test: reference
 test: const_reference
-test: size_type
+complete: size_type
 
 Functions
 complete: queue()
 complete: queue(std::initializer_list<value_type> const &items)
-test: queue(const queue &q)
-test: queue(queue &&q)
-test: ~queue() // inheritance
+complete: queue(const queue &q)
+complete: queue(queue &&q)
+complete: ~queue()
 test: operator=(queue &&q)
 
 Element access
-test: const_reference front()  // inheritance
-test: const_reference back()  // inheritance
+complete: const_reference front()
+complete: const_reference back()
 
 Capacity
-test: bool empty() // inheritance
-test: size_type size() // inheritance
+complete: bool empty()
+complete: size_type size()
 
 Modifiers
-test: void push(const_reference value) // inheritance
-test: void pop() // inheritance
-test: void swap(queue& other) // inheritance
+complete: void push(const_reference value)
+complete: void pop()
+test: void swap(queue& other)

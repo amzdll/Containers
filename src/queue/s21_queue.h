@@ -26,7 +26,7 @@ class queue {
   queue();
   queue(std::initializer_list<value_type> const &items);
   queue(const queue &q);
-  queue(queue &&q);
+  queue(queue &&q) noexcept;
   ~queue();
   queue operator=(queue &&q);
 

@@ -1,7 +1,6 @@
 #include "s21_queue.h"
 
 namespace s21 {
-
 template <class T>
 s21::queue<T>::queue() {
   head_ = new node_;
@@ -24,6 +23,7 @@ s21::queue<T>::queue(std::initializer_list<value_type> const& items) {
     }
   }
 }
+
 template <class T>
 queue<T>::queue(const queue& q) {
   head_ = NULL;
@@ -35,19 +35,20 @@ queue<T>::queue(const queue& q) {
   }
 }
 
-// ???
 template <class T>
-s21::queue<T>::queue(queue&& q) {
+s21::queue<T>::queue(queue&& q) noexcept {
   head_ = q.head_;
   tail_ = q.tail_;
+  count_ = q.count_;
   q.head_ = NULL;
   q.tail_ = NULL;
+  q.count_ = 0;
 }
 
 template <class T>
 s21::queue<T>::~queue() {
   node_* temp_node;
-  while (head_) {
+  while (!empty()) {
     temp_node = head_;
     head_ = head_->next_;
     --count_;
@@ -69,7 +70,6 @@ typename s21::queue<T> s21::queue<T>::operator=(queue&& q) {
 
 template <class T>
 const T& s21::queue<T>::front() {
-  // refactor: if null
   return head_->value_;
 }
 
@@ -91,20 +91,19 @@ typename s21::queue<T>::size_type s21::queue<T>::size() {
 
 template <class T>
 void s21::queue<T>::push(const_reference value) {
-  node_* new_node = new node_;
+  auto* new_node = new node_;
   new_node->value_ = value;
   new_node->next_ = NULL;
   if (!head_) {
     head_ = new_node;
     tail_ = head_;
   } else {
+    tail_->next_ = new_node;
     tail_ = new_node;
-    tail_->next_ = NULL;
   }
   ++count_;
 }
 
-// refactor if head_???
 template <class T>
 void s21::queue<T>::pop() {
   node_* deletable_node = head_;
@@ -122,8 +121,14 @@ void s21::queue<T>::pop() {
 template <class T>
 void s21::queue<T>::swap(queue& other) {
   node_* temp_head = head_;
+  node_* temp_tail = tail_;
+  size_t temp_count = count_;
   head_ = other.head_;
+  tail_ = other.tail_;
+  count_ = other.count_;
   other.head_ = temp_head;
+  other.tail_ = temp_tail;
+  other.count_ = temp_count;
 }
 
 template <class T>
@@ -135,5 +140,4 @@ void s21::queue<T>::print() {
     temp_node = temp_node->next_;
   }
 }
-
 }  // namespace s21
