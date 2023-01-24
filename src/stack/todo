@@ -5,21 +5,21 @@ test: const_reference
 test: size_type
 
 Functions
-test: stack()
-todo: stack(std::initializer_list<value_type> const &items)
-test: stack(const stack &s)
-test: stack(stack &&s)
-test: ~stack()
-test: operator=(stack &&s)
+complete: stack()
+complete: stack(std::initializer_list<value_type> const &items)
+complete: stack(const stack &s)
+complete: stack(stack &&s)
+complete: ~stack()
+complete: operator=(stack &&s)
 
 Element access
-test: const_reference top()
+complete: const_reference top()
 
 Capacity
-test: bool empty()
-test: size_type size()
+complete: bool empty()
+complete: size_type size()
 
 Modifiers
-test: void push(const_reference value)
-test: void pop()
-test: void swap(stack& other)
+complete: void push(const_reference value)
+complete: void pop()
+complete: void swap(stack& other)

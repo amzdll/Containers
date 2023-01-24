@@ -1,77 +1,64 @@
 #include "s21_stack.h"
 
+#include <iostream>
+
 namespace s21 {
 template <class T>
 s21::stack<T>::stack() {
   head_ = NULL;
   tail_ = NULL;
+  count_ = 0;
 }
 
-// template <class T>
-// s21::stack<T>::stack(const std::initializer_list<value_type>& items) {}
+template <class T>
+s21::stack<T>::stack(const std::initializer_list<value_type>& items) {
+  count_ = 0;
+  if (items.size()) {
+    auto itr = items.begin();
+    while (itr != items.end()) {
+      push(*itr);
+      ++itr;
+    }
+  }
+}
 
 template <class T>
 stack<T>::stack(const stack& s) {
-  // refactor
-  node_* temp_head;
-
-  //  s21::stack<T> temp;
-  //  while (temp_head) {
-  //    temp.push(temp_head->value_);
-  //    temp_head = temp_head -> next_;
-  //  }
-  //  while (temp.head_) {
-  //    this->push(temp.head_->value_);
-  //    temp.head_ = temp.head_->next_;
-  //  }
-
-  for (int i = 1; i < s.count_; ++i) {
-    temp_head = s.head_;
-    for (int j = i; j < s.count_; ++j) {
-      temp_head = temp_head->next_;
-    }
-    this->push(temp_head->value_);
+  node_* temp_node = s.tail_;
+  while (temp_node) {
+    this->push(temp_node->value_);
+    temp_node = temp_node->prev_;
   }
-  temp_head = s.head_;
-  this->push(temp_head->value_);
 }
 
 template <class T>
 s21::stack<T>::stack(stack&& s) {
-  node_* temp_head;
-  for (int i = 1; i < s.count_; ++i) {
-    temp_head = s.head_;
-    for (int j = i; j < s.count_; ++j) {
-      temp_head = temp_head->next_;
-    }
-    this->push(temp_head->value_);
-  }
-  temp_head = s.head_;
-  this->push(temp_head->value_);
+  head_ = s.head_;
+  tail_ = s.tail_;
+  count_ = s.count_;
+
   s.head_ = NULL;
+  s.tail_ = NULL;
+  s.count_ = 0;
 }
 
 template <class T>
 s21::stack<T>::~stack() {
-  while (head_) {
-    this->pop();
+  while (!empty()) {
+    pop();
   }
 }
 
- template <class T>
- typename s21::stack<T> s21::stack<T>::operator=(stack&& s) {
-   node_* temp_head;
-   for (int i = 1; i < s.count_; ++i) {
-     temp_head = s.head_;
-     for (int j = i; j < s.count_; ++j) {
-       temp_head = temp_head->next_;
-     }
-     this->push(temp_head->value_);
-   }
-   temp_head = s.head_;
-   this->push(temp_head->value_);
-   return head_;
- }
+template <class T>
+typename s21::stack<T> s21::stack<T>::operator=(stack&& s) {
+  head_ = s.head_;
+  tail_ = s.tail_;
+  count_ = s.count_;
+
+  s.head_ = NULL;
+  s.tail_ = NULL;
+  s.count_ = 0;
+}
 
 template <class T>
 const T& s21::stack<T>::top() {
@@ -80,7 +67,7 @@ const T& s21::stack<T>::top() {
 
 template <class T>
 bool s21::stack<T>::empty() {
-  return !head_;
+  return !size();
 }
 
 template <class T>
@@ -91,38 +78,40 @@ size_t s21::stack<T>::size() {
 template <class T>
 void s21::stack<T>::push(const_reference value) {
   node_* new_node = new node_;
-  new_node->next_ = head_;
+  new_node->prev_ = NULL;
   new_node->value_ = value;
+  if (!head_) {
+    tail_ = new_node;
+  } else {
+    new_node->next_ = head_;
+    head_->prev_ = new_node;
+  }
   head_ = new_node;
-  ++count_;
+  count_++;
 }
 
 template <class T>
 void s21::stack<T>::pop() {
-  node_* deletable_node = head_;
   if (head_) {
+    node_* deletable_node = head_;
     head_ = head_->next_;
-    --count_;
     delete deletable_node;
+    --count_;
   }
 }
 
 template <class T>
 void s21::stack<T>::swap(stack& other) {
   node_* temp_head = head_;
+  node_* temp_tail = tail_;
+  size_t temp_count = count_;
+
   head_ = other.head_;
+  tail_ = other.tail_;
+  count_ = other.count_;
+
   other.head_ = temp_head;
+  other.tail_ = temp_tail;
+  other.count_ = temp_count;
 }
-
-// template methods
-template <class T>
-void s21::stack<T>::print() {
-  node_* temp_node = head_;
-  while (temp_node) {
-    printf("%d ", temp_node->value_);
-    temp_node = temp_node->next_;
-  }
-  printf("\n");
-}
-
 }  // namespace s21
