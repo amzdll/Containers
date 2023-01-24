@@ -49,6 +49,8 @@ TEST(initializer_constructor_suite, int_true_test) {
 
   EXPECT_TRUE(s21_a.empty() == std_a.empty());
   EXPECT_TRUE(s21_a.size() == std_a.size());
+  EXPECT_TRUE(s21_a.front() == std_a.front());
+  EXPECT_TRUE(s21_a.back() == std_a.back());
 }
 
 TEST(initializer_constructor_suite, double_true_test) {
@@ -57,6 +59,8 @@ TEST(initializer_constructor_suite, double_true_test) {
 
   EXPECT_TRUE(s21_a.empty() == std_a.empty());
   EXPECT_TRUE(s21_a.size() == std_a.size());
+  EXPECT_TRUE(s21_a.front() == std_a.front());
+  EXPECT_TRUE(s21_a.back() == std_a.back());
 }
 
 TEST(initializer_constructor_suite, float_true_test) {
@@ -65,6 +69,8 @@ TEST(initializer_constructor_suite, float_true_test) {
 
   EXPECT_TRUE(s21_a.empty() == std_a.empty());
   EXPECT_TRUE(s21_a.size() == std_a.size());
+  EXPECT_TRUE(s21_a.front() == std_a.front());
+  EXPECT_TRUE(s21_a.back() == std_a.back());
 }
 
 TEST(initializer_constructor_suite, struct_true_test) {
@@ -438,7 +444,6 @@ TEST(pop_suite, true_test) {
   EXPECT_TRUE(s21_a.back() == std_a.back());
 }
 
-// refactor
 TEST(swap_suite, true_test) {
   s21::queue<int> s21_a({1, 2, 3, 4, 5});
   s21::queue<int> s21_b({1});

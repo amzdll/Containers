@@ -2,17 +2,10 @@
 
 namespace s21 {
 template <class T>
-s21::queue<T>::queue() {
-  head_ = new node_;
-  tail_ = head_;
-  head_->value_ = T();
-  count_ = 0;
-}
+s21::queue<T>::queue() = default;
 
 template <class T>
 s21::queue<T>::queue(std::initializer_list<value_type> const& items) {
-  head_ = NULL;
-  tail_ = NULL;
   count_ = 0;
   if (items.size()) {
     auto itr = items.begin();
@@ -25,8 +18,6 @@ s21::queue<T>::queue(std::initializer_list<value_type> const& items) {
 
 template <class T>
 queue<T>::queue(const queue& q) {
-  head_ = NULL;
-  tail_ = NULL;
   node_* temp_node = q.head_;
   while (temp_node) {
     this->push(temp_node->value_);
@@ -46,12 +37,8 @@ s21::queue<T>::queue(queue&& q) noexcept {
 
 template <class T>
 s21::queue<T>::~queue() {
-  node_* temp_node;
   while (!empty()) {
-    temp_node = head_;
-    head_ = head_->next_;
-    --count_;
-    delete temp_node;
+    pop();
   }
 }
 
@@ -120,11 +107,9 @@ void s21::queue<T>::swap(queue& other) {
   node_* temp_head = head_;
   node_* temp_tail = tail_;
   size_t temp_count = count_;
-
   head_ = other.head_;
   tail_ = other.tail_;
   count_ = other.count_;
-
   other.head_ = temp_head;
   other.tail_ = temp_tail;
   other.count_ = temp_count;
