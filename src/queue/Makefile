@@ -33,6 +33,3 @@ clean:
 check:
 	clang-format -n *.cpp
 	clang-format -n *.h
-
-
-

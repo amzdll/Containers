@@ -3,15 +3,14 @@ CPPFLAGS = -Wall -Werror -Wextra
 NAME = s21_list
 SOURCE = $(wildcard s21_*.cpp)
 ifeq ($(OS), Darwin)
-	UBUNTU =
+	LIBS = -lgtest
 else
-	UBUNTU = -lpthread
+	LIBS = -lgtest -lpthread
 endif
 
-all: clean $(NAME).a test
+all: $(NAME).a test
 
 $(NAME): $(SOURCE)/home/freiqq/Projects/21/c++/containers/src/list/Makefile
-	@clear
 	@$(CPP) $(CPPFLAGS) $(NAME).cpp
 	@./a.out && rm -rf a.out
 
@@ -21,10 +20,8 @@ $(NAME).a: $(SOURCE)
 	@ranlib $(NAME).a
 
 test:
-	@clear
-	#$(CPPFLAGS)
-	@$(CPP)  $(NAME)_test.cpp $(NAME).a -o $(NAME)_test -lgtest $(UBUNTU)
-	@./$(NAME)_test
+	@$(CPP) $(NAME)_test.cpp $(NAME).a -o $(NAME)_test  $(LIBS)
+	./$(NAME)_test
 
 clean:
 	@rm -rf $(NAME).a
@@ -33,3 +30,6 @@ clean:
 	@rm -rf $(NAME)_test.o
 	@rm -rf a.out
 
+check:
+	clang-format -n *.cpp
+	clang-format -n *.h

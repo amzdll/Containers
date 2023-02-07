@@ -16,34 +16,31 @@ class list {
   using size_type = size_t;
 
  protected:
-  struct node {
-    node *next_;
-    node *prev_;
-    value_type data_;
+  struct node_ {
+    node_ *next_;
+    node_ *prev_ ;
+    value_type value_;
   };
-  node *head_ = NULL;
-  node *tail_ = NULL;
+  node_ *head_ = NULL;
+  node_ *tail_ = NULL;
+  node_ *end_node_ = new node_;
   size_type count_ = 0;
-
-  node *get_head();
-  node *get_tail();
 
  public:
   class ListIterator {
     friend class list<T>;
 
    private:
-    node *node_ = NULL;
+    node_ *itr_node_ = NULL;
     value_type value_ = value_type();
+    size_type *size_ = nullptr;
 
    public:
     ListIterator();
 
-    void operator=(node &node_);
+    void operator=(node_ &node_);
     value_type &operator*();
-    void operator++(value_type);
     void operator++();
-    void operator--(value_type);
     void operator--();
     bool operator==(list<T>::ListIterator iterator);
     bool operator!=(list<T>::ListIterator iterator);
@@ -58,10 +55,8 @@ class list {
   list(std::initializer_list<value_type> const &items);
   list(const list &l);
   list(list &&l);
-  ~list();
-
-  // overloading
   list operator=(list &&l);
+  ~list();
 
   // methods
   const_reference front();
@@ -78,7 +73,7 @@ class list {
 
   // methods to modify
   void clear();
-  iterator iterator_insert(iterator pos, const_reference value);
+  iterator insert(iterator pos, const_reference value);
   void erase(iterator pos);
   void push_back(const_reference value);
   void pop_back();
@@ -90,10 +85,6 @@ class list {
   void reverse();
   void unique();
   void sort();
-
-  // additional temp methods
-  void print_list();
-  void itr();
 };
 }  // namespace s21
 
