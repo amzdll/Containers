@@ -6,13 +6,16 @@ namespace s21 {
 template <class T>
 class vector {
  private:
-  T *begin_;
-  T *end_;
-  size_t size_;
-  size_t capacity_;
+  T *begin_ = NULL;
+  T *end_ = NULL;
+  size_t size_ = 0;
+  size_t capacity_ = 0;
 
   void reallocator();
  public:
+  //temp
+  void filling();
+
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
@@ -82,7 +85,6 @@ class vector {
   void pop_back();
   void swap(vector &other);
 
-  void filling();
   void print();
 };
 

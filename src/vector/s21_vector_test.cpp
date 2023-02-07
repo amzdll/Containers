@@ -95,6 +95,11 @@ TEST(copy_constructor_suite, int_true_test) {
   std::vector<int> std_b(5);
   std::vector<int> std_a(std_b);
 
+  s21_b.filling();
+  s21_b.print();
+  s21_a.print();
+
+
   EXPECT_TRUE(s21_a.empty() == std_a.empty());
   EXPECT_TRUE(s21_a.size() == std_a.size());
   EXPECT_TRUE(s21_a.capacity() == std_a.capacity());

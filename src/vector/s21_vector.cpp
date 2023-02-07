@@ -6,12 +6,7 @@ namespace s21 {
 
 // BLOCK: CONSTRUCTORS
 template <class T>
-vector<T>::vector() {
-  begin_ = NULL;
-  end_ = NULL;
-  capacity_ = 0;
-  size_ = 0;
-}
+vector<T>::vector() = default;
 
 template <class T>
 vector<T>::vector(vector::size_type n) {
@@ -23,14 +18,10 @@ vector<T>::vector(vector::size_type n) {
 
 template <class T>
 vector<T>::vector(const vector& v) {
-  // refactor to memcpy
   size_ = v.size_;
   capacity_ = v.capacity_;
   begin_ = new T[capacity_];
-  // refactor memcpy
-  for (int i = 0; i < size_; ++i) {
-    begin_[i] = v.begin_[i];
-  }
+  std::memcpy(begin_, v.begin_, v.size_ * sizeof(T));
 }
 
 template <class T>
@@ -53,7 +44,6 @@ vector<T>::vector(vector&& v) {
 template <class T>
 vector<T>::~vector() {
   clear();
-  //  delete[] begin_;
 }
 
 template <class T>
@@ -179,8 +169,7 @@ void vector<T>::clear() {
   delete begin_;
   begin_ = NULL;
   size_ = 0;
-  // refactor:
-  //  capacity_?
+  // refactor:capacity_?
 }
 template <class T>
 typename s21::vector<T>::iterator vector<T>::insert(vector::iterator pos,

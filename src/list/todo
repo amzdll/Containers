@@ -1,37 +1,31 @@
 Member type
-complete: value_type
-test: reference
-test: const_reference
-complete: iterator
+todo: value_type
+todo: reference
+todo: const_reference
+todo: iterator
 todo: const_iterator
-complete: size_type
+todo: size_type
+
+todo: ListIterator
+todo: iterator
+todo: const iterator
 
 Functions
 complete: list();
 complete: list(size_type n);
-test: list(std::initializer_list<value_type> const &items);
-test: list(const list&l);
-todo: list(list &&l);
-todo: operator=(list &&l);
+complete: list(std::initializer_list<value_type> const &items);
+complete: list(const list&l);
+complete: list(list &&l);
+complete: operator=(list &&l);
 complete: ~list()
 
 Element access
-test: const_reference front();
-test: const_reference back();
+complete: const_reference front();
+complete: const_reference back();
 
 Iterators
-test: ListIterator
-test: iterator
-todo: const iterator
-test: iterator begin
-test: iterator end  ?? mem leak
-complete: *iterator
-test: iterator++
-test: iterator--
-test: ++iterator
-test: --iterator
-test: iterator==
-test: iterator!=
+complete: iterator begin
+complete: iterator end
 
 Capacity
 complete: empty
@@ -40,15 +34,22 @@ todo: max size
 
 Modifiers
 complete: clear
-test: iterator insert(iterator pos, const_reference value)
-test: void erase(iterator pos)
+todo: iterator insert(iterator pos, const_reference value)
+todo: void erase(iterator pos)
 complete: push_back
 complete: pop_back
 complete: push_front
 complete: pop_front
-test: swap
-test: merge
-test: splice need to reconstruct to const_
-test: reverse
-test: unique
-test: sort
+complete: swap
+todo: merge
+todo: splice need to reconstruct to const_
+todo: reverse
+todo: unique
+todo: sort
+
+Iterators Overloading
+complete: *iterator
+complete: ++iterator
+complete: --iterator
+complete: iterator==
+complete: iterator!=
