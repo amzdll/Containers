@@ -102,18 +102,18 @@ void list<T>::clear() {
   while (head_ && head_ != end_node_) {
     temp_node = head_;
     head_ = head_->next_;
-    delete temp_node;
     count_--;
+    delete temp_node;
   }
 }
 
 template <class T>
 typename list<T>::iterator list<T>::insert(iterator pos,
-                                                    const_reference value) {
+                                           const_reference value) {
   node_ *new_node = new node_;
   if (pos.itr_node_->prev_) {
     new_node->prev_ = pos.itr_node_->prev_;
-//    pos.itr_node_->prev_->next_ = new_node;
+    //    pos.itr_node_->prev_->next_ = new_node;
   } else {
     head_ = new_node;
     new_node->prev_ = NULL;
@@ -152,12 +152,12 @@ void list<T>::push_back(const_reference value) {
     head_ = new_node;
     tail_ = head_;
     end_node_->next_ = NULL;
-    end_node_->prev_ = tail_;
   } else {
     new_node->prev_ = tail_;
     tail_->next_ = new_node;
     tail_ = new_node;
   }
+  end_node_->prev_ = tail_;
   ++count_;
 }
 
@@ -316,13 +316,6 @@ typename list<T>::iterator list<T>::end() {
   iterator = *end_node_;
   iterator.size_ = &count_;
   iterator.value_ = T();
-
-  //  if (tail_) {
-  //  iterator = *tail_;
-  //    iterator.size_ = &count_;
-  //  } else {
-  //        node_ *end_node = new node_;
-  //}
   return iterator;
 }
 
@@ -334,7 +327,7 @@ typename list<T>::value_type &list<T>::ListIterator::operator*() {
   T *value = &value_;
   if (itr_node_ && !itr_node_->next_) {
     std::memset(value, 0, sizeof(T));
-    std::memcpy(value, size_, sizeof(size_));
+    std::memcpy(value, size_, sizeof(*size_));
   }
   return *value;
 }
@@ -345,7 +338,7 @@ void list<T>::ListIterator::operator++() {
     if (itr_node_->next_) {
       itr_node_ = itr_node_->next_;
     } else {
-      while (itr_node_->prev_) {
+      while (itr_node_ && itr_node_->prev_) {
         itr_node_ = itr_node_->prev_;
       }
     }
@@ -359,13 +352,12 @@ void list<T>::ListIterator::operator--() {
     itr_node_ = itr_node_->prev_;
     value_ = itr_node_->value_;
   } else {
-    size_type size = 0;
-    while (itr_node_->next_) {
+    count_ = 0;
+    while (itr_node_ && itr_node_->next_) {
       itr_node_ = itr_node_->next_;
-      value_ = itr_node_->value_;
-      size++;
+      ++count_;
     }
-    size_ = &size;
+    size_ = &count_;
   }
 }
 
@@ -377,6 +369,5 @@ bool list<T>::ListIterator::operator==(list<T>::ListIterator iterator) {
 template <class T>
 bool list<T>::ListIterator::operator!=(list<T>::ListIterator iterator) {
   return itr_node_ != iterator.itr_node_;
-  //  return true;
 }
 }  // namespace s21
