@@ -20,7 +20,7 @@ template <class T>
 queue<T>::queue(const queue& q) {
   node_* temp_node = q.head_;
   while (temp_node) {
-    this->push(temp_node->value_);
+    push(temp_node->value_);
     temp_node = temp_node->next_;
   }
 }
@@ -57,10 +57,9 @@ const T& s21::queue<T>::front() {
   return head_->value_;
 }
 
-// refactor wtf?
 template <class T>
 const T& s21::queue<T>::back() {
-  return tail_->prev_ ? tail_->prev_->value_ : tail_->value_;
+  return tail_->value_;
 }
 
 template <class T>
@@ -82,6 +81,7 @@ void s21::queue<T>::push(const_reference value) {
     head_ = new_node;
     tail_ = head_;
   } else {
+    new_node->prev_ = tail_;
     tail_->next_ = new_node;
     tail_ = new_node;
   }
