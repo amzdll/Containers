@@ -1,10 +1,10 @@
 Member type
-todo: value_type
-todo: reference
+complete: value_type
+complete: reference
 todo: const_reference
 todo: iterator
 todo: const_iterator
-todo: size_type
+complete: size_type
 
 todo: ListIterator
 todo: iterator
@@ -29,7 +29,7 @@ complete: iterator end
 
 Capacity
 complete: empty
-complete: size
+refactor: size
 todo: max size
 
 Modifiers

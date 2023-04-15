@@ -110,18 +110,29 @@ void list<T>::clear() {
 template <class T>
 typename list<T>::iterator list<T>::insert(iterator pos,
                                            const_reference value) {
-  node_ *new_node = new node_;
-  if (pos.itr_node_->prev_) {
-    new_node->prev_ = pos.itr_node_->prev_;
-    //    pos.itr_node_->prev_->next_ = new_node;
+  if(!pos.itr_node_->prev_) {
+    push_front(value);
+  } else if (!pos.itr_node_->next_) {
+    push_back(value);
   } else {
-    head_ = new_node;
-    new_node->prev_ = NULL;
+    node_ *new_node = new node_;
+    new_node->prev_ = pos.itr_node_->prev_;
+    new_node->next_ = pos.itr_node_;
+    new_node->value_ = value;
+    pos.itr_node_->prev_->next_ = new_node;
+    pos.itr_node_->prev_ = new_node;
+//    pos.itr_node_->next_->prev_ = new_node;
+    ++count_;
   }
-  new_node->value_ = value;
-  new_node->next_ = pos.itr_node_;
-  pos.itr_node_->prev_ = new_node;
-  count_++;
+//  if (pos.itr_node_->prev_) {
+//    new_node->prev_ = pos.itr_node_->prev_;
+//    //    pos.itr_node_->prev_->next_ = new_node;
+//  } else {
+//    push_front(value);
+//  }
+//  new_node->value_ = value;
+//  new_node->next_ = pos.itr_node_;
+//  pos.itr_node_->prev_ = new_node;
   return pos;
 }
 
