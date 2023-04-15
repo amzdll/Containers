@@ -34,7 +34,7 @@ todo: max size
 
 Modifiers
 complete: clear
-todo: iterator insert(iterator pos, const_reference value)
+complete: iterator insert(iterator pos, const_reference value)
 todo: void erase(iterator pos)
 complete: push_back
 complete: pop_back
