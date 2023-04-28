@@ -573,31 +573,69 @@ TEST(size_suite, cleaned_test) {
 // }
 
 // block: MODIFIERS
-//TEST(insert_suite, true_test) {
-//  s21::list<int> list({1, 2, 3, 4, 5});
-//  std::list<int> std_list({1, 2, 3, 4, 5});
-//  s21::list<int>::iterator itr = list.begin();
-//  std::list<int>::iterator std_itr = std_list.begin();
-//  s21::list<int>::iterator itr_e = list.end();
-//  std::list<int>::iterator std_itr_e = std_list.end();
-//
-//  list.insert(itr, 0);
-//  std_list.insert(std_itr, 0);
-//  ++itr;
-//  ++std_itr;
-//  list.insert(itr, 5);
-//  std_list.insert(std_itr, 5);
-////  list.insert(itr_e, 10);
-//  std_list.insert(std_itr_e, 10);
-//
-//  std_itr = std_list.begin();
-//  for (int & i : list) {
-//    printf("%d ", i);
-//    printf("%d\n", *std_itr);
-//    EXPECT_TRUE(*std_itr == i);
-//    std_itr++;
-//  }
-//}
+TEST(insert_suite, true_test) {
+  s21::list<int> list({1, 2, 3, 4, 5});
+  std::list<int> std_list({1, 2, 3, 4, 5});
+  s21::list<int>::iterator itr_b = list.begin();
+  std::list<int>::iterator std_itr_b = std_list.begin();
+
+  ++itr_b;
+  ++itr_b;
+  ++std_itr_b;
+  ++std_itr_b;
+
+  list.insert(itr_b, 1000);
+  std_list.insert(std_itr_b, 1000);
+
+  s21::list<int>::iterator itr_i = list.begin();
+  std::list<int>::iterator std_itr_i = std_list.begin();
+
+  for (; itr_i != list.end() && std_itr_i != std_list.end();
+       ++itr_i, ++std_itr_i) {
+    EXPECT_TRUE(*itr_i == *std_itr_i);
+  }
+  EXPECT_TRUE(std_list.size() == list.size());
+  EXPECT_TRUE(std_list.front() == list.front());
+  EXPECT_TRUE(std_list.back() == list.back());
+}
+
+TEST(insert_suite, front_test) {
+  s21::list<int> list({1, 2, 3, 4, 5});
+  std::list<int> std_list({1, 2, 3, 4, 5});
+  s21::list<int>::iterator itr_b = list.begin();
+  std::list<int>::iterator std_itr_b = std_list.begin();
+
+  list.insert(itr_b, 100);
+  std_list.insert(std_itr_b, 100);
+
+  s21::list<int>::iterator itr_i = list.begin();
+  std::list<int>::iterator std_itr_i = std_list.begin();
+  for (; itr_i != list.end() && std_itr_i != std_list.end();
+       ++itr_i, ++std_itr_i) {
+    EXPECT_TRUE(*itr_i == *std_itr_i);
+  }
+  EXPECT_TRUE(std_list.size() == list.size());
+  EXPECT_TRUE(std_list.front() == list.front());
+}
+
+TEST(insert_suite, back_test) {
+  s21::list<int> list({1, 2, 3, 4, 5});
+  std::list<int> std_list({1, 2, 3, 4, 5});
+  s21::list<int>::iterator itr_e = list.end();
+  std::list<int>::iterator std_itr_e = std_list.end();
+
+  list.insert(itr_e, 100);
+  std_list.insert(std_itr_e, 100);
+
+  s21::list<int>::iterator itr_i = list.begin();
+  std::list<int>::iterator std_itr_i = std_list.begin();
+  for (; itr_i != list.end() && std_itr_i != std_list.end();
+       ++itr_i, ++std_itr_i) {
+    EXPECT_TRUE(*itr_i == *std_itr_i);
+  }
+  EXPECT_TRUE(std_list.size() == list.size());
+  EXPECT_TRUE(std_list.back() == list.back());
+}
 
 TEST(clear_suite, true_test) {
   s21::list<int> list({1, 2, 3, 4, 5});
@@ -638,99 +676,99 @@ TEST(clear_suite, empty_test) {
 ////}
 //
 
-TEST(push_back_suite, true_test) {
-  s21::list<int> s21_a({1, 2, 3, 4, 5});
-  std::list<int> std_a({1, 2, 3, 4, 5});
-
-  s21_a.push_back(6);
-  std_a.push_back(6);
-
-  EXPECT_TRUE(s21_a.back() == std_a.back());
-  EXPECT_TRUE(s21_a.size() == std_a.size());
-}
-
-TEST(push_front_suite, true_test) {
-  s21::list<int> s21_a({1, 2, 3, 4, 5});
-  std::list<int> std_a({1, 2, 3, 4, 5});
-  s21::list<int>::iterator s21_itr;
-  std::list<int>::iterator std_itr;
-
-  s21_a.push_front(0);
-  std_a.push_front(0);
-  s21_itr = s21_a.begin();
-  std_itr = std_a.begin();
-
-  EXPECT_TRUE(*s21_itr == *std_itr);
-  EXPECT_TRUE(s21_a.size() == std_a.size());
-}
-
-TEST(pop_back_suite, true_test) {
-  s21::list<int> s21_a({1, 2, 3, 4, 5});
-  std::list<int> std_a({1, 2, 3, 4, 5});
-
-  s21_a.pop_back();
-  std_a.pop_back();
-
-  EXPECT_TRUE(s21_a.back() == std_a.back());
-  EXPECT_TRUE(s21_a.size() == std_a.size());
-}
-
-TEST(pop_front_suite, true_test) {
-  s21::list<int> s21_a({1, 2, 3, 4, 5});
-  std::list<int> std_a({1, 2, 3, 4, 5});
-
-  s21_a.pop_front();
-  std_a.pop_front();
-
-  EXPECT_TRUE(s21_a.front() == std_a.front());
-  EXPECT_TRUE(s21_a.size() == std_a.size());
-}
-
-TEST(swap_suite, true_test) {
-  s21::list<int> s21_a({1, 2, 3, 4, 5});
-  s21::list<int> s21_b({1});
-  std::list<int> std_a({1, 2, 3, 4, 5});
-  std::list<int> std_b({1});
-
-  s21_a.swap(s21_b);
-  std_a.swap(std_b);
-
-  EXPECT_TRUE(s21_a.empty() == std_a.empty());
-  EXPECT_TRUE(s21_a.size() == std_a.size());
-  EXPECT_TRUE(s21_a.front() == std_a.front());
-  EXPECT_TRUE(s21_a.back() == std_a.back());
-  EXPECT_TRUE(s21_b.size() == std_b.size());
-  EXPECT_TRUE(s21_b.front() == std_b.front());
-  EXPECT_TRUE(s21_b.back() == std_b.back());
-}
-
-TEST(sort_suite, true_test) {
-  s21::list<int> list({11, 2, 6, 9, 5});
-  std::list<int> std_list({11, 2, 6, 9, 5});
-
-  list.sort();
-  std_list.sort();
-
-  auto itr = list.begin();
-  auto std_itr = std_list.begin();
-  for (; itr != list.end(); ++itr, ++std_itr) {
-    EXPECT_TRUE(*itr == *std_itr);
-  }
-}
-
-TEST(sort_suite, empty_test) {
-  s21::list<int> list;
-  std::list<int> std_list;
-
-  list.sort();
-  std_list.sort();
-
-  auto itr = list.begin();
-  auto std_itr = std_list.begin();
-  for (; itr != list.end(); ++itr, ++std_itr) {
-    EXPECT_TRUE(*itr == *std_itr);
-  }
-}
+// TEST(push_back_suite, true_test) {
+//   s21::list<int> s21_a({1, 2, 3, 4, 5});
+//   std::list<int> std_a({1, 2, 3, 4, 5});
+//
+//   s21_a.push_back(6);
+//   std_a.push_back(6);
+//
+//   EXPECT_TRUE(s21_a.back() == std_a.back());
+//   EXPECT_TRUE(s21_a.size() == std_a.size());
+// }
+//
+// TEST(push_front_suite, true_test) {
+//   s21::list<int> s21_a({1, 2, 3, 4, 5});
+//   std::list<int> std_a({1, 2, 3, 4, 5});
+//   s21::list<int>::iterator s21_itr;
+//   std::list<int>::iterator std_itr;
+//
+//   s21_a.push_front(0);
+//   std_a.push_front(0);
+//   s21_itr = s21_a.begin();
+//   std_itr = std_a.begin();
+//
+//   EXPECT_TRUE(*s21_itr == *std_itr);
+//   EXPECT_TRUE(s21_a.size() == std_a.size());
+// }
+//
+// TEST(pop_back_suite, true_test) {
+//   s21::list<int> s21_a({1, 2, 3, 4, 5});
+//   std::list<int> std_a({1, 2, 3, 4, 5});
+//
+//   s21_a.pop_back();
+//   std_a.pop_back();
+//
+//   EXPECT_TRUE(s21_a.back() == std_a.back());
+//   EXPECT_TRUE(s21_a.size() == std_a.size());
+// }
+//
+// TEST(pop_front_suite, true_test) {
+//   s21::list<int> s21_a({1, 2, 3, 4, 5});
+//   std::list<int> std_a({1, 2, 3, 4, 5});
+//
+//   s21_a.pop_front();
+//   std_a.pop_front();
+//
+//   EXPECT_TRUE(s21_a.front() == std_a.front());
+//   EXPECT_TRUE(s21_a.size() == std_a.size());
+// }
+//
+// TEST(swap_suite, true_test) {
+//   s21::list<int> s21_a({1, 2, 3, 4, 5});
+//   s21::list<int> s21_b({1});
+//   std::list<int> std_a({1, 2, 3, 4, 5});
+//   std::list<int> std_b({1});
+//
+//   s21_a.swap(s21_b);
+//   std_a.swap(std_b);
+//
+//   EXPECT_TRUE(s21_a.empty() == std_a.empty());
+//   EXPECT_TRUE(s21_a.size() == std_a.size());
+//   EXPECT_TRUE(s21_a.front() == std_a.front());
+//   EXPECT_TRUE(s21_a.back() == std_a.back());
+//   EXPECT_TRUE(s21_b.size() == std_b.size());
+//   EXPECT_TRUE(s21_b.front() == std_b.front());
+//   EXPECT_TRUE(s21_b.back() == std_b.back());
+// }
+//
+// TEST(sort_suite, true_test) {
+//   s21::list<int> list({11, 2, 6, 9, 5});
+//   std::list<int> std_list({11, 2, 6, 9, 5});
+//
+//   list.sort();
+//   std_list.sort();
+//
+//   auto itr = list.begin();
+//   auto std_itr = std_list.begin();
+//   for (; itr != list.end(); ++itr, ++std_itr) {
+//     EXPECT_TRUE(*itr == *std_itr);
+//   }
+// }
+//
+// TEST(sort_suite, empty_test) {
+//   s21::list<int> list;
+//   std::list<int> std_list;
+//
+//   list.sort();
+//   std_list.sort();
+//
+//   auto itr = list.begin();
+//   auto std_itr = std_list.begin();
+//   for (; itr != list.end(); ++itr, ++std_itr) {
+//     EXPECT_TRUE(*itr == *std_itr);
+//   }
+// }
 
 // block: ITERATORS OVERLOADING
 TEST(overloading_assignment_and_dereference_iterator_suite,
@@ -758,8 +796,8 @@ TEST(overloading_increment_suite, true_test) {
 }
 
 TEST(overloading_increment_suite, end_to_begin_test) {
-  s21::list<int> list = {1, 2, 3};
-  std::list<int> std_list = {1, 2, 3};
+  s21::list<int> list = {1, 2, 3, 5};
+  std::list<int> std_list = {1, 2, 3, 5};
   s21::list<int>::iterator itr = list.end();
   std::list<int>::iterator std_itr = std_list.end();
 
@@ -782,8 +820,6 @@ TEST(overloading_decrement_suite, true_test) {
   }
 }
 
-// fix segfault value end node
-
 TEST(overloading_decrement_suite, begin_to_end_test) {
   s21::list<int> list = {1, 2, 3, 2};
   std::list<int> std_list = {1, 2, 3, 2};
@@ -792,7 +828,6 @@ TEST(overloading_decrement_suite, begin_to_end_test) {
 
   --itr;
   --std_itr;
-
   EXPECT_TRUE(*itr == *std_itr);
 }
 

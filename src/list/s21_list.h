@@ -17,8 +17,8 @@ class list {
 
  protected:
   struct node_ {
-    node_ *next_;
-    node_ *prev_ ;
+    node_ *next_ = NULL;
+    node_ *prev_ = NULL;
     value_type value_;
   };
   node_ *head_ = NULL;
@@ -33,7 +33,9 @@ class list {
    private:
     node_ *itr_node_ = NULL;
     value_type value_ = value_type();
+    size_type count_ = 0;
     size_type *size_ = nullptr;
+    //mb nest end node instead of create fields count_ and size_ ??
 
    public:
     ListIterator();

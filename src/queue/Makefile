@@ -15,7 +15,7 @@ $(NAME): $(SOURCE)/home/freiqq/Projects/21/c++/containers/src/list/Makefile
 	@./a.out && rm -rf a.out
 
 $(NAME).a: $(SOURCE)
-	@$(CPP) $(CPPFLAGS) $(NAME).cpp -c
+	@$(CPP) $(CPPFLAGS) $(SOURCE) -c
 	@ar rcs $(NAME).a *.o
 	@ranlib $(NAME).a
 

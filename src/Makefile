@@ -2,9 +2,9 @@ SOURCE = list queue stack vector map set
 
 test:
 	#cd list/ && make
-
-	cd queue/ && make
 	cd stack/ && make
+	cd queue/ && make
+
 
 clean:
 	@cd list/ && make clean
