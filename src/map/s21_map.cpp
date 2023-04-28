@@ -20,21 +20,45 @@ map<Key, T>::~map() {}
 
 template <class Key, class T>
 typename map<Key, T>::map &map<Key, T>::operator=(map &&m) {
-  return nullptr;
+    return nullptr;
 }
 
 // BLOCK: ELEMENT ACCESS
 template <class Key, class T>
 T &map<Key, T>::at(const Key &key) {
-  return nullptr;
+    return nullptr;
 }
 
 template <class Key, class T>
 T &map<Key, T>::operator[](const Key &key) {
-  return nullptr;
+    return nullptr;
 }
 
 // BLOCK: ITERATORS
+template <class Key, class T>
+map<Key, T>::MapIterator::MapIterator() {}
+
+template <class Key, class T>
+void map<Key, T>::MapIterator::operator=(node_ &node_) {
+    itr_node_ = &node_;
+}
+
+template <class Key, class T>
+std::pair<Key, T> &map<Key, T>::MapIterator::operator*() {
+    return itr_node_->value_;
+}
+
+template <class Key, class T>
+std::pair<Key, T> *map<Key, T>::MapIterator::operator->() {
+    return &(itr_node_->value_);
+}
+
+template <class Key, class T>
+typename map<Key, T>::iterator map<Key, T>::begin() {
+    map<Key, T>::iterator iterator;
+    iterator = *root_;
+    return iterator;
+}
 //    template<class Key, class T>
 //    iterator map<Key, T>::begin() { return nullptr; }
 //    template<class Key, class T>
@@ -44,17 +68,17 @@ T &map<Key, T>::operator[](const Key &key) {
 
 template <class Key, class T>
 bool map<Key, T>::empty() {
-  return false;
+    return false;
 }
 
 template <class Key, class T>
 size_t map<Key, T>::size() {
-  return 0;
+    return 0;
 }
 
 template <class Key, class T>
 size_t map<Key, T>::max_size() {
-  return 0;
+    return 0;
 }
 
 // BLOCK:  MODIFIERS
@@ -89,52 +113,65 @@ void map<Key, T>::clear() {}
 // BLOCK: LOOKUP
 //    template<class Key, class T>
 //    bool map<Key, T>::contains(const Key &key) { return false; }
+
+// template <class Key, class T>
+// typename void map<Key, T>::MapIterator::operator=(
+//     map<Key, T>::node_ &node_) {}
+
+// template <class Key, class T>
+// typename map::value_type &map<Key, T>::MapIterator::operator*() {
+//   return nullptr;
+// }
+
 }  // namespace s21
 
 // TEMP
 template <class Key, class T>
 void s21::map<Key, T>::Push(const value_type value) {
-  auto *new_node = new node_;
-  new_node->value_ = value;
-  if (!root_) {
-    root_ = new_node;
-  } else {
-    auto *iter_node = root_;
-    while (!new_node->parent_node_) {
-      if (value.first < iter_node->value_.first) {
-        if (iter_node->left_) {
-          iter_node = iter_node->left_;
-        } else {
-          iter_node->left_ = new_node;
-          new_node->parent_node_ = iter_node;
+    auto *new_node = new node_;
+    new_node->value_ = value;
+    if (!root_) {
+        root_ = new_node;
+    } else {
+        auto *iter_node = root_;
+        while (!new_node->parent_node_) {
+            if (value.first < iter_node->value_.first) {
+                if (iter_node->left_) {
+                    iter_node = iter_node->left_;
+                } else {
+                    iter_node->left_ = new_node;
+                    new_node->parent_node_ = iter_node;
+                }
+            } else if (value.first > iter_node->value_.first) {
+                if (iter_node->right_) {
+                    iter_node = iter_node->right_;
+                } else {
+                    iter_node->right_ = new_node;
+                    new_node->parent_node_ = iter_node;
+                }
+            }
         }
-      } else if (value.first > iter_node->value_.first && !iter_node->right_) {
-        if (iter_node->right_) {
-          new_node = new_node->right_;
-        } else {
-          iter_node->right_ = new_node;
-          new_node->parent_node_ = iter_node;
-        }
-      }
     }
-  }
 }
 
-//int main() {
-//  s21::map<int, int> b;
-//
-//  b.Push(std::pair<int, int>(10, 3));
-//  b.Push(std::pair<int, int>(123, 324));
-//  b.Push(std::pair<int, int>(5, 1234));
-//  b.Push(std::pair<int, int>(4, 1234));
-//  b.Push(std::pair<int, int>(6, 1234));
-//
-//  //  printf("%d", b.root_->right_ ? 1 : 0);
-//  //  printf("%d", ads);
-//  b.root_ = b.root_->left_;
-//  printf("%d, %d asdad\n", b.root_->value_.first, b.root_->value_.second);
-//  b.root_ = b.root_->right_;
-//  printf("%d, %d asdad\n", b.root_->value_.first, b.root_->value_.second);
-//  //  printf("<%d, %d>", b.temp1, b.temp2);
-//  return 0;
-//}
+int main() {
+    s21::map<int, int>::iterator a;
+    s21::map<int, int> b;
+    b.Push(std::pair<int, int>(10, 3));
+//    a = b.begin();
+//    std::cout << a->first;
+      b.Push(std::pair<int, int>(1, 324));
+      b.Push(std::pair<int, int>(30, 324));
+      b.Push(std::pair<int, int>(3, 1234));
+      b.Push(std::pair<int, int>(4, 1234));
+//      b.Push(std::pair<int, int>(5, 1234));
+
+//      printf("%d", b.root_->right_ ? 1 : 0);
+    //  printf("%d", ads);
+    //  b.root_ = b.root_->left_;
+    //  printf("%d, %d asdad\n", b.root_->value_.first, b.root_->value_.second);
+    //  b.root_ = b.root_->right_;
+    //  printf("%d, %d asdad\n", b.root_->value_.first, b.root_->value_.second);
+    //  printf("<%d, %d>", b.temp1, b.temp2);
+    return 0;
+}
