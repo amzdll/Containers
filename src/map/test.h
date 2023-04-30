@@ -41,6 +41,7 @@ class tree {
   void printTree(tree<Key, T>::node_ *root_, std::string indent, bool left);
   // balance Methods
   void balanceTree(tree<Key, T>::node_ *node);
+  void balanceNode(tree<Key, T>::node_ *node, bool balanced);
   bool nodeIsExist(tree<Key, T>::node_ *node);
   void colorSwap(tree<Key, T>::node_ *node);
   void rightTurn(tree<Key, T>::node_ *node);
