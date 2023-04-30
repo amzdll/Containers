@@ -44,6 +44,7 @@ class tree {
   bool nodeIsExist(tree<Key, T>::node_ *node);
   void colorSwap(tree<Key, T>::node_ *node);
   void rightTurn(tree<Key, T>::node_ *node);
+  void leftTurn(tree<Key, T>::node_ *node);
 };
 
 template <class Key, class T>
