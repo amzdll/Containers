@@ -1,67 +1,44 @@
 #include "test.h"
 
-// element acess
+// constructors
 
 template <class Key, class T>
+s21::tree<Key, T>::tree() {
+  begin_node_ = new node_;
+  end_node_ = new node_;
+}
+
+// element acess
+
+
+// need throw
+template <class Key, class T>
 T& s21::tree<Key, T>::at(const Key& key) {
-  node_* iter_node = root_;
-  bool isFinded = false;
-  while (!isFinded) {
-    if (key == iter_node->value_.first) {
-      isFinded = true;
-    } else if (key < iter_node->value_.first) {
-      if (iter_node->left_) {
-        iter_node = iter_node->left_;
-      } else {
-        isFinded = true;
-        iter_node->value_.second = 0;
-      }
-    } else if (key > iter_node->value_.first) {
-      if (iter_node->right_) {
-        iter_node = iter_node->right_;
-        iter_node->value_.second = 0;
-      } else {
-        isFinded = true;
-      }
+  for (iterator itr = begin(); itr != end(); ++itr) {
+    if (itr->first == key) {
+      return itr->second;
     }
   }
-  return iter_node->value_.second;
+  iterator test;
+  return test->second;
 }
 
 template <class Key, class T>
 T& s21::tree<Key, T>::operator[](const Key& key) {
-  //    T value = 0;
-  //    node_ *iter_node = root_;
-  //    node_ *new_node = create_node(value, true);
-  //    while (!new_node->parent_) {
-  //        if (value.first < iter_node->value_.first) {
-  //            if (iter_node->left_) {
-  //                iter_node = iter_node->left_;
-  //            } else {
-  //                iter_node->left_ = new_node;
-  //                new_node->parent_ = iter_node;
-  //                size_ += 1;
-  //            }
-  //        } else if (value.first > iter_node->value_.first) {
-  //            if (iter_node->right_) {
-  //                iter_node = iter_node->right_;
-  //            } else {
-  //                iter_node->right_ = new_node;
-  //                new_node->parent_ = iter_node;
-  //                size_ += 1;
-  //            }
-  //        }
-  //    };
+  iterator itr = begin();
+  for (; itr != end(); ++itr) {
+    if (itr->first == key) {
+      return (*itr).second;
+    }
+  }
+  return (*itr).second;
 }
 
 // map iterators
 template <class Key, class T>
 typename s21::tree<Key, T>::iterator s21::tree<Key, T>::begin() {
   tree<Key, T>::iterator iterator;
-  node_* itr_node = root_;
-  while (itr_node->left_) {
-    itr_node = itr_node->left_;
-  }
+  auto itr_node = begin_node_;
   iterator = *itr_node;
   return iterator;
 }
@@ -69,13 +46,15 @@ typename s21::tree<Key, T>::iterator s21::tree<Key, T>::begin() {
 template <class Key, class T>
 typename s21::tree<Key, T>::iterator s21::tree<Key, T>::end() {
   tree<Key, T>::iterator iterator;
-  node_* itr_node = root_;
-  node_* end_node = new node_;
-  while (itr_node->right_) {
-    itr_node = itr_node->right_;
-  }
-  end_node->parent_ = itr_node;
+  auto itr_node = end_node_;
   iterator = *itr_node;
+  if (itr_node->value_.first > root_->value_.first) {
+    node_* end_node = new node_;
+    end_node->value_.first = 0;
+    end_node->parent_ = itr_node;
+    end_node->parent_->right_ = end_node;
+    iterator = *itr_node->right_;
+  }
   return iterator;
 }
 
@@ -89,31 +68,18 @@ size_t s21::tree<Key, T>::size() {
   return size_;
 }
 
+// Modifiers
+template <class Key, class T>
+std::pair<typename s21::tree<Key, T>::iterator, bool> s21::tree<Key, T>::insert(const tree::value_type &value) {
+
+  return std::pair<iterator, bool>();
+}
+
+
 // Map Lookup
 template <class Key, class T>
 bool s21::tree<Key, T>::contains(const Key& key) {
-  node_* iter_node = root_;
-  bool isFinded = false;
-  T value = 0;
-  while (!isFinded) {
-    if (key == iter_node->value_.first) {
-      value = iter_node->value_.second;
-      isFinded = true;
-    } else if (key < iter_node->value_.first) {
-      if (iter_node->left_) {
-        iter_node = iter_node->left_;
-      } else {
-        isFinded = true;
-      }
-    } else if (key > iter_node->value_.first) {
-      if (iter_node->right_) {
-        iter_node = iter_node->right_;
-      } else {
-        isFinded = true;
-      }
-    }
-  }
-  return value;
+  return at(key);
 }
 
 // Iterator Overload
@@ -138,27 +104,48 @@ std::pair<Key, T>* s21::tree<Key, T>::TreeIterator::operator->() {
 
 template <class Key, class T>
 void s21::tree<Key, T>::TreeIterator::operator++() {
-  if (!itr_node_->parent_) {
+  if (itr_node_->right_) {
     itr_node_ = itr_node_->right_;
     while (itr_node_->left_) {
       itr_node_ = itr_node_->left_;
     }
   } else {
-    if (itr_node_->right_) {
-      itr_node_ = itr_node_->right_;
-    } else if (itr_node_->parent_ && itr_node_->parent_->right_ == itr_node_ &&
-               itr_node_->parent_ && itr_node_->parent_->parent_) {
-      auto temp_node = itr_node_;
-      while (temp_node->parent_) {
-        temp_node = temp_node->parent_;
-      }
-      if (temp_node->value_.first < itr_node_->value_.first) {
-        itr_node_ = temp_node;
-      } else {
-        itr_node_ = itr_node_->parent_->parent_;
-      }
-    } else if (itr_node_->parent_) {
+    node_* parent_itr_node = itr_node_->parent_;
+    while (itr_node_->parent_ && itr_node_->parent_->right_ == itr_node_) {
       itr_node_ = itr_node_->parent_;
+      parent_itr_node = parent_itr_node->parent_;
     }
+    itr_node_ = parent_itr_node;
   }
 }
+
+template <class Key, class T>
+void s21::tree<Key, T>::TreeIterator::operator--() {
+  if (itr_node_->left_) {
+    itr_node_ = itr_node_->left_;
+    while (itr_node_->right_) {
+      itr_node_ = itr_node_->right_;
+    }
+  } else {
+    node_* parent_itr_node = itr_node_->parent_;
+    while (itr_node_->parent_ && itr_node_->parent_->left_ == itr_node_) {
+      itr_node_ = itr_node_->parent_;
+      parent_itr_node = parent_itr_node->parent_;
+    }
+    itr_node_ = parent_itr_node;
+  }
+}
+
+template <class Key, class T>
+bool s21::tree<Key, T>::TreeIterator::operator!=(
+    tree<Key, T>::TreeIterator iterator) {
+  return itr_node_ != iterator.itr_node_;
+}
+
+template <class Key, class T>
+bool s21::tree<Key, T>::TreeIterator::operator==(
+    tree<Key, T>::TreeIterator iterator) {
+  return itr_node_ != iterator.itr_node_;
+}
+
+// Additional methods

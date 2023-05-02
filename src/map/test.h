@@ -1,12 +1,15 @@
 
+
+#include <initializer_list>
 #include <sstream>
 #include <utility>
-#include <initializer_list>
+
 #include "iostream"
 #include "string"
+
+
 #ifndef CPP2_S21_CONTAINERS_MAP_S21_TREE_H_
 #define CPP2_S21_CONTAINERS_MAP_S21_TREE_H_
-
 // #include "test.cpp"
 
 namespace s21 {
@@ -29,13 +32,15 @@ class tree {
     bool color_;
   };
   node_ *root_ = nullptr;
+  node_ *begin_node_ = nullptr;
+  node_ *end_node_ = nullptr;
   size_type size_ = 0;
 
  public:
   class TreeIterator;
   using iterator = TreeIterator;
 
-  tree(){};
+  tree();
   tree(std::initializer_list<value_type> const &items);
 
   T &at(const Key &key);
@@ -47,25 +52,29 @@ class tree {
   bool empty();
   size_type size();
 
+  std::pair<iterator, bool> insert(const value_type& value);
+
   bool contains(const Key &key);
 
   // rb tree
   node_ *get_root() { return root_; };
+  void updateBegin();
+  void updateEnd();
   node_ *create_node(value_type value, bool is_red);
-  void insert(value_type value);
+  bool push(value_type value);
+  bool checkBalance();
   void balanceTree(tree<Key, T>::node_ *node);
   void colorSwap(tree<Key, T>::node_ *node);
   void rightTurn(tree<Key, T>::node_ *node);
   void leftTurn(tree<Key, T>::node_ *node);
-
   void printTree(tree<Key, T>::node_ *root_, std::string indent, bool left);
 };
+
 
 template <class Key, class T>
 class tree<Key, T>::TreeIterator {
  private:
   node_ *itr_node_ = NULL;
-  node_ *itr_root_ = NULL;
 
  public:
   TreeIterator();
@@ -77,8 +86,9 @@ class tree<Key, T>::TreeIterator {
   void operator--();
   bool operator==(tree<Key, T>::TreeIterator iterator);
   bool operator!=(tree<Key, T>::TreeIterator iterator);
-};
 
+  friend class tree;
+};
 
 }  // namespace s21
 

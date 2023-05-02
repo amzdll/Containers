@@ -4,13 +4,14 @@
 #include "test_methods.cpp"
 
 namespace s21 {
-
 template <class Key, class T>
 tree<Key, T>::tree(const std::initializer_list<value_type> &items) {
+  begin_node_ = new node_;
+  end_node_ = new node_;
   if (items.size()) {
     auto itr = items.begin();
     while (itr != items.end()) {
-      insert(*itr);
+      push(*itr);
       ++itr;
     }
   }
@@ -29,14 +30,15 @@ typename s21::tree<Key, T>::node_ *s21::tree<Key, T>::create_node(
 }
 
 template <class Key, class T>
-void s21::tree<Key, T>::insert(const value_type value) {
+bool s21::tree<Key, T>::push(const value_type value) {
+  bool status = true;
   if (!root_) {
     root_ = create_node(value, false);
   } else {
     node_ *iter_node = root_;
     node_ *new_node = create_node(value, true);
-    while (!new_node->parent_) {
-      if (value.first < iter_node->value_.first) {
+    while (!new_node->parent_ && new_node != end_node_) {
+      if (iter_node != end_node_ && value.first < iter_node->value_.first) {
         if (iter_node->left_) {
           iter_node = iter_node->left_;
         } else {
@@ -52,17 +54,22 @@ void s21::tree<Key, T>::insert(const value_type value) {
           new_node->parent_ = iter_node;
           size_ += 1;
         }
+      } else {
+        status = false;
       }
     }
-    balanceTree(root_);
-    balanceTree(root_);
+    if (status) {
+      balanceTree(root_);
+      balanceTree(root_);
+    }
   }
+  return status;
 }
 
 template <class Key, class T>
 void s21::tree<Key, T>::balanceTree(node_ *node) {
   bool is_balanced = false;
-  while (!is_balanced) {
+  while (!is_balanced && node != end_node_) {
     is_balanced = true;
     if (node && node->right_ && node->right_->color_) {
       leftTurn(node);
@@ -81,13 +88,36 @@ void s21::tree<Key, T>::balanceTree(node_ *node) {
       is_balanced = false;
     }
   }
-  if (node->left_) {
+  if (node->left_ && node != end_node_ && node->left_ != end_node_) {
     balanceTree(node->left_);
   }
-  if (node->right_) {
+  if (node->right_ && node != end_node_ && node->right_ != end_node_) {
     balanceTree(node->right_);
   }
+  updateBegin();
+  updateEnd();
   root_->color_ = false;
+}
+
+template <class Key, class T>
+void s21::tree<Key, T>::updateBegin() {
+  node_ *itr_node = root_;
+  while (itr_node->left_) {
+    itr_node = itr_node->left_;
+  }
+  begin_node_ = itr_node;
+}
+
+template <class Key, class T>
+void s21::tree<Key, T>::updateEnd() {
+  node_ *itr_node = root_;
+  while (itr_node != end_node_ && itr_node->right_) {
+    itr_node = itr_node->right_;
+  }
+  if (itr_node && !itr_node->right_) {
+    itr_node->right_ = end_node_;
+  }
+  end_node_->parent_ = itr_node;
 }
 
 template <class Key, class T>
@@ -174,58 +204,47 @@ void s21::tree<Key, T>::printTree(tree<Key, T>::node_ *root_,
 }  // namespace s21
 
 int main() {
-  s21::tree<int, int> tree(
-      {std::pair<int, int>(10, 10), std::pair<int, int>(20, 20),
-       std::pair<int, int>(30, 30), std::pair<int, int>(40, 40),
-       std::pair<int, int>(50, 50), std::pair<int, int>(60, 60),
-       std::pair<int, int>(70, 70), std::pair<int, int>(25, 25),
-       std::pair<int, int>(55, 55), std::pair<int, int>(22, 22)});
+  //  s21::tree<int, int> tree(
+  //      {std::pair<int, int>(10, 10), std::pair<int, int>(20, 20),
+  //       std::pair<int, int>(30, 30), std::pair<int, int>(40, 40),
+  //       std::pair<int, int>(50, 50), std::pair<int, int>(60, 60),
+  //       std::pair<int, int>(70, 123412), std::pair<int, int>(25, 25),
+  //       std::pair<int, int>(55, 55), std::pair<int, int>(22, 22)});
 
-  std::map<int, int> test(
-      {std::pair<int, int>(10, 10), std::pair<int, int>(20, 20),
-       std::pair<int, int>(30, 30), std::pair<int, int>(40, 40),
-       std::pair<int, int>(50, 50), std::pair<int, int>(55, 55),
-       std::pair<int, int>(60, 60), std::pair<int, int>(70, 70),
-       std::pair<int, int>(25, 25), std::pair<int, int>(22, 22)});
-  //    s21::tree<int, int> tree;
-  //    tree.insert(std::pair<int, int>(24, 24));
-  //    tree.insert(std::pair<int, int>(5, 5));
-  //    tree.insert(std::pair<int, int>(1, 3));
-  //    tree.insert(std::pair<int, int>(15, 15));
-  //    tree.insert(std::pair<int, int>(3, 3));
-  //    tree.insert(std::pair<int, int>(8, 8));
-  //    tree.insert(std::pair<int, int>(12, 12));
-  //    tree.insert(std::pair<int, int>(16, 16));
+  //  std::map<int, int> map(
+  //      {std::pair<int, int>(10, 10), std::pair<int, int>(20, 20),
+  //       std::pair<int, int>(30, 30), std::pair<int, int>(40, 40),
+  //       std::pair<int, int>(50, 50), std::pair<int, int>(55, 55),
+  //       std::pair<int, int>(60, 60), std::pair<int, int>(70, 123412),
+  //       std::pair<int, int>(25, 25), std::pair<int, int>(22, 22)});
 
-  auto a = test.begin();
-  s21::tree<int, int>::iterator b = tree.begin();
-  ++a;
-  ++a;
-  ++a;
-  ++a;
-  ++a;
-  ++a;
-  ++a;
-  ++a;
-  ++a;
-  ++a;
+  s21::tree<int, int> tree;
 
+  //    s21::tree<int, int> a;
+  //    a.push({1, 1});
+  //    a.push({2, 2});
+  //  auto itr = a.begin();
+  //  a.push({1, 1});
 
-  ++b;
-  ++b;
-  ++b;
-  ++b;
-  ++b;
-  ++b;
-  ++b;
-  ++b;
-  ++b;
-  ++b;
-//  auto z = test.end();
-//  --z;
-  test.insert({80, 80});
-  std::cout << a->first  << std::endl;
-  std::cout << b->first << std::endl;
+  tree.push({80, 80});
+  tree.push({100, 100});
+  tree.push({123, 123});
+  tree.push({150, 150});
+  tree.push({200, 200});
+  tree.push({300, 300});
+  tree.push({350, 5400});
 
+  //    std::map<int, int>::iterator itr_map = map.begin();
+  //    std::map<int, int>::iterator itr_map_e = map.end();
+  s21::tree<int, int>::iterator itr_tree = tree.begin();
+  s21::tree<int, int>::iterator itr_tree_e = tree.end();
+
+  tree.push({400, 5400});
   tree.printTree(tree.get_root(), "", false);
+  //  for (; itr_tree != itr_tree_e; ++itr_tree) {
+  //    std::cout << itr_tree->first << std::endl;
+  //  }
+  //  tree.push({8, 8});
+  //  auto a = tree.begin();
+  //  tree[30] = 132332132;
 }
