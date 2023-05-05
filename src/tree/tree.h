@@ -1,4 +1,6 @@
 
+#ifndef CPP2_S21_CONTAINERS_TREE_S21_TREE_H_
+#define CPP2_S21_CONTAINERS_TREE_S21_TREE_H_
 
 #include <initializer_list>
 #include <sstream>
@@ -7,8 +9,6 @@
 #include "iostream"
 #include "string"
 
-#ifndef CPP2_S21_CONTAINERS_TREE_S21_TREE_H_
-#define CPP2_S21_CONTAINERS_TREE_S21_TREE_H_
 // #include "tree.cpp"
 
 namespace s21 {
@@ -39,18 +39,32 @@ class tree {
   class TreeIterator;
   using iterator = TreeIterator;
 
+  // Member functions
   tree();
   tree(std::initializer_list<value_type> const &items);
   ~tree();
 
+  // Element access
   T &at(const Key &key);
   T &operator[](const Key &key);
 
+  //  Iterators
   iterator begin();
   iterator end();
 
+  // Capacity
   bool empty();
   size_type size();
+
+  // Modifiers
+  void clear();
+  //  std::pair<iterator, bool> push(const value_type& value);
+  //  std::pair<iterator, bool> push(const Key& key, const T& obj);
+  std::pair<iterator, bool> insert_or_assign(const Key &key, const T &obj);
+  ;
+  void erase(s21::tree<Key, T>::iterator pos);
+  void swap(tree &other);
+  void merge(tree &other);
 
   std::pair<iterator, bool> insert(const value_type &value);
 
@@ -69,9 +83,8 @@ class tree {
   void colorSwap(tree<Key, T>::node_ *node);
   void rightTurn(tree<Key, T>::node_ *node);
   void leftTurn(tree<Key, T>::node_ *node);
-  void printTree(tree<Key, T>::node_ *root_, std::string indent, bool left);
   void deleteNode(node_ *node);
-  void erase(s21::tree<Key, T>::iterator pos);
+  void printTree(tree<Key, T>::node_ *root_, std::string indent, bool left);
 };
 
 template <class Key, class T>
@@ -82,13 +95,13 @@ class tree<Key, T>::TreeIterator {
  public:
   TreeIterator();
 
-  void operator=(node_ &node_);
   std::pair<Key, T> &operator*();
-  std::pair<Key, T> *operator->();
   void operator++();
   void operator--();
   bool operator==(tree<Key, T>::TreeIterator iterator);
+  void operator=(node_ &node_);
   bool operator!=(tree<Key, T>::TreeIterator iterator);
+  std::pair<Key, T> *operator->();
 
   friend class tree;
 };

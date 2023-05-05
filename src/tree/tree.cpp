@@ -46,9 +46,7 @@ tree<Key, T>::tree(const std::initializer_list<value_type> &items) {
 
 template <class Key, class T>
 tree<Key, T>::~tree() {
-  deleteNode(root_);
-  //  delete begin_node_;
-  //  delete end_node_;
+  clear();
 }
 
 template <class Key, class T>
@@ -57,11 +55,35 @@ void tree<Key, T>::deleteNode(node_ *node) {
     deleteNode(node->left_);
     deleteNode(node->right_);
     delete node;
+//    node = NULL;
   }
+}
+
+// capacity
+template <class Key, class T>
+bool s21::tree<Key, T>::empty() {
+  return size_;
+}
+
+template <class Key, class T>
+size_t s21::tree<Key, T>::size() {
+  return size_;
 }
 
 // MODIFY METHODS
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+template <class Key, class T>
+void s21::tree<Key, T>::clear() {
+  deleteNode(root_);
+//  root_ = NULL;
+//  begin_node_ = NULL;
+  size_ = 0;
+//  delete begin_node_;
+  delete end_node_;
+  end_node_ = NULL;
+}
+
 template <class Key, class T>
 bool s21::tree<Key, T>::push(const value_type value) {
   bool status = false;
@@ -93,6 +115,43 @@ bool s21::tree<Key, T>::push(const value_type value) {
     updateSideNodes(new_node);
   }
   return status;
+}
+
+// fix begin and end iterators
+template <class Key, class T>
+void s21::tree<Key, T>::erase(s21::tree<Key, T>::iterator pos) {
+  auto itr = pos;
+  if (pos.itr_node_->right_ && pos.itr_node_->left_) {
+    while (itr.itr_node_->right_ && itr.itr_node_->right_ != end_node_) {
+      itr.itr_node_ = itr.itr_node_->right_;
+    }
+    pos.itr_node_->value_ = itr.itr_node_->value_;
+    itr.itr_node_->parent_->right_ = NULL;
+    delete itr.itr_node_;
+  } else if (!pos.itr_node_->right_ && !pos.itr_node_->left_) {
+    if (pos.itr_node_->parent_ &&
+        pos.itr_node_->parent_->right_ == pos.itr_node_) {
+      pos.itr_node_->parent_->right_ = NULL;
+    } else if (pos.itr_node_->parent_ &&
+               pos.itr_node_->parent_->left_ == pos.itr_node_) {
+      pos.itr_node_->parent_->left_ = NULL;
+    }
+    delete itr.itr_node_;
+  } else if (!pos.itr_node_->right_ || !pos.itr_node_->left_) {
+    if (pos.itr_node_->parent_ &&
+        pos.itr_node_->parent_->right_ == pos.itr_node_) {
+      pos.itr_node_->right_->parent_ = pos.itr_node_->parent_;
+      pos.itr_node_->parent_->right_ = pos.itr_node_->right_;
+
+    } else if (pos.itr_node_->parent_ &&
+               pos.itr_node_->parent_->left_ == pos.itr_node_) {
+      pos.itr_node_->left_->parent_ = pos.itr_node_->parent_;
+      pos.itr_node_->parent_->left_ = pos.itr_node_->left_;
+    }
+    delete itr.itr_node_;
+  }
+  //  if ()
+  //    balanceTree(end_node_);
 }
 
 template <class Key, class T>
@@ -217,20 +276,6 @@ void s21::tree<Key, T>::updateSideNodes(node_ *node) {
   }
 }
 
-template <class Key, class T>
-void s21::tree<Key, T>::erase(s21::tree<Key, T>::iterator pos) {
-  auto itr = begin();
-//  if (pos.itr_node_->right_ && pos.itr_node_->left_) {
-//    while (pos.itr_node_->right_ != end_node_ && pos.itr_node_->right_) }
-  //  auto itr = begin();
-  //  for (auto itr = begin(); itr != end(); ++itr) {
-  //    if (itr == pos) {
-  //
-  //    }
-//    }
-    }
-}
-
 // ITERATORS
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class Key, class T>
@@ -274,7 +319,7 @@ void s21::tree<Key, T>::TreeIterator::operator++() {
     while (itr_node_ && itr_node_->left_) {
       itr_node_ = itr_node_->left_;
     }
-  } else {
+  } else if (itr_node_->parent_) {
     node_ *parent_itr_node = itr_node_->parent_;
     while (itr_node_->parent_ && itr_node_->parent_->right_ == itr_node_) {
       itr_node_ = itr_node_->parent_;
@@ -316,13 +361,28 @@ bool s21::tree<Key, T>::TreeIterator::operator==(
 }  // namespace s21
 
 int main() {
-  s21::tree<int, int> tree;
+  //  s21::tree<int, int> tree;
   s21::tree<int, int> test;
-  test.push({24, 25});
-  test.push({5, 5});
-  test.push({1, 1});
-  test.push({15, 15});
-  test.push({3, 3});
-  test.push({8, 8});
+//  test.push({24, 25});
+//  test.push({5, 5});
+  //  test.push({1, 1});
+  //  test.push({15, 15});
+  //  test.push({3, 3});
+  //  test.push({8, 8});
+  //  test.push({13, 13});
+  //  test.push({14, 14});
+
+  auto itr = test.end();
+  std::cout << test.size() << std::endl;
+
+  test.clear();
+
+//  auto a = test.get_root();
+  //  --itr;
+  //  --itr;
+  //
+  //  test.erase(itr);
+  //  std::cout << itr->first << std::endl;
+
   test.printTree(test.get_root(), "", false);
 }
