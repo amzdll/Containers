@@ -1,9 +1,12 @@
+#include "map"
+
 
 #ifndef CPP2_S21_CONTAINERS_TREE_S21_TREE_H_
 #define CPP2_S21_CONTAINERS_TREE_S21_TREE_H_
 
 #include <initializer_list>
 #include <sstream>
+#include <stdexcept>
 #include <utility>
 
 #include "iostream"
@@ -20,7 +23,9 @@ class tree {
   using reference = value_type &;
   using const_reference = const value_type &;
   using size_type = size_t;
-
+  bool operator<(value_type &lhs, value_type& rhs) {
+    return (lhs.first < rhs.first);
+  }
   // temp pub
  private:
   struct node_ {
@@ -58,15 +63,14 @@ class tree {
 
   // Modifiers
   void clear();
+//  std::pair<iterator, bool> insert(const value_type &value);
   //  std::pair<iterator, bool> push(const value_type& value);
   //  std::pair<iterator, bool> push(const Key& key, const T& obj);
   std::pair<iterator, bool> insert_or_assign(const Key &key, const T &obj);
-  ;
   void erase(s21::tree<Key, T>::iterator pos);
   void swap(tree &other);
   void merge(tree &other);
 
-  std::pair<iterator, bool> insert(const value_type &value);
 
   bool contains(const Key &key);
 
@@ -87,13 +91,16 @@ class tree {
   void printTree(tree<Key, T>::node_ *root_, std::string indent, bool left);
 };
 
+
+
+
 template <class Key, class T>
 class tree<Key, T>::TreeIterator {
  private:
   node_ *itr_node_ = NULL;
 
  public:
-  TreeIterator();
+  TreeIterator()= default;
 
   std::pair<Key, T> &operator*();
   void operator++();
@@ -106,6 +113,11 @@ class tree<Key, T>::TreeIterator {
   friend class tree;
 };
 
-}  // namespace s21
+
+//template <typename Key>
+//class set:tree<Key, Key> {
+//
+//}  // namespace s21
+};
 
 #endif  // CPP2_S21_CONTAINERS_TREE_S21_TREE_H_

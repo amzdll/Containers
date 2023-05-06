@@ -1,6 +1,6 @@
 #include "tree.h"
 // TEMP
-// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class Key, class T>
 void s21::tree<Key, T>::printTree(tree<Key, T>::node_ *root_,
@@ -21,7 +21,9 @@ void s21::tree<Key, T>::printTree(tree<Key, T>::node_ *root_,
   }
 }
 
-// CONSTRUCTORS
+
+namespace s21 {
+// Member functions
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class Key, class T>
@@ -30,7 +32,6 @@ s21::tree<Key, T>::tree() {
   end_node_ = new node_;
 }
 
-namespace s21 {
 template <class Key, class T>
 tree<Key, T>::tree(const std::initializer_list<value_type> &items) {
   begin_node_ = new node_;
@@ -49,17 +50,52 @@ tree<Key, T>::~tree() {
   clear();
 }
 
+// Element access
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// fix text of throw
 template <class Key, class T>
-void tree<Key, T>::deleteNode(node_ *node) {
-  if (node) {
-    deleteNode(node->left_);
-    deleteNode(node->right_);
-    delete node;
-//    node = NULL;
+T &s21::tree<Key, T>::at(const Key &key) {
+  for (iterator itr = begin(); itr != end(); ++itr) {
+    if (itr->first == key) {
+      return itr->second;
+    }
   }
+  throw std::out_of_range("at");
 }
 
-// capacity
+// template <class Key, class T>
+// T& s21::tree<Key, T>::operator[](const Key& key) {
+//   bool in_tree = false;
+//   iterator itr = begin();
+//   for (; itr != end(); ++itr) {
+//     if (itr->first == key) {
+//       return (*itr).second;
+//     }
+//   }
+//   return (*itr).second;
+// }
+
+// Iterators
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+template <class Key, class T>
+typename s21::tree<Key, T>::iterator s21::tree<Key, T>::begin() {
+  tree<Key, T>::iterator iterator;
+  auto itr_node = begin_node_;
+  iterator = *itr_node;
+  return iterator;
+}
+
+template <class Key, class T>
+typename s21::tree<Key, T>::iterator s21::tree<Key, T>::end() {
+  tree<Key, T>::iterator iterator;
+  auto itr_node = end_node_;
+  iterator = *itr_node;
+  return iterator;
+}
+
+// Capacity
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class Key, class T>
 bool s21::tree<Key, T>::empty() {
   return size_;
@@ -70,51 +106,18 @@ size_t s21::tree<Key, T>::size() {
   return size_;
 }
 
-// MODIFY METHODS
-// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Modifiers
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <class Key, class T>
 void s21::tree<Key, T>::clear() {
   deleteNode(root_);
-//  root_ = NULL;
-//  begin_node_ = NULL;
+  //  root_ = NULL;
+  //  begin_node_ = NULL;
+  //  end_node_ = NULL;
   size_ = 0;
-//  delete begin_node_;
-  delete end_node_;
-  end_node_ = NULL;
-}
-
-template <class Key, class T>
-bool s21::tree<Key, T>::push(const value_type value) {
-  bool status = false;
-  if (!root_) {
-    root_ = create_node(value, false);
-    begin_node_ = root_;
-    end_node_->parent_ = root_;
-    root_->right_ = end_node_;
-    size_ += 1;
-  } else {
-    node_ *new_node = create_node(value, true);
-    for (auto itr = begin(); itr != end() && !status; ++itr) {
-      if (!itr.itr_node_->left_ && value.first < itr.itr_node_->value_.first) {
-        itr.itr_node_->left_ = new_node;
-        new_node->parent_ = itr.itr_node_;
-        status = true;
-        size_ += 1;
-      } else if ((itr.itr_node_->right_ == end_node_ ||
-                  !itr.itr_node_->right_) &&
-                 value.first < itr.itr_node_->parent_->value_.first &&
-                 value.first > itr.itr_node_->value_.first) {
-        itr.itr_node_->right_ = new_node;
-        new_node->parent_ = itr.itr_node_;
-        size_ += 1;
-        status = true;
-      }
-    }
-    balanceTree(new_node->parent_);
-    updateSideNodes(new_node);
-  }
-  return status;
+  //  delete begin_node_;
+  //  delete end_node_;
 }
 
 // fix begin and end iterators
@@ -154,6 +157,44 @@ void s21::tree<Key, T>::erase(s21::tree<Key, T>::iterator pos) {
   //    balanceTree(end_node_);
 }
 
+// MODIFY TREE METHODS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+template <class Key, class T>
+bool s21::tree<Key, T>::push(value_type value) {
+  bool status = false;
+  if (!root_) {
+    root_ = create_node(value, false);
+    begin_node_ = root_;
+    end_node_->parent_ = root_;
+    root_->right_ = end_node_;
+    size_ += 1;
+  } else {
+    node_ *new_node = create_node(value, true);
+    for (auto itr = begin(); itr != end() && !status; ++itr) {
+      if (!itr.itr_node_->left_ && value < itr.itr_node_->value_) {
+        itr.itr_node_->left_ = new_node;
+        new_node->parent_ = itr.itr_node_;
+        status = true;
+        size_ += 1;
+      } else if ((itr.itr_node_->right_ == end_node_ ||
+                  !itr.itr_node_->right_) &&
+                 value.first < itr.itr_node_->parent_->value_.first &&
+                 value.first > itr.itr_node_->value_.first) {
+        itr.itr_node_->right_ = new_node;
+        new_node->parent_ = itr.itr_node_;
+        size_ += 1;
+        status = true;
+      }
+    }
+    balanceTree(new_node->parent_);
+    updateSideNodes(new_node);
+  }
+  return status;
+}
+
 template <class Key, class T>
 typename s21::tree<Key, T>::node_ *s21::tree<Key, T>::create_node(
     const value_type value, bool is_red) {
@@ -166,8 +207,26 @@ typename s21::tree<Key, T>::node_ *s21::tree<Key, T>::create_node(
   return node;
 }
 
-// BALANCE
-// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+template <class Key, class T>
+void tree<Key, T>::deleteNode(node_ *node) {
+  if (node) {
+    deleteNode(node->left_);
+    deleteNode(node->right_);
+    delete node;
+    //    node = NULL;
+  }
+}
+
+// Lookup
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// template <class Key, class T>
+// bool s21::tree<Key, T>::contains(const Key& key) {
+//   return at(key);
+// }
+
+// Balance
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class Key, class T>
 void s21::tree<Key, T>::balanceTree(node_ *node) {
   balanceNode(node);
@@ -279,25 +338,6 @@ void s21::tree<Key, T>::updateSideNodes(node_ *node) {
 // ITERATORS
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class Key, class T>
-s21::tree<Key, T>::TreeIterator::TreeIterator() {}
-
-template <class Key, class T>
-typename s21::tree<Key, T>::iterator s21::tree<Key, T>::begin() {
-  tree<Key, T>::iterator iterator;
-  auto itr_node = begin_node_;
-  iterator = *itr_node;
-  return iterator;
-}
-
-template <class Key, class T>
-typename s21::tree<Key, T>::iterator s21::tree<Key, T>::end() {
-  tree<Key, T>::iterator iterator;
-  auto itr_node = end_node_;
-  iterator = *itr_node;
-  return iterator;
-}
-
-template <class Key, class T>
 void s21::tree<Key, T>::TreeIterator::operator=(node_ &node_) {
   itr_node_ = &node_;
 }
@@ -361,10 +401,11 @@ bool s21::tree<Key, T>::TreeIterator::operator==(
 }  // namespace s21
 
 int main() {
-  //  s21::tree<int, int> tree;
+  std::map<int, int> map;
   s21::tree<int, int> test;
-//  test.push({24, 25});
-//  test.push({5, 5});
+
+  test.push({24, 25});
+  test.push({5, 5432});
   //  test.push({1, 1});
   //  test.push({15, 15});
   //  test.push({3, 3});
@@ -372,12 +413,16 @@ int main() {
   //  test.push({13, 13});
   //  test.push({14, 14});
 
-  auto itr = test.end();
-  std::cout << test.size() << std::endl;
+  //  auto itr = test.end();
 
-  test.clear();
+  //  map[3] = 12343;
+  test[55] = 1234;
+  //  std::cout << test.at(5) << std::endl;
+  //  std::cout << map.at(3) << std::endl;
 
-//  auto a = test.get_root();
+  //  test.clear();
+
+  //  auto a = test.get_root();
   //  --itr;
   //  --itr;
   //
