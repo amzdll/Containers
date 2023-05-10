@@ -196,7 +196,8 @@ void s21::tree<Key>::eraseRed(s21::tree<Key>::iterator pos) {
 
 template <class Key>
 bool s21::tree<Key>::push(value_type value) {
-  bool status = false;
+  // refactor on find
+  int status_of_insertion = 0;
   if (!root_) {
     root_ = create_node(value, false);
     begin_node_ = root_;
@@ -205,29 +206,34 @@ bool s21::tree<Key>::push(value_type value) {
     size_ += 1;
   } else {
     node_ *new_node = create_node(value, true);
-    iterator itr;
-    itr.itr_node_ = root_;
-    //    auto itr = begin();
-    for (; itr != end() && !status; ++itr) {
-      if (!itr.itr_node_->left_ && value < itr.itr_node_->value_) {
-        itr.itr_node_->left_ = new_node;
-        new_node->parent_ = itr.itr_node_;
-        status = true;
-        size_ += 1;
-      } else if ((!itr.itr_node_->right_ ||
-                  itr.itr_node_->right_ == end_node_) &&
-                 value > itr.itr_node_->value_) {
-        itr.itr_node_->right_ = new_node;
-        new_node->parent_ = itr.itr_node_;
-        size_ += 1;
-        status = true;
+    node_ *itr = root_;
+    while (!status_of_insertion) {
+      if (value < itr->value_) {
+        if (!itr->left_) {
+          itr->left_ = new_node;
+          new_node->parent_ = itr;
+          status_of_insertion = 1;
+          size_ += 1;
+        } else {
+          itr = itr->left_;
+        }
+      } else if (value > itr->value_) {
+        if (!itr->right_ || itr->right_ == end_node_) {
+          itr->right_ = new_node;
+          new_node->parent_ = itr;
+          size_ += 1;
+          status_of_insertion = 1;
+        } else {
+          itr = itr->right_;
+        }
+      } else {
+        status_of_insertion = -1;
       }
     }
+    balanceTree(new_node->parent_);
+    updateSideNodes(new_node);
   }
-  balanceTree(new_node->parent_);
-  updateSideNodes(new_node);
-}
-return status;
+  return status_of_insertion;
 }
 
 template <class Key>
@@ -310,8 +316,8 @@ template <class Key>
 void s21::tree<Key>::rightTurn(tree<Key>::node_ *node) {
   node_ *top_node = node;
   node_ *bottom_node = node->left_;
+  bottom_node->color_ = top_node->color_;
   top_node->color_ = true;
-  bottom_node->color_ = false;
   if (top_node == root_) {
     root_ = bottom_node;
   } else if (top_node->parent_->right_ == top_node) {
@@ -339,8 +345,8 @@ void s21::tree<Key>::leftTurn(tree<Key>::node_ *node) {
   node_ *top_node = node;
   node_ *bottom_node = node->right_;
 
+  bottom_node->color_ = top_node->color_;
   top_node->color_ = true;
-  //  bottom_node->color_ = false;
   if (top_node == root_) {
     root_ = bottom_node;
   } else if (top_node->parent_->right_ == top_node) {
@@ -453,13 +459,24 @@ int main() {
   std::set<int> set({24, 5, 1, 15, 3, 8});
   //    s21::tree<int> test({24, 5, 1, 15, 3, 8});
 
-  //  s21::tree<int> test(
-  //      {453, 855, 562, 985, 126, 956, 350, 412, 32, 17, 251, 284, 932, 820});
+  //    s21::tree<int> test(
+  //        {453, 855, 562, 985});
+  //    , 126, 956, 350, 412, 32, 17, 251, 284, 932, 820
   s21::tree<int> test;
   test.push(453);
   test.push(855);
   test.push(562);
   test.push(985);
+  test.push(126);
+  test.push(956);
+  test.push(350);
+  test.push(412);
+  test.push(32);
+  test.push(17);
+  test.push(251);
+  test.push(284);
+//  test.push(284);
+//  std::cout << test.push(284);
   //  auto itr = test.begin();
   //  ++itr;
   //  ++itr;
@@ -471,5 +488,5 @@ int main() {
   //  std::cout << a << std::endl;
   //  test.erase(a);
 
-  test.printTree(test.get_root(), "", false);
+//  test.printTree(test.get_root(), "", false);
 }
