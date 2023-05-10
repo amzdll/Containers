@@ -75,21 +75,24 @@ class tree {
   bool contains(const Key &key);
   iterator find(const Key& key);
 
-  // rb tree
+  // llrb tree
   node_ *get_root() { return root_; };
-  void updateSideNodes(node_ *node);
-
   void initTree();
-  node_ *create_node(value_type value, bool is_red);
+  void printTree(tree<Key>::node_ *root_, std::string indent, bool left);
+
   bool push(value_type value);
-  bool checkBalance();
+  node_ *create_node(value_type value, bool is_red);
+  void updateSideNodes(node_ *node);
   void balanceTree(tree<Key>::node_ *node);
   void balanceNode(tree<Key>::node_ *node);
   void colorSwap(tree<Key>::node_ *node);
   void rightTurn(tree<Key>::node_ *node);
   void leftTurn(tree<Key>::node_ *node);
+
+  void eraseBlack(s21::tree<Key>::iterator pos);
+  void eraseRed(s21::tree<Key>::iterator pos);
+
   void deleteNode(node_ *node);
-  void printTree(tree<Key>::node_ *root_, std::string indent, bool left);
 };
 
 template <class Key>

@@ -125,67 +125,69 @@ void s21::tree<Key>::clear() {
 // fix begin and end iterators
 template <class Key>
 void s21::tree<Key>::erase(s21::tree<Key>::iterator pos) {
-  auto itr = pos;
-  if (pos.itr_node_) {
-    if (!pos.itr_node_->left_ && !pos.itr_node_->right_) {
-      if (pos.itr_node_->parent_ &&
-          pos.itr_node_->parent_->right_ == pos.itr_node_) {
-        pos.itr_node_->parent_->right_ = NULL;
-      } else if (pos.itr_node_->parent_ &&
-                 pos.itr_node_->parent_->left_ == pos.itr_node_) {
-        pos.itr_node_->parent_->left_ = NULL;
-      }
+  if (pos.itr_node_->color_) {
+    eraseRed(pos);
+  } else {
+    eraseBlack(pos);
+  }
+}
+
+template <class Key>
+void s21::tree<Key>::eraseBlack(s21::tree<Key>::iterator pos) {
+  // node has no children
+
+  // node has one child
+  if (pos.itr_node_->left_ && !pos.itr_node_->right_) {
+    pos.itr_node_->value_ = pos.itr_node_->left_->value_;
+    delete pos.itr_node_->left_;
+    pos.itr_node_->left_ = NULL;
+  } else if (!pos.itr_node_->left_ && pos.itr_node_->right_ &&
+             pos.itr_node_->right_ != end_node_) {
+    pos.itr_node_->value_ = pos.itr_node_->right_->value_;
+    delete pos.itr_node_->right_;
+    pos.itr_node_->left_ = NULL;
+  }
+  // node has two child
+}
+
+template <class Key>
+void s21::tree<Key>::eraseRed(s21::tree<Key>::iterator pos) {
+  // node has no children
+  if (!pos.itr_node_->left_ && !pos.itr_node_->right_) {
+    if (pos.itr_node_->parent_ &&
+        pos.itr_node_->parent_->left_ == pos.itr_node_) {
+      pos.itr_node_->parent_->left_ = NULL;
+      delete pos.itr_node_;
+    } else if (pos.itr_node_->parent_ &&
+               pos.itr_node_->parent_->right_ == pos.itr_node_) {
+      pos.itr_node_->parent_->right_ = NULL;
       delete pos.itr_node_;
     }
-    if (pos.itr_node_->left_ && !pos.itr_node_->right_) {
-      if (pos.itr_node_->parent_) {
-        itr.itr_node_->parent_->left_ = itr.itr_node_->left_;
-      }
-      itr.itr_node_->left_->parent_ = itr.itr_node_->parent_;
-    } else if (pos.itr_node_->right_ && !pos.itr_node_->left_) {
-      if (pos.itr_node_->parent_) {
-        itr.itr_node_->parent_->right_ = itr.itr_node_->right_;
-      }
-      itr.itr_node_->right_->parent_ = itr.itr_node_->parent_;
-    }
-    if (pos.itr_node_->left_ && pos.itr_node_->right_) {
+  }
 
+  // node has one child
+  //  impossible
+
+  // node has two child
+  if (pos.itr_node_->left_ && pos.itr_node_->right_) {
+    iterator deletable_node = pos;
+    --deletable_node;
+    pos.itr_node_->value_ = deletable_node.itr_node_->value_;
+    if (deletable_node.itr_node_->parent_ &&
+        deletable_node.itr_node_->parent_->left_ == deletable_node.itr_node_) {
+      deletable_node.itr_node_->parent_->left_ =
+          deletable_node.itr_node_->left_;
+      // need ???
+      if (pos.itr_node_->left_->color_) {
+        pos.itr_node_->left_->color_ = false;
+      }
+    } else if (deletable_node.itr_node_->parent_ &&
+               deletable_node.itr_node_->parent_->right_ ==
+                   deletable_node.itr_node_) {
+      deletable_node.itr_node_->parent_->right_ =
+          deletable_node.itr_node_->right_;
     }
-    //    if (pos.itr_node_->parent_ && pos.itr_node_->parent_->color_) {
-    //      pos.itr_node_->parent_->color_ = false;
-    //    }
-    //    if (pos.itr_node_->right_ && pos.itr_node_->left_) {
-    //      while (itr.itr_node_->right_ && itr.itr_node_->right_ != end_node_) {
-    //        itr.itr_node_ = itr.itr_node_->right_;
-    //      }
-    //      pos.itr_node_->value_ = itr.itr_node_->value_;
-    //      itr.itr_node_->parent_->right_ = NULL;
-    //      delete itr.itr_node_;
-    //    } else if (!pos.itr_node_->right_ && !pos.itr_node_->left_) {
-    //      if (pos.itr_node_->parent_ &&
-    //          pos.itr_node_->parent_->right_ == pos.itr_node_) {
-    //        pos.itr_node_->parent_->right_ = NULL;
-    //      } else if (pos.itr_node_->parent_ &&
-    //                 pos.itr_node_->parent_->left_ == pos.itr_node_) {
-    //        pos.itr_node_->parent_->left_ = NULL;
-    //      }
-    //      delete itr.itr_node_;
-    //    } else if (!pos.itr_node_->right_ || !pos.itr_node_->left_) {
-    //      if (pos.itr_node_->parent_ &&
-    //          pos.itr_node_->parent_->right_ == pos.itr_node_) {
-    //        pos.itr_node_->right_->parent_ = pos.itr_node_->parent_;
-    //        pos.itr_node_->parent_->right_ = pos.itr_node_->right_;
-    //
-    //      } else if (pos.itr_node_->parent_ &&
-    //                 pos.itr_node_->parent_->left_ == pos.itr_node_) {
-    //        pos.itr_node_->left_->parent_ = pos.itr_node_->parent_;
-    //        pos.itr_node_->parent_->left_ = pos.itr_node_->left_;
-    //      }
-    //      delete itr.itr_node_;
-    //    }
-    //    balanceTree(pos.itr_node_);
-    //    balanceTree(end_node_);
-    //    balanceTree(begin_node_);
+    delete deletable_node.itr_node_;
   }
 }
 
@@ -203,15 +205,17 @@ bool s21::tree<Key>::push(value_type value) {
     size_ += 1;
   } else {
     node_ *new_node = create_node(value, true);
-    for (auto itr = begin(); itr != end() && !status; ++itr) {
+    iterator itr;
+    itr.itr_node_ = root_;
+    //    auto itr = begin();
+    for (; itr != end() && !status; ++itr) {
       if (!itr.itr_node_->left_ && value < itr.itr_node_->value_) {
         itr.itr_node_->left_ = new_node;
         new_node->parent_ = itr.itr_node_;
         status = true;
         size_ += 1;
-      } else if ((itr.itr_node_->right_ == end_node_ ||
-                  !itr.itr_node_->right_) &&
-                 value < itr.itr_node_->parent_->value_ &&
+      } else if ((!itr.itr_node_->right_ ||
+                  itr.itr_node_->right_ == end_node_) &&
                  value > itr.itr_node_->value_) {
         itr.itr_node_->right_ = new_node;
         new_node->parent_ = itr.itr_node_;
@@ -219,10 +223,11 @@ bool s21::tree<Key>::push(value_type value) {
         status = true;
       }
     }
-    balanceTree(new_node->parent_);
-    updateSideNodes(new_node);
   }
-  return status;
+  balanceTree(new_node->parent_);
+  updateSideNodes(new_node);
+}
+return status;
 }
 
 template <class Key>
@@ -333,8 +338,9 @@ template <class Key>
 void s21::tree<Key>::leftTurn(tree<Key>::node_ *node) {
   node_ *top_node = node;
   node_ *bottom_node = node->right_;
+
   top_node->color_ = true;
-  bottom_node->color_ = false;
+  //  bottom_node->color_ = false;
   if (top_node == root_) {
     root_ = bottom_node;
   } else if (top_node->parent_->right_ == top_node) {
@@ -370,7 +376,9 @@ void s21::tree<Key>::updateSideNodes(node_ *node) {
     begin_node_ = node;
   }
   if (end_node_->parent_->value_ < node->value_) {
-    end_node_->parent_->right_ = NULL;
+    if (end_node_->parent_->right_ == end_node_) {
+      end_node_->parent_->right_ = NULL;
+    }
     end_node_->parent_ = node;
     node->right_ = end_node_;
   }
@@ -443,17 +451,25 @@ bool s21::tree<Key>::TreeIterator::operator==(
 
 int main() {
   std::set<int> set({24, 5, 1, 15, 3, 8});
-  s21::tree<int> test({24, 5, 1, 15, 3, 8});
+  //    s21::tree<int> test({24, 5, 1, 15, 3, 8});
 
-  auto itr = test.begin();
-  ++itr;
-  ++itr;
-  ++itr;
+  //  s21::tree<int> test(
+  //      {453, 855, 562, 985, 126, 956, 350, 412, 32, 17, 251, 284, 932, 820});
+  s21::tree<int> test;
+  test.push(453);
+  test.push(855);
+  test.push(562);
+  test.push(985);
+  //  auto itr = test.begin();
+  //  ++itr;
+  //  ++itr;
+  //  ++itr;
 
-  auto a = test.find(5);
+  //  auto a = test.find(7);
+  //  auto a = test.find(5);
   //  a = set.find(24);
   //  std::cout << a << std::endl;
-  test.erase(a);
+  //  test.erase(a);
 
   test.printTree(test.get_root(), "", false);
 }
