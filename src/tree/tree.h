@@ -90,11 +90,14 @@ class tree {
   void leftTurn(tree<Key>::node_ *node);
 
   void eraseBlack(s21::tree<Key>::iterator pos);
-  void eraseBlackWithOneChild(s21::tree<Key>::iterator pos);
-  void eraseBlackWithTwoChildren(s21::tree<Key>::iterator pos);
-  void eraseBlackWithoutChildren(s21::tree<Key>::iterator pos);
+
+  void eraseBlackWithoutChildren(s21::tree<Key>::node_ *node);
+  void eraseBlackWithOneChild(s21::tree<Key>::node_ *node);
 
   void eraseRed(s21::tree<Key>::iterator pos);
+  void eraseRedWithoutChildren(s21::tree<Key>::node_ *node);
+
+  void eraseNodeWithTwoChildren(s21::tree<Key>::node_ *node);
 
   void deleteNode(node_ *node);
 };
