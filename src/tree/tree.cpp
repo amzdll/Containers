@@ -135,8 +135,9 @@ void s21::tree<Key>::erase(s21::tree<Key>::iterator pos) {
 template <class Key>
 void s21::tree<Key>::eraseBlack(s21::tree<Key>::iterator pos) {
   if (!pos.itr_node_->right_ && !pos.itr_node_->left_) {
-    //    pos.itr_node_->parent_->left_ = NULL;
+    node_ *parent = pos.itr_node_->parent_;
     eraseBlackWithoutChildren(pos.itr_node_);
+    balanceTree(parent);
   } else if (pos.itr_node_->right_ && pos.itr_node_->left_) {
     eraseNodeWithTwoChildren(pos.itr_node_);
   } else {
@@ -163,6 +164,7 @@ void s21::tree<Key>::eraseBlackWithoutChildren(s21::tree<Key>::node_ *node) {
   node_ *brother = nullptr;
   node_ *l_nephew = nullptr;
   node_ *r_nephew = nullptr;
+
   if (node->parent_) {
     parent = node->parent_;
     if (parent->left_ == node && parent->right_) {
@@ -176,44 +178,38 @@ void s21::tree<Key>::eraseBlackWithoutChildren(s21::tree<Key>::node_ *node) {
     if (brother && brother->left_) {
       l_nephew = brother->left_;
     }
-    if (!brother->color_ &&
+
+    if (brother && !brother->color_) {
+      if (r_nephew && r_nephew->color_) {
+
+      }
+    }
+
+    // 01
+    if (brother && !brother->color_ &&
         ((l_nephew && !l_nephew->color_) || !l_nephew) &&
         ((r_nephew && !r_nephew->color_) || !r_nephew)) {
       brother->color_ = true;
-      if (!parent->color_) {
-//        parent->color_ = true;
-        eraseBlackWithoutChildren(parent);
-//        balanceTree(parent);
+      // fix end_node
+      if (!node->left_ && (!node->right_ || node->right_ == end_node_)) {
+        if (parent->left_ == node) {
+          parent->left_ = NULL;
+        } else if (parent->right_ == node) {
+          parent->right_ = NULL;
+        }
+        delete node;
       }
+      if (!parent->color_) {
+        eraseBlackWithoutChildren(parent);
+      }
+      parent->color_ = false;
     }
   }
+  //  else
+  //  {
+  //    delete root_;
+  //  }
 }
-
-// brother - black
-//  if (node->parent_) {
-//    node_ *parent = node->parent_;
-//    if (parent->right_ == node && parent->left_ &&
-//        ((parent->left_->left_ && !parent->left_->left_->color_) ||
-//         !parent->left_->left_) &&
-//        ((parent->left_->right_ && !parent->left_->right_->color_) ||
-//         !parent->left_->right_)) {
-//      parent->left_->color_ = true;
-//      //      node->parent_->right_ = NULL;
-//    } else if (parent->left_ == node && parent->right_ &&
-//               ((parent->right_->left_ && !parent->right_->left_->color_) ||
-//                !parent->right_->left_) &&
-//               ((parent->right_->right_ && !parent->right_->right_->color_)
-//               ||
-//                !parent->right_->right_)) {
-//      parent->right_->color_ = true;
-//      //      node->parent_->left_ = NULL;
-//    }
-//    if (!parent->color_) {
-//      printTree(root_, "", false);
-//      parent->color_ = true;
-//      balanceTree(parent);
-//      eraseBlackWithoutChildren(parent);
-//    }
 
 template <class Key>
 void s21::tree<Key>::eraseRed(s21::tree<Key>::iterator pos) {
@@ -247,17 +243,17 @@ template <class Key>
 void s21::tree<Key>::eraseNodeWithTwoChildren(s21::tree<Key>::node_ *node) {
   node_ *itr_node = node;
   if (itr_node->right_) {
-    while (itr_node->right_ || itr_node->left_) {
-      if (itr_node->right_ && itr_node->right_ != end_node_) {
-        itr_node = itr_node->right_;
-      } else if (itr_node->left_) {
-        itr_node = itr_node->left_;
-      }
+    itr_node = itr_node->right_;
+    while (!itr_node->left_) {
+      itr_node = itr_node->right_;
     }
-    node->value_ = itr_node->value_;
-    if (itr_node->color_) {
-      eraseRedWithoutChildren(itr_node);
-    }
+    itr_node = itr_node->left_;
+  }
+  node->value_ = itr_node->value_;
+  if (itr_node->color_) {
+    eraseRedWithoutChildren(itr_node);
+  } else {
+    eraseBlackWithoutChildren(itr_node);
   }
 }
 // MODIFY TREE METHODS
@@ -537,11 +533,23 @@ int main() {
   test.push(126);
   test.push(956);
   test.push(350);
+
   //  test.push(412);
   //  test.push(32);
 
-  auto a = test.find(453);
+  auto a = test.find(126);
   test.erase(a);
+
+  test.push(957);
+  test.push(346);
+  test.push(179);
+  test.push(101);
+
+  a = test.find(101);
+  test.erase(a);
+
+//  a = test.find(562);
+//  test.erase(a);
 
   test.printTree(test.get_root(), "", false);
 }
