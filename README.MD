@@ -1,22 +1,17 @@
-# Контейнеры
+##  Containers
 
 ### List
 
 <details>
-  <summary>Общая информация</summary>
-<br />
 
-
-<details>
-  <summary>Спецификация</summary>
+<summary>Specification</summary>
 <br />
 
 *List Member type*
 
-
 | Member type            | definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
-| `value_type`             | `T` defines the type of an element (T is template parameter)                                  |
+| `value_type`             | `T` defines the type of an element (T is a template parameter)                                  |
 | `reference`              | `T &` defines the type of the reference to an element                                                             |
 | `const_reference`        | `const T &` defines the type of the constant reference                                         |
 | `iterator`               | internal class `ListIterator<T>` defines the type for iterating through the container                                                 |
@@ -25,19 +20,17 @@
 
 *List Functions*
 
-
 | Functions      | Definition                                      |
 |----------------|-------------------------------------------------|
-| `list()`  | default constructor, creates empty list                                  |
+| `list()`  | default constructor, creates an empty list                                  |
 | `list(size_type n)`  | parameterized constructor, creates the list of size n                                 |
-| `list(std::initializer_list<value_type> const &items)`  | initializer list constructor, creates list initizialized using std::initializer_list<T>    |
+| `list(std::initializer_list<value_type> const &items)`  | initializer list constructor, creates a list initizialized using std::initializer_list<T>    |
 | `list(const list &l)`  | copy constructor  |
 | `list(list &&l)`  | move constructor  |
 | `~list()`  | destructor  |
-| `operator=(list &&l)`      | assignment operator overload for moving object                                |
+| `operator=(list &&l)`      | assignment operator overload for moving an object                                |
 
 *List Element access*
-
 
 | Element access | Definition                                      |
 |----------------|-------------------------------------------------|
@@ -46,14 +39,12 @@
 
 *List Iterators*
 
-
 | Iterators      | Definition                                      |
 |----------------|-------------------------------------------------|
 | `iterator begin()`    | returns an iterator to the beginning            |
 | `iterator end()`        | returns an iterator to the end                  |
 
 *List Capacity*
-
 
 | Capacity       | Definition                                      |
 |----------------|-------------------------------------------------|
@@ -63,12 +54,11 @@
 
 *List Modifiers*
 
-
 | Modifiers      | Definition                                      |
 |----------------|-------------------------------------------------|
 | `void clear()`          | clears the contents                             |
 | `iterator insert(iterator pos, const_reference value)`         | inserts element into concrete pos and returns the iterator that points to the new element     |
-| `void erase(iterator pos)`          | erases element at pos                                 |
+| `void erase(iterator pos)`          | erases an element at pos                                 |
 | `void push_back(const_reference value)`      | adds an element to the end                      |
 | `void pop_back()`   | removes the last element        |
 | `void push_front(const_reference value)`      | adds an element to the head                      |
@@ -84,19 +74,12 @@
 
 ### Map
 
+
 <details>
-  <summary>Общая информация</summary>
+  <summary>Specification</summary>
 <br />
 
-
-</details>
-
-<details>
-  <summary>Спецификация</summary>
-  <br />
-
 *Map Member type*
-
 
 | Member type            | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
@@ -111,26 +94,23 @@
 
 *Map Member functions*
 
-
 | Member functions      | Definition                                      |
 |----------------|-------------------------------------------------|
-| `map()`  | default constructor, creates empty map                                 |
+| `map()`  | default constructor, creates an empty map                                 |
 | `map(std::initializer_list<value_type> const &items)`  | initializer list constructor, creates the map initizialized using std::initializer_list<T>    |
 | `map(const map &m)`  | copy constructor  |
 | `map(map &&m)`  | move constructor  |
 | `~map()`  | destructor  |
-| `operator=(map &&m)`      | assignment operator overload for moving object                                |
+| `operator=(map &&m)`      | assignment operator overload for moving an object                                |
 
 *Map Element access*
 
-
 | Element access         | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
-| `T& at(const Key& key)`                     | access specified element with bounds checking                                          |
+| `T& at(const Key& key)`                     | access a specified element with bounds checking                                          |
 | `T& operator[](const Key& key)`             | access or insert specified element                                                     |
 
 *Map Iterators*
-
 
 | Iterators              | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
@@ -138,7 +118,6 @@
 | `iterator end()`                | returns an iterator to the end                                                         |
 
 *Map Capacity*
-
 
 | Capacity               | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
@@ -148,19 +127,17 @@
 
 *Map Modifiers*
 
-
 | Modifiers              | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
 | `void clear()`                  | clears the contents                                                                    |
-| `std::pair<iterator, bool> insert(const value_type& value)`                 | inserts node and returns iterator to where the element is in the container and bool denoting whether the insertion took place                                        |
-| `std::pair<iterator, bool> insert(const Key& key, const T& obj)`                 | inserts value by key and returns iterator to where the element is in the container and bool denoting whether the insertion took place    |
+| `std::pair<iterator, bool> insert(const value_type& value)`                 | inserts a node and returns an iterator to where the element is in the container and bool denoting whether the insertion took place                                        |
+| `std::pair<iterator, bool> insert(const Key& key, const T& obj)`                 | inserts a value by key and returns an iterator to where the element is in the container and bool denoting whether the insertion took place    |
 | `std::pair<iterator, bool> insert_or_assign(const Key& key, const T& obj);`       | inserts an element or assigns to the current element if the key already exists         |
-| `void erase(iterator pos)`                  | erases element at pos                                                                        |
+| `void erase(iterator pos)`                  | erases an element at pos                                                                        |
 | `void swap(map& other)`                   | swaps the contents                                                                     |
 | `void merge(map& other);`                  | splices nodes from another container                                                   |
 
 *Map Lookup*
-
 
 | Lookup                 | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
@@ -171,19 +148,10 @@
 ### Queue
 
 <details>
-  <summary>Общая информация</summary>
-<br />
-
-
-
-</details>
-
-<details>
-  <summary>Спецификация</summary>
+  <summary>Specification</summary>
 <br />
 
 *Queue Member type*
-
 
 | Member type      | Definition                                       |
 |------------------|--------------------------------------------------|
@@ -194,18 +162,16 @@
 
 *Queue Member functions*
 
-
 | Functions      | Definition                                      |
 |----------------|-------------------------------------------------|
-| `queue()`  | default constructor, creates empty queue                                 |
+| `queue()`  | default constructor, creates an empty queue                                 |
 | `queue(std::initializer_list<value_type> const &items)`  | initializer list constructor, creates queue initizialized using std::initializer_list<T>    |
 | `queue(const queue &q)`  | copy constructor  |
 | `queue(queue &&q)`  | move constructor  |
 | `~queue()`  | destructor  |
-| `operator=(queue &&q)`      | assignment operator overload for moving object                                |
+| `operator=(queue &&q)`      | assignment operator overload for moving an object                                |
 
 *Queue Element access*
-
 
 | Element access | Definition                                      |
 |----------------|-------------------------------------------------|
@@ -223,7 +189,7 @@
 
 | Modifiers        | Definition                                       |
 |------------------|--------------------------------------------------|
-| `void push(const_reference value)`             | inserts element at the end                       |
+| `void push(const_reference value)`             | inserts an element at the end                       |
 | `void pop()`              | removes the first element                        |
 | `void swap(queue& other)`             | swaps the contents                               |
 
@@ -232,13 +198,7 @@
 ### Set
 
 <details>
-  <summary>Общая информация</summary>
-<br />
-
-</details>
-
-<details>
-  <summary>Спецификация</summary>
+  <summary>Specification</summary>
 <br />
 
 *Set Member type*
@@ -256,28 +216,23 @@
 
 *Set Member functions*
 
-
 | Member functions      | Definition                                      |
 |----------------|-------------------------------------------------|
-| `set()`  | default constructor, creates empty set                                 |
+| `set()`  | default constructor, creates an empty set                                 |
 | `set(std::initializer_list<value_type> const &items)`  | initializer list constructor, creates the set initizialized using std::initializer_list<T>    |
 | `set(const set &s)`  | copy constructor  |
 | `set(set &&s)`  | move constructor  |
 | `~set()`  | destructor  |
-| `operator=(set &&s)`      | assignment operator overload for moving object                                |
-
+| `operator=(set &&s)`      | assignment operator overload for moving an object                                |
 
 *Set Iterators*
-
 
 | Iterators              | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
 | `iterator begin()`            | returns an iterator to the beginning                                                   |
 | `iterator end()`                | returns an iterator to the end                                                         |
 
-
 *Set Capacity*
-
 
 | Capacity       | Definition                                      |
 |----------------|-------------------------------------------------|
@@ -287,41 +242,30 @@
 
 *Set Modifiers*
 
-
 | Modifiers              | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
 | `void clear()`                  | clears the contents                                                                    |
-| `std::pair<iterator, bool> insert(const value_type& value)`                 | inserts node and returns iterator to where the element is in the container and bool denoting whether the insertion took place                                        |
-| `void erase(iterator pos)`                  | erases element at pos                                                                        |
+| `std::pair<iterator, bool> insert(const value_type& value)`                 | inserts a node and returns an iterator to where the element is in the container and bool denoting whether the insertion took place                                        |
+| `void erase(iterator pos)`                  | erases an element at pos                                                                        |
 | `void swap(set& other)`                   | swaps the contents                                                                     |
 | `void merge(set& other);`                  | splices nodes from another container                                                   |
 
 *Set Lookup*
 
-
 | Lookup                 | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
-| `iterator find(const Key& key)`                   | finds element with specific key                                                        |
-| `bool contains(const Key& key)`               | checks if the container contains element with specific key                             |
+| `iterator find(const Key& key)`                   | finds an element with a specific key                                                        |
+| `bool contains(const Key& key)`               | checks if the container contains an element with a specific key                             |
 
 </details>
 
 ### Stack
 
 <details>
-  <summary>Общая ифнормация</summary>
-<br />
-
-
-
-</details>
-
-<details>
-  <summary>Спецификация</summary>
+  <summary>Specification</summary>
 <br />
 
 *Stack Member type*
-
 
 | Member type      | Definition                                       |
 |------------------|--------------------------------------------------|
@@ -332,37 +276,33 @@
 
 *Stack Member functions*
 
-
 | Functions      | Definition                                      |
 |----------------|-------------------------------------------------|
-| `stack()`  | default constructor, creates empty stack                                 |
+| `stack()`  | default constructor, creates an empty stack                                 |
 | `stack(std::initializer_list<value_type> const &items)`  | initializer list constructor, creates stack initizialized using std::initializer_list<T>    |
 | `stack(const stack &s)`  | copy constructor  |
 | `stack(stack &&s)`  | move constructor  |
 | `~stack()`  | destructor  |
-| `operator=(stack &&s)`      | assignment operator overload for moving object                                |
+| `operator=(stack &&s)`      | assignment operator overload for moving an object                                |
 
-*Stack Element access*   
-
+*Stack Element access*
 
 | Element access   | Definition                                       |
 |------------------|--------------------------------------------------|
 | `const_reference top()`              | accesses the top element                         |
 
-*Stack Capacity*   
-
+*Stack Capacity*
 
 | Capacity       | Definition                                      |
 |----------------|-------------------------------------------------|
 | `bool empty()`          | checks whether the container is empty           |
 | `size_type size()`           | returns the number of elements                  |
 
-*Stack Modifiers*        
-
+*Stack Modifiers*
 
 | Modifiers        | Definition                                       |
 |------------------|--------------------------------------------------|
-| `void push(const_reference value)`             | inserts element at the top                       |
+| `void push(const_reference value)`             | inserts an element at the top                       |
 | `void pop()`              | removes the top element                        |
 | `void swap(stack& other)`             | swaps the contents                               |
 
@@ -371,22 +311,14 @@
 ### Vector
 
 <details>
-  <summary>Общая информация</summary>
-<br />
-
-
-</details>
-
-<details>
-  <summary>Спецификация</summary>
+  <summary>Specification</summary>
 <br />
 
 *Vector Member type*
 
-
 | Member type            | definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
-| `value_type`             | `T` defines the type of an element (T is template parameter)                                  |
+| `value_type`             | `T` defines the type of the element (T is template parameter)                                  |
 | `reference`              | `T &` defines the type of the reference to an element                                                             |
 | `const_reference`        | `const T &` defines the type of the constant reference                                         |
 | `iterator`               | `T *` or internal class `VectorIterator<T>` defines the type for iterating through the container                                                 |
@@ -395,30 +327,27 @@
 
 *Vector Member functions*
 
-
 | Functions      | Definition                                      |
 |----------------|-------------------------------------------------|
-| `vector()`  | default constructor, creates empty vector                                 |
+| `vector()`  | default constructor, creates an empty vector                                 |
 | `vector(size_type n)`  | parameterized constructor, creates the vector of size n                                 |
-| `vector(std::initializer_list<value_type> const &items)`  | initializer list constructor, creates vector initizialized using std::initializer_list<T>    |
+| `vector(std::initializer_list<value_type> const &items)`  | initializer list constructor, creates a vector initizialized using std::initializer_list<T>    |
 | `vector(const vector &v)`  | copy constructor  |
 | `vector(vector &&v)`  | move constructor  |
 | `~vector()`  | destructor  |
-| `operator=(vector &&v)`      | assignment operator overload for moving object                                |
+| `operator=(vector &&v)`      | assignment operator overload for moving an object                                |
 
 *Vector Element access*
 
-
 | Element access         | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
-| `reference at(size_type pos)`                     | access specified element with bounds checking                                          |
-| `reference operator[](size_type pos);`             | access specified element                                                               |
+| `reference at(size_type pos)`                     | access a specified element with bounds checking                                          |
+| `reference operator[](size_type pos);`             | access a specified element                                                               |
 | `const_reference front()`          | access the first element                        |
 | `const_reference back()`           | access the last element                         |
-| `T* data()`                   | direct access to the underlying array                                                  |
+| `T* data()`                   | direct access the underlying array                                                  |
 
 *Vector Iterators*
-
 
 | Iterators      | Definition                                      |
 |----------------|-------------------------------------------------|
@@ -426,8 +355,6 @@
 | `iterator end()`        | returns an iterator to the end                  |
 
 *Vector Capacity*
-
-
 
 | Capacity               | Definition                                                                             |
 |------------------------|----------------------------------------------------------------------------------------|
@@ -445,7 +372,7 @@
 |----------------|-------------------------------------------------|
 | `void clear()`          | clears the contents                             |
 | `iterator insert(iterator pos, const_reference value)`         | inserts elements into concrete pos and returns the iterator that points to the new element     |
-| `void erase(iterator pos)`          | erases element at pos                                 |
+| `void erase(iterator pos)`          | erases an element at pos                                 |
 | `void push_back(const_reference value)`      | adds an element to the end                      |
 | `void pop_back()`   | removes the last element        |
 | `void swap(vector& other)`                   | swaps the contents                                                                     |
