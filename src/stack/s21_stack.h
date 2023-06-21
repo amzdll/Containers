@@ -1,48 +1,38 @@
-#ifndef CPP2_S21_CONTAINERS_STACK_S21_STACK_H_
-#define CPP2_S21_CONTAINERS_STACK_S21_STACK_H_
+#ifndef CPP2_CONTAINERS_STACK_S21_STACK_H_
+#define CPP2_CONTAINERS_STACK_S21_STACK_H_
 
-#include <initializer_list>
+#include <iostream>
 
-#include "cstdio"
+#include "../list/s21_list.cc"
 
 namespace s21 {
 template <class T>
-class stack {
- private:
-  struct node_ {
-    node_ *next_;
-    node_ *prev_;
-    T value_ = T();
-  };
-
-  node_ *head_ = NULL;
-  node_ *tail_ = NULL;
-  size_t count_ = 0;
-
+class stack : public list<T> {
  public:
+  // Members type
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
   using size_type = size_t;
 
+  // Constructors
   stack();
+  stack(size_type n);
   stack(std::initializer_list<value_type> const &items);
   stack(const stack &s);
   stack(stack &&s);
   ~stack();
+
+  // Overload operators
   stack operator=(stack &&s);
 
-  const_reference top();
+  // Element access
+  const_reference top() const;
 
-  bool empty();
-  size_type size();
-
+  // Modifiers
   void push(const_reference value);
   void pop();
-  void swap(stack &other);
-
-  void print();
 };
 }  // namespace s21
 
-#endif  // CPP2_S21_CONTAINERS_STACK_S21_STACK_H_
+#endif  // CPP2_CONTAINERS_STACK_S21_STACK_H_

@@ -1,76 +1,44 @@
+#include <cstring>
 #include <initializer_list>
+#include <iostream>
 
 #include "cstdio"
 
 namespace s21 {
 template <class T>
 class vector {
- private:
-  T *begin_ = NULL;
-  T *end_ = NULL;
-  size_t size_ = 0;
-  size_t capacity_ = 0;
-
-  void reallocator();
  public:
-  //temp
-  void filling();
-
+  // Members type
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
-
+  using iterator = T *;
+  using const_iterator = const T *;
   using size_type = size_t;
 
-  class VectorIterator {
-    friend class vector<T>;
-
-   private:
-    value_type* position_;
-    value_type value_;
-
-
-   public:
-    VectorIterator();
-
-    void operator=(value_type* position);
-    value_type operator*();
-    void operator++();
-    void operator++(value_type);
-    void operator--();
-    void operator--(value_type);
-    bool operator==(vector<T>::VectorIterator iterator);
-    bool operator!=(vector<T>::VectorIterator iterator);
-  };
-
-
-  class ConstVectorIterator {
-    friend class vector<T>;
-   private:
-
-   public:
-  };
-
-  using iterator = VectorIterator;
-  using const_iterator = ConstVectorIterator;
-
+  // Constructors
   vector();
   vector(size_type n);
   vector(std::initializer_list<value_type> const &items);
   vector(const vector &v);
-  vector(vector &&v);
+  vector(vector &&v) noexcept;
   ~vector();
-  vector &operator=(vector &&v);
 
+  // Overload operators
+  vector &operator=(vector &&v) noexcept;
+
+  // Element access
   reference at(size_type pos);
   reference operator[](size_type pos);
   const_reference front();
   const_reference back();
   iterator data();
 
-  iterator begin();
-  iterator end();
+  // Iterators
+  iterator begin() const;
+  iterator end() const;
 
+  // Capacity
   bool empty();
   size_type size();
   size_type max_size();
@@ -78,6 +46,7 @@ class vector {
   size_type capacity();
   void shrink_to_fit();
 
+  // Modifiers
   void clear();
   iterator insert(iterator pos, const_reference value);
   void erase(iterator pos);
@@ -85,8 +54,16 @@ class vector {
   void pop_back();
   void swap(vector &other);
 
-  void print();
-};
+  // Additional
+  void filling();
 
+ private:
+  T *begin_ = nullptr;
+  size_t size_ = 0;
+  size_t capacity_ = 0;
+
+  // Additional
+  void reallocator();
+};
 
 }  // namespace s21

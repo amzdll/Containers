@@ -1,8 +1,7 @@
-#include "s21_queue.cpp"
-
 #include <queue>
 
 #include "gtest/gtest.h"
+#include "s21_queue.cc"
 
 // BLOCK: FUNCTIONS
 TEST(default_constructor_suite, int_true_test) {
@@ -85,6 +84,14 @@ TEST(initializer_constructor_suite, struct_true_test) {
 
   EXPECT_TRUE(s21_a.empty() == std_a.empty());
   EXPECT_TRUE(s21_a.size() == std_a.size());
+}
+
+TEST(copy_constructor_suite, true_test) {
+  s21::queue<int> s21_b(5);
+  s21::queue<int> s21_a(s21_b);
+
+  EXPECT_TRUE(s21_a.empty() == s21_b.empty());
+  EXPECT_TRUE(s21_b.size() == s21_b.size());
 }
 
 TEST(copy_constructor_suite, int_true_test) {
@@ -200,9 +207,11 @@ TEST(move_constructor_suite, struct_true_test) {
 
 TEST(move_operator_constructor_suite, int_true_test) {
   s21::queue<int> s21_a({1, 2, 3});
-  s21::queue<int> s21_b = s21_a;
+  s21::queue<int> s21_b;
+  s21_b = std::move(s21_a);
   std::queue<int> std_a({1, 2, 3});
-  std::queue<int> std_b = std_a;
+  std::queue<int> std_b;
+  std_b = std::move(std_a);
 
   EXPECT_TRUE(s21_a.empty() == std_a.empty());
   EXPECT_TRUE(s21_a.size() == std_a.size());

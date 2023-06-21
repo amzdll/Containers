@@ -1,79 +1,48 @@
-#ifndef CPP2_S21_CONTAINERS_LIST_S21_LIST_H_
-#define CPP2_S21_CONTAINERS_LIST_S21_LIST_H_
+#ifndef CPP2_CONTAINERS_LIST_S21_LIST_H_
+#define CPP2_CONTAINERS_LIST_S21_LIST_H_
 
-#include <initializer_list>
-
-#include "cstdio"
+#include <iostream>
+#include <limits>
 
 namespace s21 {
 template <class T>
 class list {
  public:
-  // member types
+  // Members type
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
   using size_type = size_t;
 
- protected:
-  struct node_ {
-    node_ *next_ = NULL;
-    node_ *prev_ = NULL;
-    value_type value_;
-  };
-  node_ *head_ = NULL;
-  node_ *tail_ = NULL;
-  node_ *end_node_ = new node_;
-  size_type count_ = 0;
-
- public:
-  class ListIterator {
-    friend class list<T>;
-
-   private:
-    node_ *itr_node_ = NULL;
-    value_type value_ = value_type();
-    size_type count_ = 0;
-    size_type *size_ = nullptr;
-    //mb nest end node instead of create fields count_ and size_ ??
-
-   public:
-    ListIterator();
-
-    void operator=(node_ &node_);
-    value_type &operator*();
-    void operator++();
-    void operator--();
-    bool operator==(list<T>::ListIterator iterator);
-    bool operator!=(list<T>::ListIterator iterator);
-  };
-
+  class ListIterator;
   using iterator = ListIterator;
-  using const_iterator = const T *;
+  using const_iterator = ListIterator;
 
-  // constructors
+  // Constructors
   list();
-  explicit list(size_type n);
+  list(size_type n);
   list(std::initializer_list<value_type> const &items);
   list(const list &l);
   list(list &&l);
-  list operator=(list &&l);
   ~list();
 
-  // methods
-  const_reference front();
-  const_reference back();
+  // Overload operators
+  list operator=(list &&l);
 
-  // iterators
-  iterator begin();
-  iterator end();
+  // Element access
+  const_reference front() const;
+  const_reference back() const;
 
-  //  information
-  bool empty();
-  size_type size();
-  size_type max_size();
+  // Iterators
+  iterator begin() const;
+  iterator end() const;
 
-  // methods to modify
+  // Capacity
+  bool empty() const;
+  size_type size() const;
+  size_type max_size() const;
+
+  // Modifiers
   void clear();
   iterator insert(iterator pos, const_reference value);
   void erase(iterator pos);
@@ -83,11 +52,45 @@ class list {
   void pop_front();
   void swap(list &other);
   void merge(list &other);
-  void splice(iterator pos, list &other);
-  void reverse();
+  void splice(const_iterator pos, list &other);
   void unique();
+  void reverse();
   void sort();
+
+  // Additional
+  void MoveList(list &l);
+
+ private:
+  struct node_ {
+    value_type value_;
+    node_ *next_ = nullptr;
+    node_ *previous_ = nullptr;
+  };
+  node_ *head_ = nullptr;
+  node_ *tail_ = nullptr;
+  node_ *end_node_ = nullptr;
+  size_type size_ = 0;
+};
+
+// Nested class
+template <class T>
+class list<T>::ListIterator {
+  friend class list<T>;
+
+ public:
+  void operator=(node_ &other);
+  T &operator*();
+  void operator++();
+  void operator++(int);
+  void operator--();
+  void operator--(int);
+  bool operator==(s21::list<T>::ListIterator iterator);
+  bool operator!=(s21::list<T>::ListIterator iterator);
+
+ private:
+  value_type value_ = value_type();
+  node_ *itr_node_ = nullptr;
 };
 }  // namespace s21
 
-#endif  // CPP2_S21_CONTAINERS_LIST_S21_LIST_H_
+#endif  // CPP2_CONTAINERS_LIST_S21_LIST_H_

@@ -1,35 +1,46 @@
-CPP = g++ -std=c++17
-CPPFLAGS = -Wall -Werror -Wextra
-NAME = s21_list
-SOURCE = $(wildcard s21_*.cpp)
-ifeq ($(OS), Darwin)
-	LIBS = -lgtest
-else
-	LIBS = -lgtest -lpthread
+.PHONY: all clean rebuild
+CXX = g++ -std=c++17
+CXXFLAGS = -Wall -Werror -Wextra -g
+PROJECT = s21_list
+OS = $(shell uname -s)
+TEST_FLAGS = -o test.out -lgtest
+
+ifeq ($(OS), Linux)
+	TEST_FLAGS += -lpthread
 endif
 
-all: $(NAME).a test
+all: $(PROJECT).a test gcov_report check
 
-$(NAME): $(SOURCE)/home/freiqq/Projects/21/c++/containers/src/list/Makefile
-	@$(CPP) $(CPPFLAGS) $(NAME).cpp
-	@./a.out && rm -rf a.out
+$(PROJECT).a: $(PROJECT).cc $(PROJECT).h
+	$(CXX) $(CXXFLAGS) $(PROJECT).cc -c
+	ar rcs $(PROJECT).a $(PROJECT).o
+	ranlib $(PROJECT).a
 
-$(NAME).a: $(SOURCE)
-	@$(CPP) $(CPPFLAGS) $(SOURCE) -c
-	@ar rcs $(NAME).a *.o
-	@ranlib $(NAME).a
+test: $(PROJECT)_test.cc $(PROJECT).a
+	$(CXX) $(CXXFLAGS) $(PROJECT)_test.cc $(PROJECT).a $(TEST_FLAGS)
+	./test.out
 
-test:
-	@$(CPP) $(NAME)_test.cpp $(NAME).a -o $(NAME)_test  $(LIBS)
-	./$(NAME)_test
+gcov_report:  
+	$(CXX) $(CXXFLAGS) -fprofile-arcs -ftest-coverage $(PROJECT)_test.cc $(PROJECT).cc $(TEST_FLAGS)
+	./test.out
+	lcov -t "test" -o test.info --no-external -c -d .
+	genhtml -o report test.info
+ifeq ($(OS), Darwin)
+	open ./report/index.html
+else
+	xdg-open ./report/index.html
+endif
 
 clean:
-	@rm -rf $(NAME).a
-	@rm -rf $(NAME).o
-	@rm -rf $(NAME)_test
-	@rm -rf $(NAME)_test.o
-	@rm -rf a.out
+	rm -rf *.out *.gcda *.gcno *.a *.info *.o report *.dSYM
 
 check:
-	clang-format -n *.cpp
-	clang-format -n *.h
+	clang-format -style=google -n *.cc *.h
+	cppcheck *.cc
+ifeq ($(OS), Darwin)
+	CK_FORK=no leaks --atExit -- ./test.out
+else
+	valgrind --trace-children=yes --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all ./test.out
+endif
+
+rebuild: clean all

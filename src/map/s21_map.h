@@ -1,90 +1,44 @@
-#ifndef CPP2_S21_CONTAINERS_MAP_S21_MAP_H_
-#define CPP2_S21_CONTAINERS_MAP_S21_MAP_H_
+#ifndef CPP2_CONTAINERS_MAP_S21_SET_H_
+#define CPP2_CONTAINERS_MAP_S21_SET_H_
 
-#include <cstdio>
-#include <utility>
-
-#include "iostream"
-#include "string"
+#include "../tree/tree.cc"
 
 namespace s21 {
 template <class Key, class T>
-class map {
-    using key_type = Key;
-    using mapped_type = T;
-    using value_type = std::pair<const key_type, mapped_type>;
-    using reference = value_type &;
-    using const_reference = const value_type &;
-    //  using const_iterator = ;
-    using size_type = size_t;
+class map : public tree<std::pair<Key, T>> {
+ public:
+  // Members type
+  using key_type = Key;
+  using mapped_type = T;
+  using value_type = std::pair<key_type, mapped_type>;
+  using reference = value_type &;
+  using const_reference = const value_type &;
+  using size_type = size_t;
+  using node_ = typename tree<value_type>::node_;
+  using iterator = typename s21::tree<value_type>::tree_iterator;
 
-   private:
-    //  struct node_ {
-    //    node_ *left_;
-    //    node_ *right_;
-    //    node_ *parent_node_;
-    //    std::pair<Key, mapped_type> value_;
-    //  };
-    //  node_ *root_ = nullptr;
+  // Constructors
+  map() = default;
+  map(std::initializer_list<value_type> const &items);
+  map(const map &m);
+  map(map &&m) noexcept;
+  ~map() = default;
 
-   public:
-    class MapIterator;
-    using iterator = MapIterator;
+  // Element access
+  T &at(const Key &key);
+  T &operator[](const Key &key);
 
-    struct node_ {
-        node_ *left_ = nullptr;
-        node_ *right_ = nullptr;
-        node_ *parent_node_ = nullptr;
-        std::pair<Key, mapped_type> value_;
-    };
-    node_ *root_ = nullptr;
+  // Modifiers
+  std::pair<iterator, bool> insert(const_reference value);
+  std::pair<iterator, bool> insert(const key_type &key, const mapped_type &obj);
+  std::pair<iterator, bool> insert_or_assign(const key_type &key,
+                                             const mapped_type &obj);
 
-    map();
-    //  map(std::initializer_list<value_type> const &items);
-    map(const map &m);
-    map(map &&m);
-    ~map();
-    map &operator=(map &&m);
-
-    T &at(const Key &key);
-    T &operator[](const Key &key);
-    iterator begin();
-    //        iterator end();
-    bool empty();
-    size_type size();
-    size_type max_size();
-
-    void clear();
-    //  std::pair<iterator, bool> insert(const value_type &value);
-    //  std::pair<iterator, bool> insert(const Key& key, const T& obj);
-    //  std::pair<iterator, bool> insert_or_assign(const Key& key, const T&
-    //  obj);; void erase(iterator pos); void swap(map& other); void merge(map&
-    //  other);
-
-    void Push(value_type value);
-    //  bool contains(const Key &key);
+ private:
+  // Additional
+  iterator find_key(const key_type &key);
 };
-
-template <class Key, class T>
-class map<Key, T>::MapIterator {
-   private:
-    node_ *itr_node_ = NULL;
-
-   public:
-    MapIterator();
-
-    void operator=(node_ &node_);
-    std::pair<Key, T> &operator*();
-    std::pair<Key, T> *operator->();
-    void operator++();
-    void operator--();
-    bool operator==(map<Key, T>::MapIterator iterator);
-    bool operator!=(map<Key, T>::MapIterator iterator);
-};
-
-
-//};
 
 }  // namespace s21
 
-#endif  //  CPP2_S21_CONTAINERS_MAP_S21_MAP_H_
+#endif  // CPP2_CONTAINERS_MAP_S21_SET_H_

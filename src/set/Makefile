@@ -1,7 +1,7 @@
 .PHONY: all clean rebuild
 CXX = g++ -std=c++17
 CXXFLAGS = -Wall -Werror -Wextra -g
-PROJECT = s21_queue
+PROJECT = s21_set
 OS = $(shell uname -s)
 TEST_FLAGS = -o test.out -lgtest
 

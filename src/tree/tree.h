@@ -11,120 +11,131 @@
 #include "iostream"
 #include "string"
 
-// #include "tree.cpp"
-
 namespace s21 {
 template <class Key>
 class tree {
+ public:
+  // Members type
   using key_type = Key;
-//  using mapped_type = T;
   using value_type = key_type;
   using reference = value_type &;
   using const_reference = const value_type &;
   using size_type = size_t;
-//  bool operator<(value_type &lhs, value_type &rhs) {
-//    return (lhs.first < rhs.first);
-//  }
-  // temp pub
- private:
+
+  class tree_iterator;
+  using iterator = tree_iterator;
+  using const_iterator = const tree_iterator;
+
   struct node_ {
     node_ *left_;
     node_ *right_;
     node_ *parent_;
-    Key value_;
-//    std::pair<Key, mapped_type> value_;
+    value_type value_;
     bool color_;
   };
-  node_ *root_ = nullptr;
-  node_ *begin_node_ = nullptr;
-  node_ *end_node_ = nullptr;
-  size_type size_ = 0;
 
- public:
-  class TreeIterator;
-  using iterator = TreeIterator;
-
-  // Member functions
+  // Constructors
   tree();
+  tree(const tree &other);
   tree(std::initializer_list<value_type> const &items);
+  tree(tree &&other) noexcept;
+  tree &operator=(tree &&other) noexcept;
   ~tree();
 
-  // Element access
-//  T &at(const Key &key);
-//  T &operator[](const Key &key);
-
-  //  Iterators
-  iterator begin();
-  iterator end();
+  // Iterators
+  iterator begin() const;
+  iterator end() const;
 
   // Capacity
   bool empty();
   size_type size();
+  size_type max_size();
 
   // Modifiers
   void clear();
-  //  std::pair<iterator, bool> insert(const value_type &value);
-  //  std::pair<iterator, bool> push(const value_type& value);
-  //  std::pair<iterator, bool> push(const Key& key, const T& obj);
-//  std::pair<iterator, bool> insert_or_assign(const Key &key, const T &obj);
   void erase(s21::tree<Key>::iterator pos);
   void swap(tree &other);
   void merge(tree &other);
 
   // Lookup
-  bool contains(const Key &key);
-  iterator find(const Key& key);
+  bool contains(const value_type &value);
+  iterator find(const Key &key);
 
   // llrb tree
-  node_ *get_root() { return root_; };
-  void initTree();
-  void printTree(tree<Key>::node_ *root_, std::string indent, bool left);
-
-  bool push(value_type value);
+  bool insert(value_type value);
   node_ *create_node(value_type value, bool is_red);
-  void updateSideNodes(node_ *node);
-  void balanceTree(tree<Key>::node_ *node);
-  void balanceNode(tree<Key>::node_ *node);
-  void colorSwap(tree<Key>::node_ *node);
-  void rightTurn(tree<Key>::node_ *node);
-  void leftTurn(tree<Key>::node_ *node);
+  void update_side_nodes(node_ *node);
+  void balance_tree(tree<Key>::node_ *node);
+  void balance_node(tree<Key>::node_ *node);
+  void color_swap(tree<Key>::node_ *node);
+  void right_turn(tree<Key>::node_ *node);
+  void left_turn(tree<Key>::node_ *node);
 
-  void eraseBlack(s21::tree<Key>::iterator pos);
+  void erase_black(s21::tree<Key>::iterator pos);
+  void erase_red(s21::tree<Key>::iterator pos);
 
-  void eraseBlackWithoutChildren(s21::tree<Key>::node_ *node);
-  void eraseBlackWithOneChild(s21::tree<Key>::node_ *node);
+  // 1) Removing the red top with 0 children
+  void erase_red_without_children(s21::tree<Key>::node_ *node);
 
-  void eraseRed(s21::tree<Key>::iterator pos);
-  void eraseRedWithoutChildren(s21::tree<Key>::node_ *node);
+  // 3) Removal of a red or black top with 2 children
+  void erase_node_with_two_children(s21::tree<Key>::node_ *node);
 
-  void eraseNodeWithTwoChildren(s21::tree<Key>::node_ *node);
+  // 4) Removal of the black top with 1 child
+  void erase_black_with_one_child(s21::tree<Key>::node_ *node);
 
-  void deleteNode(node_ *node);
+  // 5) Removing the black top with 0 children
+  void erase_black_without_children(s21::tree<Key>::node_ *node);
+  // 5.1) Black brother
+  // 5.1.1) At least one brother's child is red
+  // 5.1.1.а) The right child is red (the left child is whatever)
+  void erase_black_without_children_and_black_brother_with_right_red_nephew(
+      s21::tree<Key>::node_ *node, s21::tree<Key>::node_ *parent,
+      s21::tree<Key>::node_ *brother);
+
+  // 5.1.1.б) The left child is red (the right child is black)
+  void erase_black_without_children_and_black_brother_with_left_red_nephew(
+      s21::tree<Key>::node_ *node, s21::tree<Key>::node_ *parent,
+      s21::tree<Key>::node_ *brother);
+
+  // 5.1.2) Both of the brother's children are black
+  void erase_black_without_children_and_black_brother_with_black_nephews(
+      s21::tree<Key>::node_ *node, s21::tree<Key>::node_ *parent,
+      s21::tree<Key>::node_ *brother);
+
+  // 5.2) Red brother
+  void erase_black_without_children_and_red_brother(
+      s21::tree<Key>::node_ *node, s21::tree<Key>::node_ *parent,
+      s21::tree<Key>::node_ *brother);
+
+  void delete_node(node_ *node);
+
+ protected:
+  node_ *root_ = nullptr;
+  node_ *begin_node_ = nullptr;
+  node_ *end_node_ = nullptr;
+  size_type size_ = 0;
 };
 
+// Nested class
 template <class Key>
-class tree<Key>::TreeIterator {
- private:
-  node_ *itr_node_ = NULL;
-
+class tree<Key>::tree_iterator {
  public:
-  TreeIterator() = default;
+  tree_iterator() = default;
 
-  Key &operator*();
+  value_type &operator*();
   void operator++();
   void operator--();
-  bool operator==(tree<Key>::TreeIterator iterator);
+  bool operator==(tree<Key>::tree_iterator iterator);
   void operator=(node_ &node_);
-  bool operator!=(tree<Key>::TreeIterator iterator);
-  Key *operator->();
+  bool operator!=(tree<Key>::tree_iterator iterator);
+  value_type *operator->();
 
   friend class tree;
+
+ protected:
+  node_ *itr_node_ = nullptr;
 };
 
-// template <typename Key, typename T>
-// class map : s21::tree<std::pair<Key, T>> {
-//
-// }
 };  // namespace s21
 
 #endif  // CPP2_S21_CONTAINERS_TREE_S21_TREE_H_
